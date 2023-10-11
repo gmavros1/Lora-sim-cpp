@@ -17,5 +17,6 @@ add_executable(Lora_sim_cpp
         src/packet.h
         src/server.cpp
         src/topology.cpp
+        src/utils.cpp
         src/traffic.cpp
-        src/utils.cpp)
+        src/traffic.h)

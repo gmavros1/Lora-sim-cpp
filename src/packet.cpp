@@ -13,7 +13,7 @@ Packet::Packet(int src, int dst, int timestamp, int payload_bytes, int crc, int 
     this->header = header;
 
     this->start_end_flag = "START";
-    this->packetId = this->calculateuniqueId();
+    this->packetId = this->calculateUniqueId();
     this->seqnum = 0;
 }
 
@@ -38,7 +38,7 @@ int Packet::getPayload_bytes() {
     return this->payload_bytes;
 }
 
-int Packet::getSeqnum() {
+int Packet::getSeqNum() {
     return this->seqnum;
 }
 
@@ -46,7 +46,7 @@ string Packet::getStart_end_flag() {
     return this->start_end_flag;
 }
 
-string Packet::calculateuniqueId() {
+string Packet::calculateUniqueId() {
     string result;
     result = "node" + to_string(this->src) + "to" + to_string(this->dst) + "at" + to_string(this->timestamp_start);
     return result;

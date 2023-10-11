@@ -18,15 +18,15 @@ class Packet{
 
     public:
         Packet(int src, int dst, int timestamp, int payload_bytes=15, int crc=1, int header=1);
-        ~Packet(){};
+        ~Packet(){ delete this; };
         string getPacketId();
         int getDst();
         int getTimestamp_start();
         int getTimestamp_end();
         int getPayload_bytes();
-        int getSeqnum();
+        int getSeqNum();
         string getStart_end_flag();
-        string calculateuniqueId();
+        string calculateUniqueId();
 
 
 };

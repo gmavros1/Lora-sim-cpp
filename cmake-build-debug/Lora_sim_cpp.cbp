@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Lora_sim_cpp"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Lora_sim_cpp">
+				<Option output="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Lora_sim_cpp" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 Lora_sim_cpp"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Lora_sim_cpp/fast">
+				<Option output="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Lora_sim_cpp" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 Lora_sim_cpp/fast"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j16 -f &quot;/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/lorawan.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/main.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/multihop.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.h">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.h">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/server.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/topology.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.h">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
