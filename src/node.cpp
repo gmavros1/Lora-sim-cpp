@@ -32,3 +32,7 @@ Packet Node::transmit_packet() {
 void Node::clock(int time) {
     this->environment_time = time;
 }
+
+coordinates Node::getLocation() {
+    return this->location;
+}

@@ -21,6 +21,7 @@ public:
     void generate_packet(int dst);
     Packet transmit_packet();
     void clock(int time);
+    coordinates getLocation();
 private:
     int id;
     int channel;
