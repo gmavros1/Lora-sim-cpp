@@ -84,21 +84,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.cpp">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.cpp">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/lorawan.cpp">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/main.cpp">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/multihop.cpp">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.cpp">
 			<Option target="Lora_sim_cpp"/>
 		</Unit>
@@ -109,18 +94,6 @@
 			<Option target="Lora_sim_cpp"/>
 		</Unit>
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.h">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/server.cpp">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/topology.cpp">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.cpp">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.h">
 			<Option target="Lora_sim_cpp"/>
 		</Unit>
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.cpp">

@@ -129,126 +129,6 @@ Lora_sim_cpp/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/build
 .PHONY : Lora_sim_cpp/fast
 
-src/environment.o: src/environment.cpp.o
-.PHONY : src/environment.o
-
-# target to build an object file
-src/environment.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o
-.PHONY : src/environment.cpp.o
-
-src/environment.i: src/environment.cpp.i
-.PHONY : src/environment.i
-
-# target to preprocess a source file
-src/environment.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.i
-.PHONY : src/environment.cpp.i
-
-src/environment.s: src/environment.cpp.s
-.PHONY : src/environment.s
-
-# target to generate assembly for a file
-src/environment.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.s
-.PHONY : src/environment.cpp.s
-
-src/gateway.o: src/gateway.cpp.o
-.PHONY : src/gateway.o
-
-# target to build an object file
-src/gateway.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o
-.PHONY : src/gateway.cpp.o
-
-src/gateway.i: src/gateway.cpp.i
-.PHONY : src/gateway.i
-
-# target to preprocess a source file
-src/gateway.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.i
-.PHONY : src/gateway.cpp.i
-
-src/gateway.s: src/gateway.cpp.s
-.PHONY : src/gateway.s
-
-# target to generate assembly for a file
-src/gateway.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.s
-.PHONY : src/gateway.cpp.s
-
-src/lorawan.o: src/lorawan.cpp.o
-.PHONY : src/lorawan.o
-
-# target to build an object file
-src/lorawan.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/lorawan.cpp.o
-.PHONY : src/lorawan.cpp.o
-
-src/lorawan.i: src/lorawan.cpp.i
-.PHONY : src/lorawan.i
-
-# target to preprocess a source file
-src/lorawan.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/lorawan.cpp.i
-.PHONY : src/lorawan.cpp.i
-
-src/lorawan.s: src/lorawan.cpp.s
-.PHONY : src/lorawan.s
-
-# target to generate assembly for a file
-src/lorawan.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/lorawan.cpp.s
-.PHONY : src/lorawan.cpp.s
-
-src/main.o: src/main.cpp.o
-.PHONY : src/main.o
-
-# target to build an object file
-src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
-
-src/main.i: src/main.cpp.i
-.PHONY : src/main.i
-
-# target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
-
-src/main.s: src/main.cpp.s
-.PHONY : src/main.s
-
-# target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
-
-src/multihop.o: src/multihop.cpp.o
-.PHONY : src/multihop.o
-
-# target to build an object file
-src/multihop.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/multihop.cpp.o
-.PHONY : src/multihop.cpp.o
-
-src/multihop.i: src/multihop.cpp.i
-.PHONY : src/multihop.i
-
-# target to preprocess a source file
-src/multihop.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/multihop.cpp.i
-.PHONY : src/multihop.cpp.i
-
-src/multihop.s: src/multihop.cpp.s
-.PHONY : src/multihop.s
-
-# target to generate assembly for a file
-src/multihop.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/multihop.cpp.s
-.PHONY : src/multihop.cpp.s
-
 src/node.o: src/node.cpp.o
 .PHONY : src/node.o
 
@@ -297,78 +177,6 @@ src/packet.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.s
 .PHONY : src/packet.cpp.s
 
-src/server.o: src/server.cpp.o
-.PHONY : src/server.o
-
-# target to build an object file
-src/server.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/server.cpp.o
-.PHONY : src/server.cpp.o
-
-src/server.i: src/server.cpp.i
-.PHONY : src/server.i
-
-# target to preprocess a source file
-src/server.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/server.cpp.i
-.PHONY : src/server.cpp.i
-
-src/server.s: src/server.cpp.s
-.PHONY : src/server.s
-
-# target to generate assembly for a file
-src/server.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/server.cpp.s
-.PHONY : src/server.cpp.s
-
-src/topology.o: src/topology.cpp.o
-.PHONY : src/topology.o
-
-# target to build an object file
-src/topology.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/topology.cpp.o
-.PHONY : src/topology.cpp.o
-
-src/topology.i: src/topology.cpp.i
-.PHONY : src/topology.i
-
-# target to preprocess a source file
-src/topology.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/topology.cpp.i
-.PHONY : src/topology.cpp.i
-
-src/topology.s: src/topology.cpp.s
-.PHONY : src/topology.s
-
-# target to generate assembly for a file
-src/topology.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/topology.cpp.s
-.PHONY : src/topology.cpp.s
-
-src/traffic.o: src/traffic.cpp.o
-.PHONY : src/traffic.o
-
-# target to build an object file
-src/traffic.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o
-.PHONY : src/traffic.cpp.o
-
-src/traffic.i: src/traffic.cpp.i
-.PHONY : src/traffic.i
-
-# target to preprocess a source file
-src/traffic.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.i
-.PHONY : src/traffic.cpp.i
-
-src/traffic.s: src/traffic.cpp.s
-.PHONY : src/traffic.s
-
-# target to generate assembly for a file
-src/traffic.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.s
-.PHONY : src/traffic.cpp.s
-
 src/utils.o: src/utils.cpp.o
 .PHONY : src/utils.o
 
@@ -402,36 +210,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Lora_sim_cpp"
-	@echo "... src/environment.o"
-	@echo "... src/environment.i"
-	@echo "... src/environment.s"
-	@echo "... src/gateway.o"
-	@echo "... src/gateway.i"
-	@echo "... src/gateway.s"
-	@echo "... src/lorawan.o"
-	@echo "... src/lorawan.i"
-	@echo "... src/lorawan.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
-	@echo "... src/multihop.o"
-	@echo "... src/multihop.i"
-	@echo "... src/multihop.s"
 	@echo "... src/node.o"
 	@echo "... src/node.i"
 	@echo "... src/node.s"
 	@echo "... src/packet.o"
 	@echo "... src/packet.i"
 	@echo "... src/packet.s"
-	@echo "... src/server.o"
-	@echo "... src/server.i"
-	@echo "... src/server.s"
-	@echo "... src/topology.o"
-	@echo "... src/topology.i"
-	@echo "... src/topology.s"
-	@echo "... src/traffic.o"
-	@echo "... src/traffic.i"
-	@echo "... src/traffic.s"
 	@echo "... src/utils.o"
 	@echo "... src/utils.i"
 	@echo "... src/utils.s"

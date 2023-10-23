@@ -1,93 +1,39 @@
-#include <string>
-#include <vector>
-#include "packet.h"
+//
+// Created by gmavros-yoga-7 on 22/10/2023.
+//
 
-struct Position {
+#ifndef LORA_SIM_CPP_NODE_H
+#define LORA_SIM_CPP_NODE_H
+
+#include "packet.h"
+#include <vector>
+
+struct coordinates{
     int x;
     int y;
     int z;
 };
 
 class Node {
-private:
-    int nodeId;
-    int sf;
 public:
-    int getNodeId() const;
-
+    Node(int id, int x, int y,  int z, int sf, int channel, int transmission_power);
+    ~Node() = default;
+    void generate_packet(int dst);
+    Packet transmit_packet();
+    void clock(int time);
 private:
-    string channel;
+    int id;
+    int channel;
+    int sf;
     int bandwidth;
     int transmission_power;
-    int state;
-    int duty_cycle_remain;
     int environment_time;
-    int toa_remain;
-    int assigned_node;
-    int following_node;
-    Position position;
-    Packet buffered_packet;
-public:
-
-    Node(int id, int x, int y, int z);
-
-    void tick(int time);
-
-    void generatePacket(int destination, int time);
-
-    Packet transmitPacket();
-
-    void receivePacket(Packet &packet);
-
-    void setNodeId(int nodeId);
-
-    int getSf() const;
-
-    void setSf(int sf);
-
-    const string &getChannel() const;
-
-    void setChannel(const string &channel);
-
-    int getBandwidth() const;
-
-    void setBandwidth(int bandwidth);
-
-    int getTransmissionPower() const;
-
-    void setTransmissionPower(int transmissionPower);
-
-    int getState() const;
-
-    void setState(int state);
-
-    int getDutyCycleRemain() const;
-
-    void setDutyCycleRemain(int dutyCycleRemain);
-
-    int getEnvironmentTime() const;
-
-    void setEnvironmentTime(int environmentTime);
-
-    int getToaRemain() const;
-
-    void setToaRemain(int toaRemain);
-
-    int getAssignedNode() const;
-
-    void setAssignedNode(int assignedNode);
-
-    int getFollowingNode() const;
-
-    void setFollowingNode(int followingNode);
-
-    const Position &getPosition() const;
-
-    void setPosition(const Position &position);
-
-    const Packet &getBufferedPacket() const;
-
-    void setBufferedPacket(const Packet &bufferedPacket);
-
+    int duty_cycle_remained;
+    int time_over_air_remained;
+    coordinates location{};
+    Packet* buffer;
 
 };
+
+
+#endif //LORA_SIM_CPP_NODE_H
