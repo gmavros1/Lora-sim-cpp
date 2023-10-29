@@ -129,6 +129,30 @@ Lora_sim_cpp/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/build
 .PHONY : Lora_sim_cpp/fast
 
+src/environment.o: src/environment.cpp.o
+.PHONY : src/environment.o
+
+# target to build an object file
+src/environment.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o
+.PHONY : src/environment.cpp.o
+
+src/environment.i: src/environment.cpp.i
+.PHONY : src/environment.i
+
+# target to preprocess a source file
+src/environment.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.i
+.PHONY : src/environment.cpp.i
+
+src/environment.s: src/environment.cpp.s
+.PHONY : src/environment.s
+
+# target to generate assembly for a file
+src/environment.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.s
+.PHONY : src/environment.cpp.s
+
 src/node.o: src/node.cpp.o
 .PHONY : src/node.o
 
@@ -177,29 +201,29 @@ src/packet.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.s
 .PHONY : src/packet.cpp.s
 
-src/utils.o: src/utils.cpp.o
-.PHONY : src/utils.o
+src/traffic.o: src/traffic.cpp.o
+.PHONY : src/traffic.o
 
 # target to build an object file
-src/utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o
-.PHONY : src/utils.cpp.o
+src/traffic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o
+.PHONY : src/traffic.cpp.o
 
-src/utils.i: src/utils.cpp.i
-.PHONY : src/utils.i
+src/traffic.i: src/traffic.cpp.i
+.PHONY : src/traffic.i
 
 # target to preprocess a source file
-src/utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.i
-.PHONY : src/utils.cpp.i
+src/traffic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.i
+.PHONY : src/traffic.cpp.i
 
-src/utils.s: src/utils.cpp.s
-.PHONY : src/utils.s
+src/traffic.s: src/traffic.cpp.s
+.PHONY : src/traffic.s
 
 # target to generate assembly for a file
-src/utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.s
-.PHONY : src/utils.cpp.s
+src/traffic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.s
+.PHONY : src/traffic.cpp.s
 
 # Help Target
 help:
@@ -210,15 +234,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Lora_sim_cpp"
+	@echo "... src/environment.o"
+	@echo "... src/environment.i"
+	@echo "... src/environment.s"
 	@echo "... src/node.o"
 	@echo "... src/node.i"
 	@echo "... src/node.s"
 	@echo "... src/packet.o"
 	@echo "... src/packet.i"
 	@echo "... src/packet.s"
-	@echo "... src/utils.o"
-	@echo "... src/utils.i"
-	@echo "... src/utils.s"
+	@echo "... src/traffic.o"
+	@echo "... src/traffic.i"
+	@echo "... src/traffic.s"
 .PHONY : help
 
 

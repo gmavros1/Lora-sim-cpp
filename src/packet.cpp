@@ -11,8 +11,7 @@ Packet::Packet(int src, int dst, int timestamp, int payload_bytes, int crc, int 
     this->payload_bytes = payload_bytes;
     this->crc = crc;
     this->header = header;
-    this->start_end_flag = "START";
-    this->seq_num = 0;
+    this->seq_num_reversed = 0;
     this->aggregated_packet = nullptr;
 }
 
@@ -38,11 +37,7 @@ int Packet::getPayload_bytes() const {
 }
 
 int Packet::getSeqNum() const {
-    return this->seq_num;
-}
-
-string Packet::getStart_end_flag() {
-    return this->start_end_flag;
+    return this->seq_num_reversed;
 }
 
 string Packet::calculateUniqueId() const {
@@ -51,9 +46,19 @@ string Packet::calculateUniqueId() const {
     return result;
 }
 
-int main(){
+void Packet::setSeqNumReversed(int toa_remained) {
+    this->seq_num_reversed = toa_remained;
+}
 
-    Packet packet(1,4,6);
+void Packet::decrease_seq_num() {
+    if (this->seq_num_reversed > 0) {
+        this->seq_num_reversed -= 1;
+    }
+}
+
+/*int main() {
+
+    Packet packet(1, 4, 6);
     cout << packet.getPacketId() << endl;
     return 0;
-}
+}*/

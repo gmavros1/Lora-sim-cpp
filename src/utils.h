@@ -1,8 +1,31 @@
+
+#ifndef LORA_SIM_UTILS_CPP
+#define LORA_SIM_UTILS_CPP
+
 #include <iostream>
-#include "node.h"
 #include <cmath>
 #include <random>
 #include <algorithm>
+#include "node.h"
+
+double distanceNodes(Node node1, Node node2);
+
+double
+toa(int payload_length, int sf, int crc = 1, int header = 0, int de = 0, int n_preamble = 8, int bw = 125, int cr = 1);
+
+double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev = 5.34);
+
+double duty_cycle(double toa);
+
+double calculate_snr(double signal_power, double signal_noise);
+
+double data_rate(int sf, int cr, double bw);
+
+double snr_limit(int sf);
+
+int adr(const std::vector<double> &last_packets, int sf);
+
+#endif
 
 double distanceNodes(Node node1, Node node2) {
     double x1 = node1.getLocation().x;
@@ -18,20 +41,21 @@ double distanceNodes(Node node1, Node node2) {
 }
 
 
-double toa(int payload_length, int sf, int crc = 1, int header = 0, int de = 0, int n_preamble = 8, int bw = 125, int cr = 1) {
+double toa(int payload_length, int sf, int crc, int header, int de, int n_preamble, int bw, int cr) {
     if (bw == 125 && sf >= 11) {
         de = 1;
     }
 
     double Ts = std::pow(2, sf) / bw;
-    double num_payload_symbols = 8 + std::max(static_cast<double>(std::ceil((8 * payload_length - 4 * sf + 28 + 16 * crc - 20 * header) / (4 * (sf - 2 * de))) * (cr + 4)), 0.0);
+    double num_payload_symbols = 8 + std::max(static_cast<double>(std::ceil(
+            (8 * payload_length - 4 * sf + 28 + 16 * crc - 20 * header) / (4 * (sf - 2 * de))) * (cr + 4)), 0.0);
     double T_payload = Ts * num_payload_symbols;
     double T_preamble = (n_preamble + 4.25) * Ts;
     return T_preamble + T_payload;
 }
 
 
-double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev = 5.34) {
+double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev) {
     // Constants - sensors-22-03518-v3.pdf - reference
     double PLd0 = 40.7;  // Reference path loss at the reference distance (d0)
     double d0 = 1.0;     // Reference distance (1 meter)
@@ -82,7 +106,7 @@ double snr_limit(int sf) {
 }
 
 
-int adr(const std::vector<double>& last_packets, int sf) {
+int adr(const std::vector<double> &last_packets, int sf) {
     double snrLimit = snr_limit(sf);
     double snr_measured = *std::max_element(last_packets.begin(), last_packets.end());
     double margin_default = 10.0; // dB
@@ -101,3 +125,4 @@ int adr(const std::vector<double>& last_packets, int sf) {
         }
     }
 }
+

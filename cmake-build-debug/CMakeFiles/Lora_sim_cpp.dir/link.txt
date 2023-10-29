@@ -1,1 +1,1 @@
-/usr/bin/c++ -g CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o -o Lora_sim_cpp 
+/usr/bin/c++ -g CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o -o Lora_sim_cpp 

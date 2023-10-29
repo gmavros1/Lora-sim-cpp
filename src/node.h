@@ -8,7 +8,7 @@
 #include "packet.h"
 #include <vector>
 
-struct coordinates{
+struct coordinates {
     int x;
     int y;
     int z;
@@ -16,12 +16,26 @@ struct coordinates{
 
 class Node {
 public:
-    Node(int id, int x, int y,  int z, int sf, int channel, int transmission_power);
+    Node(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob);
+
     ~Node() = default;
+
     void generate_packet(int dst);
-    Packet transmit_packet();
+
+    Packet* transmit_packet();
+
     void clock(int time);
+
     coordinates getLocation();
+
+    int getId();
+
+    string node_driver();
+
+    int getChannel();
+
+    int getSf();
+
 private:
     int id;
     int channel;
@@ -29,10 +43,13 @@ private:
     int bandwidth;
     int transmission_power;
     int environment_time;
-    int duty_cycle_remained;
-    int time_over_air_remained;
+    double duty_cycle_current;
+    //int time_over_air_remained;
+    double ready_for_transmission;
     coordinates location{};
-    Packet* buffer;
+    Packet *buffer;
+    double packet_gen_prob;
+    string state;
 
 };
 
