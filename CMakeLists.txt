@@ -15,4 +15,7 @@ add_executable(Lora_sim_cpp
         src/traffic.h
         src/environment.cpp
         src/environment.h
+        external/tqdm.cpp/include/tqdm/utils.h
+        src/gateway.cpp
+        src/gateway.h
 )

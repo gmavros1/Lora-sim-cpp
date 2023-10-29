@@ -4,7 +4,7 @@
 
 #include "traffic.h"
 #include "iostream"
-
+#include "../external/tqdm.cpp/include/tqdm/tqdm.h"
 
 void Traffic::initialize() {
 
@@ -19,7 +19,7 @@ void Traffic::initialize() {
 
 void Traffic::run() {
     vector<Packet > packets;
-    for (int time = 0; time < 1000000; ++time) {
+    for (int time : tqdm::range(1000000)) {
         for (auto & node : nodes) {
             node.clock(time);
             string state = node.node_driver();

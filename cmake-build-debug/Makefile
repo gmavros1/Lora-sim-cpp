@@ -153,6 +153,30 @@ src/environment.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.s
 .PHONY : src/environment.cpp.s
 
+src/gateway.o: src/gateway.cpp.o
+.PHONY : src/gateway.o
+
+# target to build an object file
+src/gateway.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o
+.PHONY : src/gateway.cpp.o
+
+src/gateway.i: src/gateway.cpp.i
+.PHONY : src/gateway.i
+
+# target to preprocess a source file
+src/gateway.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.i
+.PHONY : src/gateway.cpp.i
+
+src/gateway.s: src/gateway.cpp.s
+.PHONY : src/gateway.s
+
+# target to generate assembly for a file
+src/gateway.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.s
+.PHONY : src/gateway.cpp.s
+
 src/node.o: src/node.cpp.o
 .PHONY : src/node.o
 
@@ -237,6 +261,9 @@ help:
 	@echo "... src/environment.o"
 	@echo "... src/environment.i"
 	@echo "... src/environment.s"
+	@echo "... src/gateway.o"
+	@echo "... src/gateway.i"
+	@echo "... src/gateway.s"
 	@echo "... src/node.o"
 	@echo "... src/node.i"
 	@echo "... src/node.s"
