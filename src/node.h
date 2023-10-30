@@ -36,6 +36,8 @@ public:
 
     int getSf();
 
+    int getTrasmissionPower();
+
 private:
     int id;
     int channel;

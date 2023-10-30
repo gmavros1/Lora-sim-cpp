@@ -6,16 +6,16 @@
 #include <cmath>
 #include <random>
 #include <algorithm>
-#include "node.h"
+#include "traffic.h"
 
 double distanceNodes(Node node1, Node node2);
 
-double
-toa(int payload_length, int sf, int crc = 1, int header = 0, int de = 0, int n_preamble = 8, int bw = 125, int cr = 1);
+//double
+//toa(int payload_length, int sf, int crc = 1, int header = 0, int de = 0, int n_preamble = 8, int bw = 125, int cr = 1);
 
 double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev = 5.34);
 
-double duty_cycle(double toa);
+//double duty_cycle(double toa);
 
 double calculate_snr(double signal_power, double signal_noise);
 
@@ -40,7 +40,7 @@ double distanceNodes(Node node1, Node node2) {
     return distance;
 }
 
-
+/*
 double toa(int payload_length, int sf, int crc, int header, int de, int n_preamble, int bw, int cr) {
     if (bw == 125 && sf >= 11) {
         de = 1;
@@ -53,7 +53,7 @@ double toa(int payload_length, int sf, int crc, int header, int de, int n_preamb
     double T_preamble = (n_preamble + 4.25) * Ts;
     return T_preamble + T_payload;
 }
-
+*/
 
 double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev) {
     // Constants - sensors-22-03518-v3.pdf - reference
@@ -78,12 +78,13 @@ double calculate_received_power(double distance, double transmission_power, doub
 }
 
 
+/*
 double duty_cycle(double toa) {
     double dutyCycle = 0.01; // 1%
     double t_interval = (toa / dutyCycle) - toa;
     return t_interval; // ms have to wait until the next transmission
 }
-
+*/
 
 double calculate_snr(double signal_power, double signal_noise) {
     // You can use a specific noise value or generate a random value like in Python

@@ -30,7 +30,7 @@ void Traffic::run() {
             if (state == "Transmitting") {
                 Packet* transmitted_packet = node.transmit_packet();
                 if (transmitted_packet != nullptr) {
-                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf());
+                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(), node.getTrasmissionPower());
                 }
             }
             if (state == "Sleeping") {

@@ -6,6 +6,7 @@
 #define LORA_SIM_CPP_TRAFFIC_H
 
 #include "node.h"
+#include "gateway.h"
 #include "environment.h"
 
 

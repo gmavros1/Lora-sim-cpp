@@ -5,9 +5,19 @@
 #ifndef LORA_SIM_CPP_GATEWAY_H
 #define LORA_SIM_CPP_GATEWAY_H
 
+#include "utils.h"
+class Environment;
+class radio_packet; // Add a forward declaration for radio_packet
+class Gateway {
+private:
+    int id;
+    coordinates location{};
+    int environment_time{};
 
-class gateway {
-
+public:
+    Gateway(int id, int x, int y, int z);
+    void receive(vector<radio_packet> packets_received);
+    void clock(int time);
 };
 
 
