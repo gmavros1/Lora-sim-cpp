@@ -3,12 +3,15 @@
 //
 
 #include "gateway.h"
+#include "environment.h"
 #include "utils.h"
 
 
-void Gateway::receive(vector<radio_packet> packets_received) {
+void Gateway::receive(vector<radio_packet> &packets_received) {
 
-    // First Remove packets which are out of range
+    for (size_t index = 0; index < packets_received.size(); ++index) {
+        packets_received[index].receive_power = calculate_received_power(distanceGatewayNode(this->location, ))
+    }
 
 }
 
@@ -22,3 +25,9 @@ Gateway::Gateway(int id, int x, int y, int z) {
     this->location.x = y;
     this->location.x = z;
 }
+
+coordinates_gw Gateway::getLocation() {
+    return this->location;
+}
+
+

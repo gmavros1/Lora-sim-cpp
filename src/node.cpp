@@ -56,7 +56,8 @@ void Node::generate_packet(int dst) {
 
 Packet* Node::transmit_packet() {
     if (this->buffer != nullptr) {
-        static Packet transmitted_packet = *this->buffer;
+        static Packet transmitted_packet = *new Packet(-1, -1, -1);
+        transmitted_packet = *this->buffer;
         this->buffer = nullptr;
 
         return &transmitted_packet;

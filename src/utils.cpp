@@ -5,19 +5,31 @@
 #include "utils.h"
 
 
-double distanceNodes(Node node1, Node node2) {
-    double x1 = node1.getLocation().x;
-    double y1 = node1.getLocation().y;
-    double z1 = node1.getLocation().z;
+double distanceNodes(coordinates node1, coordinates node2) {
+    double x1 = node1.x;
+    double y1 = node1.y;
+    double z1 = node1.z;
 
-    double x2 = node2.getLocation().x;
-    double y2 = node2.getLocation().y;
-    double z2 = node2.getLocation().z;
+    double x2 = node2.x;
+    double y2 = node2.y;
+    double z2 = node2.z;
 
     double distance = std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
     return distance;
 }
 
+static double distanceGatewayNode(coordinates_gw gateway, coordinates node) {
+    double x1 = gateway.x;
+    double y1 = gateway.y;
+    double z1 = gateway.z;
+
+    double x2 = node.x;
+    double y2 = node.y;
+    double z2 = node.z;
+
+    double distance = std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
+    return distance;
+}
 
 double toa(int payload_length, int sf, int crc, int header, int de, int n_preamble, int bw, int cr) {
     if (bw == 125 && sf >= 11) {
@@ -33,7 +45,7 @@ double toa(int payload_length, int sf, int crc, int header, int de, int n_preamb
 }
 
 
-double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev) {
+static double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev) {
     // Constants - sensors-22-03518-v3.pdf - reference
     double PLd0 = 40.7;  // Reference path loss at the reference distance (d0)
     double d0 = 1.0;     // Reference distance (1 meter)

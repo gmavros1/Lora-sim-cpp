@@ -27,8 +27,9 @@ private:
 
 public:
     Gateway(int id, int x, int y, int z);
-    void receive(vector<radio_packet> packets_received);
+    static void receive(vector<radio_packet> &packets_received);
     void clock(int time);
+    coordinates_gw getLocation();
 };
 
 

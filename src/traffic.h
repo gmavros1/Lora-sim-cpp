@@ -10,6 +10,7 @@
 #include "environment.h"
 #include "packet.h"
 #include "node.h"  // Include other necessary headers if needed
+#include "gateway.h"
 
 class Node;
 class Environment;
@@ -24,6 +25,7 @@ class Environment;
 class Traffic {
 private:
     vector<Node> nodes;
+    vector<Gateway> gateways;
     Environment environment;
 
 public:

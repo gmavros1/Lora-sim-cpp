@@ -7,13 +7,15 @@
 #include <random>
 #include <algorithm>
 #include "node.h"
+#include "gateway.h"
 
-double distanceNodes(Node node1, Node node2);
+static double distanceNodes(Node node1, Node node2);
 
-double
-toa(int payload_length, int sf, int crc = 1, int header = 0, int de = 0, int n_preamble = 8, int bw = 125, int cr = 1);
+static double distanceGatewayNode(Gateway gateway, Node node);
 
-double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev = 5.34);
+double toa(int payload_length, int sf, int crc = 1, int header = 0, int de = 0, int n_preamble = 8, int bw = 125, int cr = 1);
+
+static double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev = 5.34);
 
 double duty_cycle(double toa);
 
