@@ -5,8 +5,12 @@
 #ifndef LORA_SIM_CPP_NODE_H
 #define LORA_SIM_CPP_NODE_H
 
-#include "packet.h"
-#include <vector>
+#include "node.h"
+#include <string> // Include the string header
+
+
+class Packet;  // Forward declaration
+std::string node_driver();
 
 struct coordinates {
     int x;
@@ -18,8 +22,6 @@ class Node {
 public:
     Node(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob);
 
-    ~Node() = default;
-
     void generate_packet(int dst);
 
     Packet* transmit_packet();
@@ -30,7 +32,7 @@ public:
 
     int getId();
 
-    string node_driver();
+    std::string node_driver();
 
     int getChannel();
 
@@ -51,7 +53,7 @@ private:
     coordinates location{};
     Packet *buffer;
     double packet_gen_prob;
-    string state;
+    std::string state;
 
 };
 

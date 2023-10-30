@@ -13,26 +13,11 @@
 
 
 #include "node.h"
+#include "packet.h"
+#include "utils.h"
 #include <cmath>
+#include <string>
 
-double toa(int payload_length, int sf, int crc = 1, int header = 0, int de = 0, int n_preamble = 8, int bw = 125, int cr = 1) {
-    if (bw == 125 && sf >= 11) {
-        de = 1;
-    }
-
-    double Ts = std::pow(2, sf) / bw;
-    double num_payload_symbols = 8 + std::max(static_cast<double>(std::ceil(
-            (8 * payload_length - 4 * sf + 28 + 16 * crc - 20 * header) / (4 * (sf - 2 * de))) * (cr + 4)), 0.0);
-    double T_payload = Ts * num_payload_symbols;
-    double T_preamble = (n_preamble + 4.25) * Ts;
-    return T_preamble + T_payload;
-}
-
-double duty_cycle(double toa) {
-    double dutyCycle = 0.01; // 1%
-    double t_interval = (toa / dutyCycle) - toa;
-    return t_interval; // ms have to wait until the next transmission
-}
 
 Node::Node(int id, int x, int y, int z, int sf, int channel, int transmission_power,double packet_gen_prob) {
     this->id = id;

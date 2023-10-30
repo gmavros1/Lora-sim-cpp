@@ -4,9 +4,10 @@
 
 #ifndef LORA_SIM_CPP_ENVIRONMENT_H
 #define LORA_SIM_CPP_ENVIRONMENT_H
+#include <vector> // Include the vector header
+#include "packet.h" // Include the header for the Packet class
 
-#include <vector>
-#include "packet.h"
+using namespace std;
 
 struct radio_packet{
     int transmission_power = 0;
@@ -15,6 +16,7 @@ struct radio_packet{
     int channel = 0;
     Packet packet = *new Packet(-1, -1, -1, -1, -1, -1);
 };
+
 
 class Environment {
 private:

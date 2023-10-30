@@ -1,4 +1,22 @@
-/snap/clion/250/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp -B /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
+/snap/clion/250/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/gmavrosi/Documents/Projects/Lora-sim-cpp -B /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug
+CMake Deprecation Warning at external/tqdm.cpp/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+CMake Deprecation Warning at external/tqdm.cpp/CMakeLists.txt:11 (cmake_policy):
+  The OLD behavior for policy CMP0043 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+-- Configuring done (0.3s)
+-- Generating done (0.2s)
+-- Build files have been written to: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug

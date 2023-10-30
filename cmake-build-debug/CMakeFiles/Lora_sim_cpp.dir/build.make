@@ -53,10 +53,10 @@ RM = /snap/clion/250/bin/cmake/linux/x64/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp
+CMAKE_SOURCE_DIR = /home/gmavrosi/Documents/Projects/Lora-sim-cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
+CMAKE_BINARY_DIR = /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Lora_sim_cpp.dir/depend.make
@@ -70,74 +70,88 @@ include CMakeFiles/Lora_sim_cpp.dir/progress.make
 include CMakeFiles/Lora_sim_cpp.dir/flags.make
 
 CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o: CMakeFiles/Lora_sim_cpp.dir/flags.make
-CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.cpp
+CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/packet.cpp
 CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o: CMakeFiles/Lora_sim_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o -c /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o -c /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/packet.cpp
 
 CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.cpp > CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/packet.cpp > CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.i
 
 CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/packet.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.s
 
 CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o: CMakeFiles/Lora_sim_cpp.dir/flags.make
-CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.cpp
+CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/node.cpp
 CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o: CMakeFiles/Lora_sim_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o -c /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o -c /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/node.cpp
 
 CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.cpp > CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/node.cpp > CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.i
 
 CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/node.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.s
 
 CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o: CMakeFiles/Lora_sim_cpp.dir/flags.make
-CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.cpp
+CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/traffic.cpp
 CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o: CMakeFiles/Lora_sim_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o -c /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o -c /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/traffic.cpp
 
 CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.cpp > CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/traffic.cpp > CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.i
 
 CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/traffic.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.s
 
 CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o: CMakeFiles/Lora_sim_cpp.dir/flags.make
-CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.cpp
+CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/environment.cpp
 CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o: CMakeFiles/Lora_sim_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o -c /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o -c /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/environment.cpp
 
 CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.cpp > CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/environment.cpp > CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.i
 
 CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/environment.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.s
 
 CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o: CMakeFiles/Lora_sim_cpp.dir/flags.make
-CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.cpp
+CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/gateway.cpp
 CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o: CMakeFiles/Lora_sim_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o -c /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o -c /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/gateway.cpp
 
 CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.cpp > CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/gateway.cpp > CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.i
 
 CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/gateway.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.s
+
+CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: CMakeFiles/Lora_sim_cpp.dir/flags.make
+CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/utils.cpp
+CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: CMakeFiles/Lora_sim_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o -MF CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o.d -o CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o -c /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/utils.cpp
+
+CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/utils.cpp > CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.i
+
+CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/utils.cpp -o CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.s
 
 # Object files for target Lora_sim_cpp
 Lora_sim_cpp_OBJECTS = \
@@ -145,7 +159,8 @@ Lora_sim_cpp_OBJECTS = \
 "CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o" \
 "CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o" \
 "CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o" \
-"CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o"
+"CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o" \
+"CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o"
 
 # External object files for target Lora_sim_cpp
 Lora_sim_cpp_EXTERNAL_OBJECTS =
@@ -155,9 +170,10 @@ Lora_sim_cpp: CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o
 Lora_sim_cpp: CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o
 Lora_sim_cpp: CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o
 Lora_sim_cpp: CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o
+Lora_sim_cpp: CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o
 Lora_sim_cpp: CMakeFiles/Lora_sim_cpp.dir/build.make
 Lora_sim_cpp: CMakeFiles/Lora_sim_cpp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable Lora_sim_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable Lora_sim_cpp"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Lora_sim_cpp.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -169,6 +185,6 @@ CMakeFiles/Lora_sim_cpp.dir/clean:
 .PHONY : CMakeFiles/Lora_sim_cpp.dir/clean
 
 CMakeFiles/Lora_sim_cpp.dir/depend:
-	cd /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/CMakeFiles/Lora_sim_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/gmavrosi/Documents/Projects/Lora-sim-cpp /home/gmavrosi/Documents/Projects/Lora-sim-cpp /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/CMakeFiles/Lora_sim_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Lora_sim_cpp.dir/depend
 

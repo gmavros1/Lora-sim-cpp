@@ -3,8 +3,13 @@
 //
 
 #include "traffic.h"
+#include "node.h"
+#include "environment.h"
+#include "packet.h"
 #include "iostream"
 #include "../external/tqdm.cpp/include/tqdm/tqdm.h"
+
+
 
 void Traffic::initialize() {
 

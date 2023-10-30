@@ -5,11 +5,22 @@
 #ifndef LORA_SIM_CPP_TRAFFIC_H
 #define LORA_SIM_CPP_TRAFFIC_H
 
-#include "node.h"
-#include "gateway.h"
+#include <vector>
+#include "traffic.h"
 #include "environment.h"
+#include "packet.h"
+#include "node.h"  // Include other necessary headers if needed
 
+class Node;
+class Environment;
+class Packet;
 
+using namespace std;
+//#include "gateway.h"
+//#include "environment.h"
+
+class Packet;
+class Environment;
 class Traffic {
 private:
     vector<Node> nodes;

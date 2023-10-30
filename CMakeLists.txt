@@ -5,6 +5,10 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(src)
 
+# Add the external module's source directory
+add_subdirectory(external/tqdm.cpp)  # Replace 'module_name' with the actual submodule name
+
+
 add_executable(Lora_sim_cpp
         src/packet.cpp
         src/packet.h
@@ -15,7 +19,10 @@ add_executable(Lora_sim_cpp
         src/traffic.h
         src/environment.cpp
         src/environment.h
-        external/tqdm.cpp/include/tqdm/utils.h
         src/gateway.cpp
         src/gateway.h
+        src/utils.cpp
 )
+
+# Link the external module's target to your main target
+target_link_libraries(tqdm)  # Replace 'module_name' with the actual submodule name

@@ -3,6 +3,8 @@
 //
 
 #include "gateway.h"
+#include "utils.h"
+
 
 void Gateway::receive(vector<radio_packet> packets_received) {
 

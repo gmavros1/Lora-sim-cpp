@@ -1,6 +1,7 @@
 #include "packet.h"
 #include <iostream>
 
+
 // Define the constructor for the Packet class
 Packet::Packet(int src, int dst, int timestamp, int payload_bytes, int crc, int header) {
     this->src = src;

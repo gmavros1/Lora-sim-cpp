@@ -3,6 +3,7 @@
 
 #include <string>
 
+class Packet;
 using namespace std;
 
 class Packet {

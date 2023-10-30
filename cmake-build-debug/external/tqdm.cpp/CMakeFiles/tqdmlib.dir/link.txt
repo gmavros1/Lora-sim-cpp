@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtqdmlib.a CMakeFiles/tqdmlib.dir/src/main.cpp.o CMakeFiles/tqdmlib.dir/src/stdafx.cpp.o
+/usr/bin/ranlib libtqdmlib.a
