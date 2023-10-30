@@ -18,7 +18,7 @@ double distanceNodes(coordinates node1, coordinates node2) {
     return distance;
 }
 
-static double distanceGatewayNode(coordinates_gw gateway, coordinates node) {
+double distanceGatewayNode(coordinates_gw gateway, coordinates node) {
     double x1 = gateway.x;
     double y1 = gateway.y;
     double z1 = gateway.z;
@@ -45,7 +45,7 @@ double toa(int payload_length, int sf, int crc, int header, int de, int n_preamb
 }
 
 
-static double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev) {
+double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev) {
     // Constants - sensors-22-03518-v3.pdf - reference
     double PLd0 = 40.7;  // Reference path loss at the reference distance (d0)
     double d0 = 1.0;     // Reference distance (1 meter)

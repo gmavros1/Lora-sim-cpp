@@ -17,13 +17,14 @@ void Traffic::initialize() {
     // Nodes Initialization
     for (int i = 0; i < 3; ++i) {
         Node *node;
-        node = new Node(i, 100, 200, 40, 7, 1, 25, 0.1);
+        node = new Node(i, 0, 2, 0, 7, 1, 20, 0.1);
         nodes.push_back(*node);
     }
 
+    // Gateways initialization
     for (int g = -1; g > -2; g--){
         Gateway *gateway;
-        gateway = new Gateway(g, 200, 230, 90);
+        gateway = new Gateway(g, 33467, 0, 0);
         gateways.push_back(*gateway);
     }
 }
@@ -46,7 +47,7 @@ void Traffic::run() {
             if (state == "Transmitting") {
                 Packet* transmitted_packet = node.transmit_packet();
                 if (transmitted_packet != nullptr) {
-                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(), node.getTrasmissionPower());
+                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(), node.getTrasmissionPower(), node.getLocation());
                 }
             }
             if (state == "Sleeping") {
@@ -57,7 +58,7 @@ void Traffic::run() {
         auto packet_to_receive = environment.getPackets();
         for (auto & gateway: gateways) {
             gateway.clock(time);
-            Gateway::receive(packet_to_receive);
+            gateway.receive(packet_to_receive);
         }
 
         // Decreasing time over air and remove timed out packets from radio

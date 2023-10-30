@@ -13,6 +13,7 @@
 #include "gateway.h"
 
 class Node;
+class Gateway;
 class Environment;
 class Packet;
 

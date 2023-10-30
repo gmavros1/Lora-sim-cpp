@@ -15,10 +15,7 @@ struct coordinates_gw {
     int z;
 };
 
-//#include "utils.h"
-//class Environment;
 class radio_packet; // Add a forward declaration for radio_packet
-//class Node;
 class Gateway {
 private:
     int id;
@@ -27,7 +24,7 @@ private:
 
 public:
     Gateway(int id, int x, int y, int z);
-    static void receive(vector<radio_packet> &packets_received);
+    void receive(vector<radio_packet> &packets_received);
     void clock(int time);
     coordinates_gw getLocation();
 };

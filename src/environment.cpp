@@ -11,12 +11,13 @@ using namespace std;
 
 Environment::Environment() = default;
 
-void Environment::add_packet(Packet packet, int channel, int sf, int transmission_power) {
+void Environment::add_packet(Packet packet, int channel, int sf, int transmission_power, coordinates location) {
     radio_packet packet_on_air;
     packet_on_air.packet = packet;
     packet_on_air.channel = channel;
     packet_on_air.sf = sf;
     packet_on_air.transmission_power = transmission_power;
+    packet_on_air.location = location;
 
     packets.push_back(packet_on_air);
 

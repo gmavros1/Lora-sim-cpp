@@ -53,10 +53,10 @@ RM = /snap/clion/250/bin/cmake/linux/x64/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/gmavrosi/Documents/Projects/Lora-sim-cpp
+CMAKE_SOURCE_DIR = /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug
+CMAKE_BINARY_DIR = /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
 
 # Utility rule file for pch.
 
@@ -66,10 +66,10 @@ include external/tqdm.cpp/CMakeFiles/pch.dir/compiler_depend.make
 # Include the progress variables for this target.
 include external/tqdm.cpp/CMakeFiles/pch.dir/progress.make
 
-external/tqdm.cpp/CMakeFiles/pch: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/external/tqdm.cpp/include/tqdm/tqdm.h
-external/tqdm.cpp/CMakeFiles/pch: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/external/tqdm.cpp/include/tqdm/utils.h
-external/tqdm.cpp/CMakeFiles/pch: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/external/tqdm.cpp/src/stdafx.h
-	cd /home/gmavrosi/Documents/Projects/Lora-sim-cpp/external/tqdm.cpp && /usr/bin/c++ -I /home/gmavrosi/Documents/Projects/Lora-sim-cpp/external/tqdm.cpp/include -g -Werror -Wall -Wextra -Wunused -Wformat=2 -std=c++11 -fPIC -O2 -fwhole-program -c -o src/stdafx.h.gch src/stdafx.h
+external/tqdm.cpp/CMakeFiles/pch: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include/tqdm/tqdm.h
+external/tqdm.cpp/CMakeFiles/pch: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include/tqdm/utils.h
+external/tqdm.cpp/CMakeFiles/pch: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/src/stdafx.h
+	cd /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp && /usr/bin/c++ -I /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include -g -Werror -Wall -Wextra -Wunused -Wformat=2 -std=c++11 -fPIC -O2 -fwhole-program -c -o src/stdafx.h.gch src/stdafx.h
 
 pch: external/tqdm.cpp/CMakeFiles/pch
 pch: external/tqdm.cpp/CMakeFiles/pch.dir/build.make
@@ -80,10 +80,10 @@ external/tqdm.cpp/CMakeFiles/pch.dir/build: pch
 .PHONY : external/tqdm.cpp/CMakeFiles/pch.dir/build
 
 external/tqdm.cpp/CMakeFiles/pch.dir/clean:
-	cd /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp && $(CMAKE_COMMAND) -P CMakeFiles/pch.dir/cmake_clean.cmake
+	cd /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp && $(CMAKE_COMMAND) -P CMakeFiles/pch.dir/cmake_clean.cmake
 .PHONY : external/tqdm.cpp/CMakeFiles/pch.dir/clean
 
 external/tqdm.cpp/CMakeFiles/pch.dir/depend:
-	cd /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/gmavrosi/Documents/Projects/Lora-sim-cpp /home/gmavrosi/Documents/Projects/Lora-sim-cpp/external/tqdm.cpp /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp/CMakeFiles/pch.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp/CMakeFiles/pch.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : external/tqdm.cpp/CMakeFiles/pch.dir/depend
 
