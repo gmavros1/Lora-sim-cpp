@@ -7,11 +7,11 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/CMakeLists.txt"
+  "/home/gmavrosi/Documents/Projects/Lora-sim-cpp/CMakeLists.txt"
   "CMakeFiles/3.26.4/CMakeCCompiler.cmake"
   "CMakeFiles/3.26.4/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.26.4/CMakeSystem.cmake"
-  "/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/CMakeLists.txt"
+  "/home/gmavrosi/Documents/Projects/Lora-sim-cpp/external/tqdm.cpp/CMakeLists.txt"
   "/snap/clion/250/bin/cmake/linux/x64/share/cmake-3.26/Modules/CMakeCCompiler.cmake.in"
   "/snap/clion/250/bin/cmake/linux/x64/share/cmake-3.26/Modules/CMakeCCompilerABI.c"
   "/snap/clion/250/bin/cmake/linux/x64/share/cmake-3.26/Modules/CMakeCInformation.cmake"

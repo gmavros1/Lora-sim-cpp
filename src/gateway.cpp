@@ -9,6 +9,7 @@
 // Set sensitivity of Lora -149 dBm
 void Gateway::receive(vector<radio_packet> &packets_received) {
 
+    // Packets within Range
     vector<radio_packet> current_packets = packets_received;
 
     // Abort packet due to range issues
@@ -25,11 +26,48 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
 
     // Add a vector of structs. Its struct will contain:
     //      * The id of the packet
+    //      * The actual packet
     //      * The sf
     //      * The channel
     //      * A vector of structs. which will contain
     //            * The rec power
     //            * The max power of the current segment packets in same channel and sf with different id
+
+    // Add every segment of a packet + interference information n^2 complexity
+    for (auto current_packet: current_packets) {
+        string packet_id = current_packet.packet.getPacketId();
+
+        // Find max interference signal;
+        double max_itf = -200;
+        for (auto current_packet_cmp: current_packets){ // packet compared (cmp)
+            if (current_packet.sf == current_packet_cmp.sf &&
+                current_packet.channel == current_packet_cmp.channel &&
+                packet_id != current_packet.packet.getPacketId()){
+                if (current_packet_cmp.receive_power > 200){
+                    max_itf = current_packet_cmp.receive_power;
+                }
+            }
+        }
+
+        // First segment of the packet
+        if (receiving_buffer.find(packet_id) == receiving_buffer.end()){
+
+            // Build interference info per packet
+            rec_powers r_powers{};
+            r_powers.packet_rec_power = current_packet.receive_power;
+            r_powers.maximum_interference_power = max_itf; // found above
+
+            // Build Packet receiving information
+            packets_receiving current_packet_info{};
+            current_packet_info.id = packet_id;
+            current_packet_info.packet = current_packet.packet;
+            current_packet_info.sf = current_packet.sf;
+            current_packet_info.channel = current_packet.channel;
+            current_packet_info.segments_received.push_back(r_powers);
+
+            receiving_buffer.insert({packet_id, current_packet_info});
+        }
+    }
 
 
 

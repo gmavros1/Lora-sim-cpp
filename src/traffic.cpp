@@ -34,7 +34,7 @@ void Traffic::initialize() {
 
 void Traffic::run() {
     vector<Packet > packets;
-    for (int time=0; time < 1000000; time ++) {
+    for (int time=0; time < 10000000; time ++) {
 
         // Transmitting - Sleeping
         for (auto & node : nodes) {

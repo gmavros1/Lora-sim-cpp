@@ -18,6 +18,7 @@ private:
     int crc;
     int header;
     int seq_num_reversed;
+    int number_of_segments;
 
 public:
     Packet(int src, int dst, int timestamp, int payload_bytes = 15, int crc = 1, int header = 1);
@@ -37,6 +38,8 @@ public:
     int getPayload_bytes() const;
 
     int getSeqNum() const;
+
+    int getNumberOfSegments() const;
 
     void setSeqNumReversed(int toa_remained);
 

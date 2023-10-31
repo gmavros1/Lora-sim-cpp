@@ -13,6 +13,7 @@ Packet::Packet(int src, int dst, int timestamp, int payload_bytes, int crc, int 
     this->crc = crc;
     this->header = header;
     this->seq_num_reversed = 0;
+    this->number_of_segments = 0;
     this->aggregated_packet = nullptr;
 }
 
@@ -49,12 +50,18 @@ string Packet::calculateUniqueId() const {
 
 void Packet::setSeqNumReversed(int toa_remained) {
     this->seq_num_reversed = toa_remained;
+    // And define also the number of segments
+    this->number_of_segments = toa_remained;
 }
 
 void Packet::decrease_seq_num() {
     if (this->seq_num_reversed > 0) {
         this->seq_num_reversed -= 1;
     }
+}
+
+int Packet::getNumberOfSegments() const {
+    return this->number_of_segments;
 }
 
 /*int main() {

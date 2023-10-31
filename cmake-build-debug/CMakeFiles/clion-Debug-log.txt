@@ -1,4 +1,4 @@
-/snap/clion/250/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp -B /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
+/snap/clion/250/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/gmavrosi/Documents/Projects/Lora-sim-cpp -B /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug
 -- The C compiler identification is GNU 11.4.0
 -- The CXX compiler identification is GNU 11.4.0
 -- Detecting C compiler ABI info
@@ -29,6 +29,6 @@ CMake Deprecation Warning at external/tqdm.cpp/CMakeLists.txt:11 (cmake_policy):
   behavior and not rely on setting a policy to OLD.
 
 
--- Configuring done (0.4s)
+-- Configuring done (3.2s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
+-- Build files have been written to: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug

@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug"
+			"value" : "/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "-j16"
+			"value" : "-j4"
 		},
 		{
 			"name" : "CMAKE_COLOR_DIAGNOSTICS",
@@ -627,7 +627,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -687,7 +687,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp"
+			"value" : "/home/gmavrosi/Documents/Projects/Lora-sim-cpp"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1223,7 +1223,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug"
+			"value" : "/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug"
 		},
 		{
 			"name" : "Lora_sim_cpp_IS_TOP_LEVEL",
@@ -1247,7 +1247,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp"
+			"value" : "/home/gmavrosi/Documents/Projects/Lora-sim-cpp"
 		},
 		{
 			"name" : "ProcessorCount_cmd_nproc",
@@ -1303,7 +1303,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp"
+			"value" : "/home/gmavrosi/Documents/Projects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp"
 		},
 		{
 			"name" : "tqdm_IS_TOP_LEVEL",
@@ -1327,7 +1327,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp"
+			"value" : "/home/gmavrosi/Documents/Projects/Lora-sim-cpp/external/tqdm.cpp"
 		}
 	],
 	"kind" : "cache",
