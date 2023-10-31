@@ -21,6 +21,7 @@ struct coordinates_gw {
 struct rec_powers{
     double packet_rec_power;
     double maximum_interference_power;
+    bool able_to_decode;
 };
 
 struct packets_receiving{

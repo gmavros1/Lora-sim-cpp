@@ -25,21 +25,13 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
         }
     }
 
-    // Add a vector of structs. Its struct will contain:
-    //      * The id of the packet
-    //      * The actual packet
-    //      * The sf
-    //      * The channel
-    //      * A vector of structs. which will contain
-    //            * The rec power
-    //            * The max power of the current segment packets in same channel and sf with different id
 
     // Add every segment of a packet + interference information n^2 complexity
     for (auto current_packet: current_packets) {
         string packet_id = current_packet.packet.getPacketId();
 
         // Find max interference signal;
-        double max_itf = -200;
+        double max_itf = -1000;
         for (auto current_packet_cmp: current_packets){ // packet compared (cmp)
             if (current_packet.sf == current_packet_cmp.sf &&
                 current_packet.channel == current_packet_cmp.channel &&
@@ -53,9 +45,10 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
         // Build interference info per packet
         rec_powers r_powers{};
         r_powers.packet_rec_power = current_packet.receive_power;
-        cout << endl << r_powers.packet_rec_power << endl;
         r_powers.maximum_interference_power = max_itf; // found above
-        cout << r_powers.maximum_interference_power << endl;
+        double snr = calculate_snr(r_powers.packet_rec_power, r_powers.maximum_interference_power);
+        double snr_limit_value = snr_limit(current_packet.sf);
+        r_powers.able_to_decode = snr > snr_limit_value;
 
         // First segment of the packet
         if (receiving_buffer.find(packet_id) == receiving_buffer.end()){
@@ -70,14 +63,16 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
 
             receiving_buffer.insert({packet_id, current_packet_info});
         }
-        else{
+        else{ // Next received segments
 
             // Add receiving segment power information
-            auto received_segment = receiving_buffer[packet_id];
-            received_segment.segments_received.push_back({r_powers});
+            receiving_buffer[packet_id].segments_received.push_back({r_powers});
 
         }
     }
+
+    // Check for packets able to be decoded
+
 
 
 
