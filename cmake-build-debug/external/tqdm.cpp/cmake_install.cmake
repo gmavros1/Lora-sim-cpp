@@ -1,4 +1,4 @@
-# Install script for directory: /home/gmavrosi/Documents/Projects/Lora-sim-cpp/external/tqdm.cpp
+# Install script for directory: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

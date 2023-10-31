@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/gmavrosi/Documents/Projects/Lora-sim-cpp/src
+CXX_INCLUDES = -I/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src
 
 CXX_FLAGS = -g -std=gnu++14 -fdiagnostics-color=always
 

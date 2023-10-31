@@ -1,7 +1,7 @@
 CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: \
- /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/utils.cpp \
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.cpp \
  /usr/include/stdc-predef.h \
- /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/utils.h \
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.h \
  /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -171,9 +171,9 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/stl_heap.h \
  /usr/include/c++/11/bits/stl_tempbuf.h \
- /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/node.h \
- /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/gateway.h \
- /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/packet.h \
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.h \
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.h \
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h \
  /usr/include/c++/11/cassert /usr/include/assert.h \
  /usr/include/c++/11/cfloat \

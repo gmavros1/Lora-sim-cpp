@@ -24,7 +24,7 @@ void Traffic::initialize() {
     // Gateways initialization
     for (int g = -1; g > -2; g--){
         Gateway *gateway;
-        gateway = new Gateway(g, 33467, 0, 0);
+        gateway = new Gateway(g, 1000, 0, 0);
         gateways.push_back(*gateway);
     }
 }
@@ -34,7 +34,7 @@ void Traffic::initialize() {
 
 void Traffic::run() {
     vector<Packet > packets;
-    for (int time=0; time < 10000000; time ++) {
+    for (int time=0; time < 1000000; time ++) {
 
         // Transmitting - Sleeping
         for (auto & node : nodes) {

@@ -1,7 +1,7 @@
 CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o: \
- /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/packet.cpp \
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.cpp \
  /usr/include/stdc-predef.h \
- /home/gmavrosi/Documents/Projects/Lora-sim-cpp/src/packet.h \
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.h \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
