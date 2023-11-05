@@ -28,7 +28,7 @@ vector<radio_packet > Environment::getPackets() {
 }
 
 void Environment::time_over_air_handling(){
-    for (int index = 0; index < packets.size(); ++index) {
+    for (int index = packets.size() - 1; index >= 0; --index) {
         if (packets[index].packet.getSeqNum() > 0) {
             packets[index].packet.decrease_seq_num();
         } else {

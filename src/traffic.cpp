@@ -36,6 +36,13 @@ void Traffic::run() {
     vector<Packet > packets;
     for (int time=0; time < 1000000; time ++) {
 
+        // Receiving Current Packets on air
+        auto packet_to_receive = environment.getPackets();
+        for (auto & gateway: gateways) {
+            gateway.clock(time);
+            gateway.receive(packet_to_receive);
+        }
+
         // Transmitting - Sleeping
         for (auto & node : nodes) {
             node.clock(time);
@@ -52,13 +59,6 @@ void Traffic::run() {
             }
             if (state == "Sleeping") {
             }
-        }
-
-        // Receiving
-        auto packet_to_receive = environment.getPackets();
-        for (auto & gateway: gateways) {
-            gateway.clock(time);
-            gateway.receive(packet_to_receive);
         }
 
         // Decreasing time over air and remove timed out packets from radio

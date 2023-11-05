@@ -30,6 +30,7 @@ struct packets_receiving{
     int sf;
     int channel;
     vector<rec_powers> segments_received;
+    string decoded_or_not;
 };
 
 class radio_packet; // Add a forward declaration for radio_packet

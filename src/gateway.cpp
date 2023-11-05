@@ -48,7 +48,7 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
         r_powers.maximum_interference_power = max_itf; // found above
         double snr = calculate_snr(r_powers.packet_rec_power, r_powers.maximum_interference_power);
         double snr_limit_value = snr_limit(current_packet.sf);
-        r_powers.able_to_decode = snr > snr_limit_value;
+        r_powers.able_to_decode = snr > snr_limit_value + 10; // Margin 10
 
         // First segment of the packet
         if (receiving_buffer.find(packet_id) == receiving_buffer.end()){
@@ -68,10 +68,40 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
             // Add receiving segment power information
             receiving_buffer[packet_id].segments_received.push_back({r_powers});
 
+            // If it is the last segment
+            //cout << packet_id << " " << current_packet.packet.getSeqNum() << endl;
+            if (current_packet.packet.getSeqNum() == 0){
+                int num_of_sccs_decod_packets_req = receiving_buffer[packet_id].packet.getNumber0fSegments();
+                int num_of_sccs_decod_packets = 0;
+                for (auto & s : receiving_buffer[packet_id].segments_received) {
+                    if (s.able_to_decode) {
+                        num_of_sccs_decod_packets++;
+                    }
+                }
+                if (num_of_sccs_decod_packets_req == num_of_sccs_decod_packets){
+                    receiving_buffer[packet_id].decoded_or_not = "Decoded";
+                } else {
+                    receiving_buffer[packet_id].decoded_or_not = "Non_decoded";
+                }
+
+            }
+
         }
     }
 
-    // Check for packets able to be decoded
+    // Remove decoded packets
+    for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
+        if (it->second.decoded_or_not == "Decoded") {
+            cout << "DECODED" << endl;
+            it = receiving_buffer.erase(it); // Remove the item
+        }
+        else if (it->second.decoded_or_not == "Non_decoded") {
+            cout << "Non DECODED" << endl;
+            it = receiving_buffer.erase(it);
+        } else{
+            ++it; // Move to the next item
+        }
+    }
 
 
 

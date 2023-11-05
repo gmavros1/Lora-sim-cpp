@@ -21,6 +21,8 @@ private:
     int number_of_segments;
 
 public:
+    int getNumber0fSegments();
+
     Packet(int src, int dst, int timestamp, int payload_bytes = 15, int crc = 1, int header = 1);
 
     ~Packet() = default;

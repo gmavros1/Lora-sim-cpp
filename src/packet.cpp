@@ -64,6 +64,10 @@ int Packet::getNumberOfSegments() const {
     return this->number_of_segments;
 }
 
+int Packet::getNumber0fSegments() {
+    return number_of_segments;
+}
+
 /*int main() {
 
     Packet packet(1, 4, 6);
