@@ -14,13 +14,13 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
     current_packets = packets_received;
 
     // Abort packet due to range issues
-    for (int index = current_packets.size() - 1 ; index >= 0; index--) {
+    for (int index = current_packets.size() - 1; index >= 0; index--) {
         double receive_power = calculate_received_power(distanceGatewayNode(this->location,
                                                                             current_packets[index].location),
                                                         current_packets[index].transmission_power);
-        if (receive_power >= -149){
+        if (receive_power >= -149) {
             current_packets[index].receive_power = receive_power;
-        } else{
+        } else {
             current_packets.erase(current_packets.begin() + index);
         }
     }
@@ -32,11 +32,11 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
 
         // Find max interference signal;
         double max_itf = -1000;
-        for (auto current_packet_cmp: current_packets){ // packet compared (cmp)
+        for (auto current_packet_cmp: current_packets) { // packet compared (cmp)
             if (current_packet.sf == current_packet_cmp.sf &&
                 current_packet.channel == current_packet_cmp.channel &&
-                packet_id != current_packet_cmp.packet.getPacketId()){
-                if (current_packet_cmp.receive_power > max_itf){
+                packet_id != current_packet_cmp.packet.getPacketId()) {
+                if (current_packet_cmp.receive_power > max_itf) {
                     max_itf = current_packet_cmp.receive_power;
                 }
             }
@@ -51,7 +51,7 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
         r_powers.able_to_decode = snr > snr_limit_value + 10; // Margin 10
 
         // First segment of the packet
-        if (receiving_buffer.find(packet_id) == receiving_buffer.end()){
+        if (receiving_buffer.find(packet_id) == receiving_buffer.end()) {
 
             // Build Packet receiving information
             packets_receiving current_packet_info{};
@@ -62,23 +62,22 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
             current_packet_info.segments_received.push_back(r_powers);
 
             receiving_buffer.insert({packet_id, current_packet_info});
-        }
-        else{ // Next received segments
+        } else { // Next received segments
 
             // Add receiving segment power information
             receiving_buffer[packet_id].segments_received.push_back({r_powers});
 
             // If it is the last segment
             //cout << packet_id << " " << current_packet.packet.getSeqNum() << endl;
-            if (current_packet.packet.getSeqNum() == 0){
+            if (current_packet.packet.getSeqNum() == 0) {
                 int num_of_sccs_decod_packets_req = receiving_buffer[packet_id].packet.getNumber0fSegments();
                 int num_of_sccs_decod_packets = 0;
-                for (auto & s : receiving_buffer[packet_id].segments_received) {
+                for (auto &s: receiving_buffer[packet_id].segments_received) {
                     if (s.able_to_decode) {
                         num_of_sccs_decod_packets++;
                     }
                 }
-                if (num_of_sccs_decod_packets_req == num_of_sccs_decod_packets){
+                if (num_of_sccs_decod_packets_req == num_of_sccs_decod_packets) {
                     receiving_buffer[packet_id].decoded_or_not = "Decoded";
                 } else {
                     receiving_buffer[packet_id].decoded_or_not = "Non_decoded";
@@ -94,16 +93,13 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
         if (it->second.decoded_or_not == "Decoded") {
             cout << "DECODED" << endl;
             it = receiving_buffer.erase(it); // Remove the item
-        }
-        else if (it->second.decoded_or_not == "Non_decoded") {
+        } else if (it->second.decoded_or_not == "Non_decoded") {
             cout << "Non DECODED" << endl;
             it = receiving_buffer.erase(it);
-        } else{
+        } else {
             ++it; // Move to the next item
         }
     }
-
-
 
 
 }
