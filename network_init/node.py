@@ -18,7 +18,7 @@ class Node:
         self.sf = 7
         self.channel = str(int(id) % (8 + 1))  # 0 to 8
         self.bandwidth = 125  # Or 250
-        self.transmission_power = 25  # 25 dB - default in our approach
+        self.transmission_power = 20  # 25 dB - default in our approach
         self.state = "Sleep"  # Sleep, Transmit, Listen, Receive (Idle Listening/Receiving)
         self.time_dc = 0
         self.environment_time = 0

@@ -48,11 +48,27 @@ class Topology:
         center_x = rangekm / 2  # Example center x-coordinate
         center_y = rangekm / 2  # Example center y-coordinate
 
-        min_distance = 1000  # Example minimum distance in meters
+        # For type 0 nodes
+        min_distance = 20000  # Example minimum distance in meters
+        max_distance = 30000  # Example maximum distance in meters
+
+        ratio_for_type_1 = 0.8
+        #ratio_for_type_0 = 1 - ratio_for_type_1
+
+        # Create nodes and assign positions
+        nodes = {}
+        for i in range(int(num_nodes * ratio_for_type_1)):
+            node_id = i
+            node_x, node_y = generate_random_coordinates(
+                center_x, center_y, min_distance, max_distance)
+            node_height = random.uniform(*node_height_range)
+            nodes[node_id] = (node_x, node_y, node_height)
+
+        # For type 1 nodes
+        min_distance = 10000  # Example minimum distance in meters
         max_distance = 20000  # Example maximum distance in meters
 
-        nodes = {}
-        for i in range(num_nodes):
+        for i in range(int(num_nodes * ratio_for_type_1), num_nodes):
             node_id = i
             node_x, node_y = generate_random_coordinates(
                 center_x, center_y, min_distance, max_distance)
@@ -96,7 +112,7 @@ class Topology:
                 "x": int(n.x),
                 "y": int(n.y),
                 "z": int(n.height),
-                "tye": n.type,
+                "type": n.type,
                 "assigned_node": n.assigned_node,
                 "following": n.node_following
             }
@@ -168,6 +184,7 @@ class Topology:
             rec_power = calculate_received_power(
                 min_distance, node.transmission_power)
 
+            print(rec_power)
             if rec_power <= -149:
                 node.type = 0
                 type_0_nodes.append({"node": node, "rec_power": rec_power})
@@ -333,7 +350,7 @@ class Topology:
             # Plot gateways
             for gateway in gateways:
                 ax.scatter(gateway.x, gateway.y, gateway.height,
-                           color='black', marker='^', s=200)
+                           color='black', marker='^', s=100)
 
             # Set labels
             ax.set_xlabel('X')
@@ -351,4 +368,4 @@ class Topology:
 
 
 topology = Topology(25, 2, True, 100000)
-# topology.plot_topology()
+topology.plot_topology()
