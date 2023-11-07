@@ -9,12 +9,12 @@ from functions import *
 from protocol import Multihop
 from protocol import Lorawan
 import json
-
+import os
 
 # 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
 class Topology:
 
-    def __init__(self, num_nodes, num_gateways, use_multihop, rangekm) -> None:
+    def __init__(self, num_nodes, num_gateways, use_multihop, rangekm, rate) -> None:
 
         self.server = Server()
         self.metrics = Metrics()
@@ -104,6 +104,12 @@ class Topology:
         # ******************** # Writing to a json file
         nodes = []
         for n in self.nodes:
+            def null_to_minus_1(value):
+                if value is None:
+                    return -1
+                else:
+                    return value
+
             dictionary = {
                 "id": n.id,
                 "channel": int(n.channel),
@@ -113,8 +119,8 @@ class Topology:
                 "y": int(n.y),
                 "z": int(n.height),
                 "type": n.type,
-                "assigned_node": n.assigned_node,
-                "following": n.node_following
+                "assigned_node": null_to_minus_1(n.assigned_node),
+                "following": null_to_minus_1(n.node_following)
             }
             nodes.append(dictionary)
 
@@ -128,7 +134,7 @@ class Topology:
             }
             gateways.append(dictionary)
 
-        topologggy = {"nodes": nodes, "gateways": gateways}
+        topologggy = {"nodes": nodes, "gateways": gateways, "rate": rate}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -365,7 +371,16 @@ class Topology:
 # top = Topology(50, 5)
 # top.plot_topology()
 # top.join_process()
+import subprocess
 
 
-topology = Topology(25, 2, True, 100000)
-topology.plot_topology()
+for i in range(1, 11):
+    topology = Topology(25, 2, False, 100000, i/10)
+    compile_command = ["g++", "../src/*", "-o", "sim"]
+    run_command = ["sim"]  # Relative path to the binary
+    compile_process = subprocess.run(compile_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    if compile_process.returncode == 0:
+        run_process = subprocess.run(run_command, cwd="path_to_directory_containing_sim_binary", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        print("Compilation failed.")

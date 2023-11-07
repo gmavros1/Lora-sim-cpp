@@ -1,3 +1,6 @@
 [submodule "external/tqdm.cpp"]
 	path = external/tqdm.cpp
 	url = https://github.com/tqdm/tqdm.cpp
+[submodule "external/json"]
+	path = external/json
+	url = https://github.com/nlohmann/json
