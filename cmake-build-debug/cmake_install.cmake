@@ -47,6 +47,11 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/json/cmake_install.cmake")
+endif()
+
 if(CMAKE_INSTALL_COMPONENT)
   set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")
 else()

@@ -5,6 +5,8 @@
 #include "gateway.h"
 #include "environment.h"
 #include "utils.h"
+#include "../external/json/include/nlohmann/json.hpp"
+#include <fstream>
 
 // Set sensitivity of Lora -149 dBm
 void Gateway::receive(vector<radio_packet> &packets_received) {
@@ -91,10 +93,10 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
     // Remove decoded packets
     for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
         if (it->second.decoded_or_not == "Decoded") {
-            cout << "DECODED" << endl;
+            decoded_packets_statistics.push_back(it->first);
             it = receiving_buffer.erase(it); // Remove the item
         } else if (it->second.decoded_or_not == "Non_decoded") {
-            cout << "Non DECODED" << endl;
+            non_decoded_packets_statistics.push_back(it->first);
             it = receiving_buffer.erase(it);
         } else {
             ++it; // Move to the next item

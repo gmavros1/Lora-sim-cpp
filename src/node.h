@@ -20,7 +20,7 @@ struct coordinates {
 
 class Node {
 public:
-    Node(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob);
+    Node(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob, int assigned_node, int following, int type);
 
     void generate_packet(int dst);
 
@@ -54,6 +54,10 @@ private:
     Packet *buffer;
     double packet_gen_prob;
     std::string state;
+
+    int type;
+    int assigned_node;
+    int following;
 
 };
 

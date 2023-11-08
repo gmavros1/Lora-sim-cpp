@@ -19,7 +19,7 @@
 #include <string>
 
 
-Node::Node(int id, int x, int y, int z, int sf, int channel, int transmission_power,double packet_gen_prob) {
+Node::Node(int id, int x, int y, int z, int sf, int channel, int transmission_power,double packet_gen_prob, int assigned_node, int following, int type) {
     this->id = id;
     this->location.x = x;
     this->location.y = y;
@@ -35,6 +35,10 @@ Node::Node(int id, int x, int y, int z, int sf, int channel, int transmission_po
     this->buffer = nullptr;
     this->packet_gen_prob = packet_gen_prob;
     this->state = "Sleeping";
+
+    this->assigned_node = assigned_node;
+    this->following = following;
+    this->type = type;
 }
 
 void Node::generate_packet(int dst) {

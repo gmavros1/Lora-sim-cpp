@@ -8,3 +8,5 @@
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp/CMakeFiles/cfmt.dir
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp/CMakeFiles/edit_cache.dir
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp/CMakeFiles/rebuild_cache.dir
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/json/CMakeFiles/edit_cache.dir
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/json/CMakeFiles/rebuild_cache.dir

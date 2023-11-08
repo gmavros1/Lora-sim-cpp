@@ -7,34 +7,98 @@
 #include "gateway.h"
 #include "environment.h"
 #include "packet.h"
+#include "../external/json/include/nlohmann/json.hpp"
+#include <fstream>
 #include "iostream"
 #include "../external/tqdm.cpp/include/tqdm/tqdm.h"
+#include "utils.h"
 
-
+using json = nlohmann::json;
 
 void Traffic::initialize() {
 
+    std::ifstream i("../topology/topology.json");
+    json j;
+    i >> j;
+
+    rate = j["rate"];
+    rate = rate / (toa(15, 7) + duty_cycle(toa(15, 7)));
+    auto nodes_info = j["nodes"];
+    auto gateways_info = j["gateways"];
+
     // Nodes Initialization
-    for (int i = 0; i < 3; ++i) {
+    for (const auto& nd : nodes_info) {
+        int id = nd["id"];
+        int channel = nd["channel"];
+        int sf = nd["sf"];
+        int transmission_p = nd["transmission_p"];
+        int x = nd["x"];
+        int y = nd["y"];
+        int z = nd["z"];
+        int type = nd["type"];
+        int assigned_node = nd["assigned_node"];
+        int following = nd["following"];
+
         Node *node;
-        node = new Node(i, 0, 2, 0, 7, 1, 20, 0.1);
+        node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
         nodes.push_back(*node);
     }
 
     // Gateways initialization
-    for (int g = -1; g > -2; g--){
+    for (const auto& gw : gateways_info) {
+        int id = gw["id"];
+        int x = gw["x"];
+        int y = gw["y"];
+        int z = gw["z"];
+
         Gateway *gateway;
-        gateway = new Gateway(g, 1000, 0, 0);
+        gateway = new Gateway(id, x, y, z);
         gateways.push_back(*gateway);
     }
+
 }
 
+void Traffic::put_metrics_in_file() {
+    std::set<std::string> allDecodedPackets;
+    for (const Gateway& gateway : gateways) {
+        for (auto packet: gateway.decoded_packets_statistics){
+            allDecodedPackets.insert(packet);
+        }
+    }
+    int num_decoded = allDecodedPackets.size();
 
+    std::set<std::string> allNonDecodedPackets;
+    for (const Gateway& gateway : gateways) {
+        for (auto packet: gateway.non_decoded_packets_statistics){
+            allNonDecodedPackets.insert(packet);
+        }
+    }
+    int num_non_decoded = allNonDecodedPackets.size();
+
+    // Create a file to write the combined strings
+    std::ofstream outFile("../results/metrics.txt", std::ios::app);
+
+    double normalized_rate = rate * (toa(15, 7), duty_cycle(toa(15, 7)));
+
+    outFile << normalized_rate << "," << num_decoded << "," << num_non_decoded << "\n";
+    // Write the strings separated by commas to the file
+    /*for (size_t i = 0; i < allDecodedPackets.size(); ++i) {
+        outFile << allDecodedPackets[i];
+        if (i < allDecodedPackets.size() - 1) {
+            outFile << ",";
+        }
+    }*/
+
+
+
+    // Close the file
+    outFile.close();
+}
 
 
 void Traffic::run() {
     vector<Packet > packets;
-    for (int time=0; time < 1000000; time ++) {
+    for (int time=0; time < 10000000; time ++) {
 
         // Receiving Current Packets on air
         auto packet_to_receive = environment.getPackets();
@@ -65,6 +129,9 @@ void Traffic::run() {
         environment.time_over_air_handling();
 
     }
+
+    // Push metrics in file
+    put_metrics_in_file();
 
 }
 

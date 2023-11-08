@@ -371,16 +371,9 @@ class Topology:
 # top = Topology(50, 5)
 # top.plot_topology()
 # top.join_process()
-import subprocess
+import sys
+if __name__ == "__main__":
+    argument = sys.argv[1]
+    i = float(argument)  # Convert the argument to a float
+    topology = Topology(100, 1, False, 100000, i/10)
 
-
-for i in range(1, 11):
-    topology = Topology(25, 2, False, 100000, i/10)
-    compile_command = ["g++", "../src/*", "-o", "sim"]
-    run_command = ["sim"]  # Relative path to the binary
-    compile_process = subprocess.run(compile_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    if compile_process.returncode == 0:
-        run_process = subprocess.run(run_command, cwd="path_to_directory_containing_sim_binary", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    else:
-        print("Compilation failed.")

@@ -65,16 +65,34 @@ CMAKE_BINARY_DIR = /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-d
 # The main recursive "all" target.
 all: CMakeFiles/Lora_sim_cpp.dir/all
 all: external/tqdm.cpp/all
+all: external/json/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: external/tqdm.cpp/preinstall
+preinstall: external/json/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/Lora_sim_cpp.dir/clean
 clean: external/tqdm.cpp/clean
+clean: external/json/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory external/json
+
+# Recursive "all" directory target.
+external/json/all:
+.PHONY : external/json/all
+
+# Recursive "preinstall" directory target.
+external/json/preinstall:
+.PHONY : external/json/preinstall
+
+# Recursive "clean" directory target.
+external/json/clean:
+.PHONY : external/json/clean
 
 #=============================================================================
 # Directory level rules for directory external/tqdm.cpp

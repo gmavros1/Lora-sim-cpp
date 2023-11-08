@@ -5,7 +5,7 @@
 		<Option title="Lora_sim_cpp"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\external\;CMake Files\external\tqdm.cpp\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\external\;CMake Files\external\tqdm.cpp\;CMake Files\external\json\;CMake Files\external\json\cmake\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug"/>
@@ -24,7 +24,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
+					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include"/>
 					<Add directory="/usr/include/c++/11"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
 					<Add directory="/usr/include/c++/11/backward"/>
@@ -47,7 +47,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
+					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include"/>
 					<Add directory="/usr/include/c++/11"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
 					<Add directory="/usr/include/c++/11/backward"/>
@@ -92,7 +92,6 @@
 				<Compiler>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp"/>
-					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/src"/>
 					<Add directory="/usr/include/c++/11"/>
@@ -119,7 +118,6 @@
 				<Compiler>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp"/>
-					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/src"/>
 					<Add directory="/usr/include/c++/11"/>
@@ -146,7 +144,6 @@
 				<Compiler>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp"/>
-					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/src"/>
 					<Add directory="/usr/include/c++/11"/>
@@ -173,7 +170,6 @@
 				<Compiler>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp"/>
-					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/src"/>
 					<Add directory="/usr/include/c++/11"/>
@@ -200,7 +196,6 @@
 				<Compiler>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp"/>
-					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/src"/>
 					<Add directory="/usr/include/c++/11"/>
@@ -227,7 +222,6 @@
 				<Compiler>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug/external/tqdm.cpp"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp"/>
-					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include"/>
 					<Add directory="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/src"/>
 					<Add directory="/usr/include/c++/11"/>
@@ -320,6 +314,18 @@
 		</Unit>
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\external\tqdm.cpp\"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\json\"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/cmake/config.cmake.in">
+			<Option virtualFolder="CMake Files\external\json\cmake\"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/cmake/nlohmann_jsonConfigVersion.cmake.in">
+			<Option virtualFolder="CMake Files\external\json\cmake\"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/cmake/pkg-config.pc.in">
+			<Option virtualFolder="CMake Files\external\json\cmake\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

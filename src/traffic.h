@@ -28,10 +28,12 @@ private:
     vector<Node> nodes;
     vector<Gateway> gateways;
     Environment environment;
+    double rate;
 
 public:
     void initialize();
     void run();
+    void put_metrics_in_file();
 
 };
 

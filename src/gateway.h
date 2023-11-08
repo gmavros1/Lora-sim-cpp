@@ -41,7 +41,10 @@ private:
     int environment_time{};
     map<string, packets_receiving> receiving_buffer;
 
+
 public:
+    vector<string> decoded_packets_statistics;
+    vector<string> non_decoded_packets_statistics;
     Gateway(int id, int x, int y, int z);
     void receive(vector<radio_packet> &packets_received);
     void clock(int time);

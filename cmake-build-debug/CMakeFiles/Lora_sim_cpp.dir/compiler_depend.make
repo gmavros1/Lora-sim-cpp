@@ -577,7 +577,53 @@ CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.o: /home/gmavros-yoga-7/CLionProject
   /usr/include/c++/11/shared_mutex \
   /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.h \
   /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.h \
-  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.h
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.h \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/json.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/adl_serializer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/abi_macros.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/conversions/from_json.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/exceptions.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/value_t.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/macro_scope.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/detected.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/void_t.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/thirdparty/hedley/hedley.hpp \
+  /usr/include/c++/11/version \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/string_escape.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/position_t.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/cpp_future.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/type_traits.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/iterator_traits.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/call_std/begin.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/call_std/end.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/json_fwd.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/string_concat.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/identity_tag.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/std_fs.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/conversions/to_json.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/iteration_proxy.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/byte_container_with_subtype.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/hash.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/binary_reader.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/input_adapters.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/json_sax.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/lexer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/is_sax.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/parser.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/internal_iterator.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/primitive_iterator.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/iter_impl.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/json_reverse_iterator.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/json_custom_base_class.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/json_pointer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/json_ref.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/output/binary_writer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/output/output_adapters.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/output/serializer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/conversions/to_chars.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/ordered_map.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/macro_unscope.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/thirdparty/hedley/hedley_undef.hpp
 
 CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.cpp \
   /usr/include/stdc-predef.h \
@@ -1540,11 +1586,58 @@ CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o: /home/gmavros-yoga-7/CLionProject
   /usr/include/c++/11/unordered_set \
   /usr/include/c++/11/bits/unordered_set.h \
   /usr/include/c++/11/shared_mutex \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/json.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/adl_serializer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/abi_macros.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/conversions/from_json.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/exceptions.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/value_t.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/macro_scope.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/detected.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/void_t.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/thirdparty/hedley/hedley.hpp \
+  /usr/include/c++/11/version \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/string_escape.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/position_t.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/cpp_future.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/type_traits.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/iterator_traits.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/call_std/begin.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/call_std/end.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/json_fwd.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/string_concat.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/identity_tag.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/std_fs.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/conversions/to_json.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/iteration_proxy.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/byte_container_with_subtype.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/hash.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/binary_reader.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/input_adapters.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/json_sax.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/lexer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/is_sax.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/parser.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/internal_iterator.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/primitive_iterator.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/iter_impl.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/json_reverse_iterator.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/json_custom_base_class.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/json_pointer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/json_ref.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/output/binary_writer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/output/output_adapters.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/output/serializer.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/conversions/to_chars.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/ordered_map.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/macro_unscope.hpp \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
   /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include/tqdm/tqdm.h \
   /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include/tqdm/utils.h \
   /usr/include/poll.h \
   /usr/include/x86_64-linux-gnu/sys/poll.h \
-  /usr/include/x86_64-linux-gnu/bits/poll.h
+  /usr/include/x86_64-linux-gnu/bits/poll.h \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.h
 
 CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.cpp \
   /usr/include/stdc-predef.h \
@@ -1946,11 +2039,65 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/include/tqdm/tqdm.h:
 
-/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.h:
-
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.cpp:
 
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.cpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/ordered_map.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/conversions/to_chars.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/output/output_adapters.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/primitive_iterator.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/internal_iterator.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/lexer.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/input_adapters.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/byte_container_with_subtype.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/hash.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/iteration_proxy.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/conversions/to_json.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/json_sax.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/std_fs.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/identity_tag.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/json_fwd.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/call_std/end.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/iterator_traits.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/type_traits.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/cpp_future.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/traffic.h:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/string_escape.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/thirdparty/hedley/hedley.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/detected.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/macro_scope.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/value_t.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/exceptions.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/abi_macros.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/adl_serializer.hpp:
 
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.h:
 
@@ -1958,7 +2105,11 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 
 /usr/include/c++/11/bits/unordered_set.h:
 
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/json_custom_base_class.hpp:
+
 /usr/include/c++/11/unordered_set:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/json.hpp:
 
 /usr/include/c++/11/bits/hashtable_policy.h:
 
@@ -1967,6 +2118,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.cpp:
 
 /usr/include/c++/11/unordered_map:
+
+/usr/include/c++/11/version:
 
 /usr/include/c++/11/bits/regex_executor.h:
 
@@ -2008,7 +2161,13 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 
 /usr/include/c++/11/bits/indirect_array.h:
 
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/call_std/begin.hpp:
+
 /usr/include/c++/11/bits/gslice_array.h:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/output/serializer.hpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/position_t.hpp:
 
 /usr/include/c++/11/bits/gslice.h:
 
@@ -2021,6 +2180,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 /usr/include/c++/11/bits/valarray_array.h:
 
 /usr/include/c++/11/valarray:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/json_ref.hpp:
 
 /usr/include/c++/11/bits/stl_stack.h:
 
@@ -2035,6 +2196,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 /usr/include/c++/11/exception:
 
 /usr/include/c++/11/ostream:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/thirdparty/hedley/hedley_undef.hpp:
 
 /usr/include/asm-generic/errno-base.h:
 
@@ -2083,6 +2246,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h:
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/iter_impl.hpp:
 
 /usr/include/c++/11/bits/deque.tcc:
 
@@ -2150,6 +2315,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 
 /usr/include/c++/11/bits/stl_tempbuf.h:
 
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/binary_reader.hpp:
+
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h:
 
 /usr/include/c++/11/bits/stl_function.h:
@@ -2167,6 +2334,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 /usr/include/c++/11/bits/ostream_insert.h:
 
 /usr/include/ctype.h:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/json_pointer.hpp:
 
 /usr/include/c++/11/bits/ostream.tcc:
 
@@ -2193,6 +2362,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 /usr/include/c++/11/bits/fstream.tcc:
 
 /usr/include/c++/11/bits/predefined_ops.h:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/iterators/json_reverse_iterator.hpp:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:
 
@@ -2227,6 +2398,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 /usr/include/c++/11/bits/ptr_traits.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/conversions/from_json.hpp:
 
 /usr/include/pthread.h:
 
@@ -2270,6 +2443,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.cpp:
 
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/input/parser.hpp:
+
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h:
@@ -2288,6 +2463,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 
 /usr/include/c++/11/bits/uses_allocator.h:
 
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/is_sax.hpp:
+
 /usr/include/features-time64.h:
 
 /usr/include/c++/11/bits/regex.h:
@@ -2298,11 +2475,15 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/output/binary_writer.hpp:
+
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h:
 
 /usr/include/strings.h:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/meta/void_t.hpp:
 
 /usr/include/c++/11/bits/std_function.h:
 
@@ -2369,6 +2550,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 /usr/include/signal.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/macro_unscope.hpp:
 
 /usr/include/c++/11/bits/uniform_int_dist.h:
 
@@ -2521,6 +2704,8 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 /usr/include/c++/11/cassert:
 
 /usr/include/assert.h:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/detail/string_concat.hpp:
 
 /usr/include/c++/11/bitset:
 
