@@ -22,7 +22,7 @@ void Traffic::initialize() {
     i >> j;
 
     life_time = j["life_time"];
-    rate = j["rate"];
+    rate = j["load"];
     rate = rate / (toa(15, 7) + duty_cycle(toa(15, 7)));
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
@@ -81,10 +81,13 @@ void Traffic::put_metrics_in_file() {
 
     double normalized_rate = rate * (toa(15, 7), duty_cycle(toa(15, 7)));
 
+    double maximum_tr;
+    maximum_tr = life_time / (toa(15, 7) + duty_cycle(toa(15, 7)));
+
     int nodes_number;
     nodes_number = nodes.size();
 
-    outFile << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "\n";
+    outFile << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "," << maximum_tr <<"\n";
     // Write the strings separated by commas to the file
     /*for (size_t i = 0; i < allDecodedPackets.size(); ++i) {
         outFile << allDecodedPackets[i];

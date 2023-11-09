@@ -14,7 +14,7 @@ import os
 # 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
 class Topology:
 
-    def __init__(self, num_nodes, num_gateways, use_multihop, rangekm, rate, life_time) -> None:
+    def __init__(self, num_nodes, num_gateways, use_multihop, rangekm, load, life_time) -> None:
 
         self.server = Server()
         self.metrics = Metrics()
@@ -53,7 +53,7 @@ class Topology:
         max_distance = 30000  # Example maximum distance in meters
 
         ratio_for_type_1 = 0.8
-        #ratio_for_type_0 = 1 - ratio_for_type_1
+        # ratio_for_type_0 = 1 - ratio_for_type_1
 
         # Create nodes and assign positions
         nodes = {}
@@ -134,12 +134,13 @@ class Topology:
             }
             gateways.append(dictionary)
 
-        topologggy = {"nodes": nodes, "gateways": gateways, "rate": rate, "life_time": int(life_time)}
+            #min_Interval = toa(15, 7) + duty_cycle(toa(15, 7))
+
+        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time)}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
             outfile.write(json_object)
-
 
     def add_gateway(self, num_gateways, rangekm):
 
@@ -224,7 +225,6 @@ class Topology:
                         type_1_nodes[i]["node"].channel = type_1_nodes[j]["node"].channel
                 available_channels.remove(type_1_nodes[i]["node"].channel)
 
-
         ##### HERE TRY THE BALANCED CLUSTER METHOD AND DISCARD THE ABOVE ######
         type_0_nodes, type_1_nodes = self.build_clusters(type_0_nodes, type_1_nodes)
 
@@ -244,8 +244,6 @@ class Topology:
                 node.type = 0
                 node.protocol = Lorawan(None)
                 node.state = "Sleep"
-
-
 
     def build_clusters(self, type0_nodes, type1_nodes):
         m = []
@@ -372,9 +370,9 @@ class Topology:
 # top.plot_topology()
 # top.join_process()
 import sys
+
 if __name__ == "__main__":
     argument = sys.argv[1]
     i = float(argument)  # Convert the argument to a float
     time = sys.argv[2]
-    topology = Topology(100, 1, False, 100000, i/10, time)
-
+    topology = Topology(100, 1, False, 100000, i / 10, time)
