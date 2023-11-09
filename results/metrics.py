@@ -8,9 +8,9 @@ throughput_values = []
 with open('metrics.txt', 'r') as file:
     lines = file.readlines()
     for line in lines[1:]:  # Skip the first line with headers
-        rate, decoded, non_decoded = map(float, line.split(","))
+        rate, decoded, non_decoded, nodes_number, life_time = map(float, line.split(","))
         load_values.append(rate)
-        throughput = decoded / (decoded + non_decoded)
+        throughput = (decoded / (rate * life_time)) / nodes_number
         throughput_values.append(throughput)
 
 # Create a line graph

@@ -29,6 +29,7 @@ private:
     vector<Gateway> gateways;
     Environment environment;
     double rate;
+    int life_time;
 
 public:
     void initialize();

@@ -14,7 +14,7 @@ import os
 # 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
 class Topology:
 
-    def __init__(self, num_nodes, num_gateways, use_multihop, rangekm, rate) -> None:
+    def __init__(self, num_nodes, num_gateways, use_multihop, rangekm, rate, life_time) -> None:
 
         self.server = Server()
         self.metrics = Metrics()
@@ -134,7 +134,7 @@ class Topology:
             }
             gateways.append(dictionary)
 
-        topologggy = {"nodes": nodes, "gateways": gateways, "rate": rate}
+        topologggy = {"nodes": nodes, "gateways": gateways, "rate": rate, "life_time": int(life_time)}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -190,7 +190,7 @@ class Topology:
             rec_power = calculate_received_power(
                 min_distance, node.transmission_power)
 
-            print(rec_power)
+            # print(rec_power)
             if rec_power <= -149:
                 node.type = 0
                 type_0_nodes.append({"node": node, "rec_power": rec_power})
@@ -375,5 +375,6 @@ import sys
 if __name__ == "__main__":
     argument = sys.argv[1]
     i = float(argument)  # Convert the argument to a float
-    topology = Topology(100, 1, False, 100000, i/10)
+    time = sys.argv[2]
+    topology = Topology(100, 1, False, 100000, i/10, time)
 

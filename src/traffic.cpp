@@ -21,6 +21,7 @@ void Traffic::initialize() {
     json j;
     i >> j;
 
+    life_time = j["life_time"];
     rate = j["rate"];
     rate = rate / (toa(15, 7) + duty_cycle(toa(15, 7)));
     auto nodes_info = j["nodes"];
@@ -80,7 +81,10 @@ void Traffic::put_metrics_in_file() {
 
     double normalized_rate = rate * (toa(15, 7), duty_cycle(toa(15, 7)));
 
-    outFile << normalized_rate << "," << num_decoded << "," << num_non_decoded << "\n";
+    int nodes_number;
+    nodes_number = nodes.size();
+
+    outFile << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "\n";
     // Write the strings separated by commas to the file
     /*for (size_t i = 0; i < allDecodedPackets.size(); ++i) {
         outFile << allDecodedPackets[i];
@@ -98,7 +102,7 @@ void Traffic::put_metrics_in_file() {
 
 void Traffic::run() {
     vector<Packet > packets;
-    for (int time=0; time < 10000000; time ++) {
+    for (int time=0; time < life_time; time ++) {
 
         // Receiving Current Packets on air
         auto packet_to_receive = environment.getPackets();
