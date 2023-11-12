@@ -40,7 +40,7 @@ public:
 
     int getTrasmissionPower();
 
-private:
+protected:
     int id;
     int channel;
     int sf;

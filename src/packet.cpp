@@ -68,6 +68,10 @@ int Packet::getNumber0fSegments() {
     return number_of_segments;
 }
 
+int Packet::getSrc() const {
+    return src;
+}
+
 /*int main() {
 
     Packet packet(1, 4, 6);

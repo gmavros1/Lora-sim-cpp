@@ -33,6 +33,8 @@ public:
 
     int getDst() const;
 
+    int getSrc() const;
+
     int getTimestamp_start() const;
 
     int getTimestamp_end() const;
