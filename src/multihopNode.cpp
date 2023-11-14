@@ -101,9 +101,11 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
                     a_packet_has_decoded = true;
                 }
                 // Packet from Follower
+                // Generate Packet and aggrgate
                 else{
-                    this->generate_packet(-1);
+                    this->generate_packet();
                     Packet temp_pack = it->second.packet;
+                    // Aggregate
                     this->buffer->aggregated_packet =new Packet(temp_pack.getSrc(), -1,
                                                                 temp_pack.getTimestamp_start()); // pass the arguments
                     a_packet_has_decoded = true;
@@ -126,7 +128,24 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
         }
     }
 
+}
 
+// It is executed right after clock
+string MultihopNode::multiNode_driver() {
+    if (this->ready_for_transmission > this->environment_time) {
+        if ((this->ready_for_transmission - this->duty_cycle_current) > this->environment_time){
+            this->state = "Transmitting";
+            return this->state;
+        } else {
+            this->state = "Sleeping";
+            return this->state;
+        }
+    }
+    else {
+            // Because of duty cycle
+            this->state = "Sleeping";
+            return this->state;
+    }
 }
 
 MultihopNode::MultihopNode(int id, int x, int y, int z, int sf, int channel, int transmission_power,

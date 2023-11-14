@@ -41,8 +41,8 @@ Node::Node(int id, int x, int y, int z, int sf, int channel, int transmission_po
     this->type = type;
 }
 
-void Node::generate_packet(int dst) {
-    this->buffer = new Packet(this->id, dst, this->environment_time);
+void Node::generate_packet() {
+    this->buffer = new Packet(this->id, this->assigned_node, this->environment_time);
 
     // Calculate toa nd dc
     this->ready_for_transmission = this->environment_time;

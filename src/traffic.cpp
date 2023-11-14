@@ -40,9 +40,16 @@ void Traffic::initialize() {
         int assigned_node = nd["assigned_node"];
         int following = nd["following"];
 
-        Node *node;
-        node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
-        nodes.push_back(*node);
+        if (type == 0) {
+            Node *node;
+            node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
+            nodes.push_back(*node);
+        } else {
+            MultihopNode *middle_node;
+            middle_node = new MultihopNode(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
+            nodes.push_back(*middle_node);
+        }
+
     }
 
     // Gateways initialization
@@ -88,15 +95,6 @@ void Traffic::put_metrics_in_file() {
     nodes_number = nodes.size();
 
     outFile << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "," << maximum_tr <<"\n";
-    // Write the strings separated by commas to the file
-    /*for (size_t i = 0; i < allDecodedPackets.size(); ++i) {
-        outFile << allDecodedPackets[i];
-        if (i < allDecodedPackets.size() - 1) {
-            outFile << ",";
-        }
-    }*/
-
-
 
     // Close the file
     outFile.close();
@@ -114,13 +112,29 @@ void Traffic::run() {
             gateway.receive(packet_to_receive);
         }
 
+        // Receiving Sleeping Transmitting
+        for (auto & node : middle_nodes) {
+            node.clock(time);
+            string state = node.multiNode_driver();
+            if (state == "Transmitting") {
+                Packet* transmitted_packet = node.transmit_packet();
+                if (transmitted_packet != nullptr) {
+                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(), node.getTrasmissionPower(), node.getLocation());
+                }
+            }
+            // Wake up receivers, so it listen always
+            if (state == "Sleeping") {
+
+            }
+        }
+
         // Transmitting - Sleeping
         for (auto & node : nodes) {
             node.clock(time);
             string state = node.node_driver();
 
             if (state == "Packet Generation") {
-                node.generate_packet(8);
+                node.generate_packet();
             }
             if (state == "Transmitting") {
                 Packet* transmitted_packet = node.transmit_packet();

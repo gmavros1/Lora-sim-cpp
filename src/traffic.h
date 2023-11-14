@@ -10,9 +10,11 @@
 #include "environment.h"
 #include "packet.h"
 #include "node.h"  // Include other necessary headers if needed
+#include "multihopNode.h"
 #include "gateway.h"
 
 class Node;
+class MultihopNode;
 class Gateway;
 class Environment;
 class Packet;
@@ -26,6 +28,7 @@ class Environment;
 class Traffic {
 private:
     vector<Node> nodes;
+    vector<MultihopNode> middle_nodes;
     vector<Gateway> gateways;
     Environment environment;
     double rate;

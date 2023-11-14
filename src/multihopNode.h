@@ -22,6 +22,7 @@ public:
     MultihopNode(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob,
                  int assigned_node, int following, int type);
     void receive_node(vector<radio_packet> &packets_received);
+    string multiNode_driver();
     vector<string> decoded_packets_statistics;
     vector<string> non_decoded_packets_statistics;
 };

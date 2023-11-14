@@ -11,6 +11,7 @@ from protocol import Lorawan
 import json
 import os
 
+
 # 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
 class Topology:
 
@@ -49,15 +50,15 @@ class Topology:
         center_y = rangekm / 2  # Example center y-coordinate
 
         # For type 0 nodes
-        min_distance = 20000  # Example minimum distance in meters
-        max_distance = 30000  # Example maximum distance in meters
+        min_distance = 40000  # Example minimum distance in meters
+        max_distance = 50000  # Example maximum distance in meters
 
-        ratio_for_type_1 = 0.8
+        ratio_for_type_0 = 0.7
         # ratio_for_type_0 = 1 - ratio_for_type_1
 
         # Create nodes and assign positions
         nodes = {}
-        for i in range(int(num_nodes * ratio_for_type_1)):
+        for i in range(int(num_nodes * ratio_for_type_0)):
             node_id = i
             node_x, node_y = generate_random_coordinates(
                 center_x, center_y, min_distance, max_distance)
@@ -65,10 +66,10 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)
 
         # For type 1 nodes
-        min_distance = 10000  # Example minimum distance in meters
-        max_distance = 20000  # Example maximum distance in meters
+        min_distance = 20000  # Example minimum distance in meters
+        max_distance = 30000  # Example maximum distance in meters
 
-        for i in range(int(num_nodes * ratio_for_type_1), num_nodes):
+        for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
             node_id = i
             node_x, node_y = generate_random_coordinates(
                 center_x, center_y, min_distance, max_distance)
@@ -103,13 +104,14 @@ class Topology:
 
         # ******************** # Writing to a json file
         nodes = []
-        for n in self.nodes:
-            def null_to_minus_1(value):
-                if value is None:
-                    return -1
-                else:
-                    return value
 
+        def null_to_minus_1(value):
+            if value is None:
+                return -1
+            else:
+                return value
+
+        for n in self.nodes:
             dictionary = {
                 "id": n.id,
                 "channel": int(n.channel),
@@ -134,7 +136,7 @@ class Topology:
             }
             gateways.append(dictionary)
 
-            #min_Interval = toa(15, 7) + duty_cycle(toa(15, 7))
+            # min_Interval = toa(15, 7) + duty_cycle(toa(15, 7))
 
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time)}
 
@@ -191,7 +193,8 @@ class Topology:
             rec_power = calculate_received_power(
                 min_distance, node.transmission_power)
 
-            # print(rec_power)
+            # if rec_power <= -149: print(rec_power)
+
             if rec_power <= -149:
                 node.type = 0
                 type_0_nodes.append({"node": node, "rec_power": rec_power})
@@ -200,6 +203,11 @@ class Topology:
                 node.type = 1  # middle node
                 node.protocol = Multihop()
                 type_1_nodes.append({"node": node, "rec_power": rec_power})
+
+        """print("1")
+        print(type_1_nodes)
+        print("0")
+        print(type_0_nodes)"""
 
         # 2. Assign channels to first 9 type 1 nodes
         for i in range(9):
@@ -375,4 +383,7 @@ if __name__ == "__main__":
     argument = sys.argv[1]
     i = float(argument)  # Convert the argument to a float
     time = sys.argv[2]
-    topology = Topology(100, 1, False, 100000, i / 10, time)
+    num_nodes = int(sys.argv[4])
+    protocol = sys.argv[3]
+    topology = Topology(num_nodes, 1, protocol == 'Multihop', 100000, i / 10, time)
+    # topology.plot_topology()

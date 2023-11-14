@@ -22,7 +22,7 @@ class Node {
 public:
     Node(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob, int assigned_node, int following, int type);
 
-    void generate_packet(int dst);
+    void generate_packet();
 
     Packet* transmit_packet();
 
