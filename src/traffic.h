@@ -27,6 +27,7 @@ class Packet;
 class Environment;
 class Traffic {
 private:
+    string net_case = "";
     vector<Node> nodes;
     vector<MultihopNode> middle_nodes;
     vector<Gateway> gateways;

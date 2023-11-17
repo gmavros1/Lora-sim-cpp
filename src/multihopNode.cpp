@@ -122,9 +122,11 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
     }
 
     // All packets remove if one hash decoded now
-    for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();){
-        if(a_packet_has_decoded){
+    for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
+        if (a_packet_has_decoded) {
             it = receiving_buffer.erase(it);
+        } else {
+            ++it;
         }
     }
 

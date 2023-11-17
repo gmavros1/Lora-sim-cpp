@@ -93,6 +93,10 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
     // Remove decoded packets
     for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
         if (it->second.decoded_or_not == "Decoded") {
+            if (it->second.packet.aggregated_packet != nullptr){
+                string agg_packet = it->second.packet.aggregated_packet->getPacketId();
+                decoded_packets_statistics.push_back(agg_packet);
+            }
             decoded_packets_statistics.push_back(it->first);
             it = receiving_buffer.erase(it); // Remove the item
         } else if (it->second.decoded_or_not == "Non_decoded") {

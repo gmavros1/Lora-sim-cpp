@@ -50,10 +50,10 @@ class Topology:
         center_y = rangekm / 2  # Example center y-coordinate
 
         # For type 0 nodes
-        min_distance = 40000  # Example minimum distance in meters
-        max_distance = 50000  # Example maximum distance in meters
+        min_distance = 13500  # Example minimum distance in meters
+        max_distance = 18000  # Example maximum distance in meters
 
-        ratio_for_type_0 = 0.7
+        ratio_for_type_0 = 0.8
         # ratio_for_type_0 = 1 - ratio_for_type_1
 
         # Create nodes and assign positions
@@ -66,8 +66,8 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)
 
         # For type 1 nodes
-        min_distance = 20000  # Example minimum distance in meters
-        max_distance = 30000  # Example maximum distance in meters
+        min_distance = 6000  # Example minimum distance in meters
+        max_distance = 12000  # Example maximum distance in meters
 
         for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
             node_id = i
@@ -138,7 +138,15 @@ class Topology:
 
             # min_Interval = toa(15, 7) + duty_cycle(toa(15, 7))
 
-        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time)}
+
+        # Which case of simulation
+        net_case = ''
+        if use_multihop:
+            net_case = f"Multihop {num_gateways} gateways"
+        else:
+            net_case = f"LoraWAN {num_gateways} gateways"
+
+        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case":net_case}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -205,8 +213,10 @@ class Topology:
                 type_1_nodes.append({"node": node, "rec_power": rec_power})
 
         """print("1")
+        print(len(type_1_nodes))
         print(type_1_nodes)
         print("0")
+        print(len(type_0_nodes))
         print(type_0_nodes)"""
 
         # 2. Assign channels to first 9 type 1 nodes
@@ -278,7 +288,7 @@ class Topology:
             m_i = m[i].copy()
             m_i.sort()
             m_sorted.append(m_i)
-            m_sorted[-1] = [x for x in m_sorted[-1] if x > -137]
+            m_sorted[-1] = [x for x in m_sorted[-1] if x > -149]
 
         f_m = []
         for i in range(len(m_sorted)):
@@ -352,7 +362,7 @@ class Topology:
         def plot_nodes_and_gateways(nodes, gateways):
             fig = plt.figure()
             ax = fig.add_subplot(projection='3d')
-            ax.view_init(elev=70, azim=-90, roll=0)
+            ax.view_init(elev=90, azim=-90, roll=0)
 
             # Plot nodes
             for node in nodes:
@@ -385,5 +395,6 @@ if __name__ == "__main__":
     time = sys.argv[2]
     num_nodes = int(sys.argv[4])
     protocol = sys.argv[3]
-    topology = Topology(num_nodes, 1, protocol == 'Multihop', 100000, i / 10, time)
-    # topology.plot_topology()
+    num_of_gw = int(sys.argv[5])
+    topology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i / 10, time)
+    #topology.plot_topology()

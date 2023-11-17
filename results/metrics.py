@@ -1,21 +1,28 @@
 import matplotlib.pyplot as plt
 
-# Initialize lists to store data
-load_values = []
-throughput_values = []
+plt.figure(figsize=(8, 6))
+cases = []
 
 # Read the text file and extract load and throughput values
 with open('metrics.txt', 'r') as file:
     lines = file.readlines()
-    for line in lines[1:]:  # Skip the first line with headers
-        load, decoded, non_decoded, nodes_number, life_time, max_trans = map(float, line.split(","))
-        load_values.append(load)
-        throughput = (decoded / nodes_number) / (max_trans)
-        throughput_values.append(throughput)
+    for line in lines[1:]: cases.append(line.split(",")[0])
+
+    for case in cases:
+        # Initialize lists to store data
+        load_values = []
+        throughput_values = []
+        for line in lines[1:]:  # Skip the first line with headers
+            if case == line.split(",")[0]:
+
+                load, decoded, non_decoded, nodes_number, life_time, max_trans = map(float, line.split(",")[1:])
+                load_values.append(load)
+                throughput = (decoded / nodes_number) / (max_trans)
+                throughput_values.append(throughput)
+
+        plt.plot(load_values, throughput_values, marker='o', linestyle='-', label=case)
 
 # Create a line graph
-plt.figure(figsize=(8, 6))
-plt.plot(load_values, throughput_values, marker='o', linestyle='-')
 plt.title('Load vs. Throughput')
 plt.xlabel('Load')
 plt.ylabel('Throughput')
