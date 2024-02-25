@@ -7,6 +7,7 @@ cases = []
 with open('metrics.txt', 'r') as file:
     lines = file.readlines()
     for line in lines[1:]: cases.append(line.split(",")[0])
+    cases = list(set(cases))
 
     for case in cases:
         # Initialize lists to store data
@@ -23,6 +24,7 @@ with open('metrics.txt', 'r') as file:
         plt.plot(load_values, throughput_values, marker='o', linestyle='-', label=case)
 
 # Create a line graph
+plt.legend()
 plt.title('Load vs. Throughput')
 plt.xlabel('Load')
 plt.ylabel('Throughput')

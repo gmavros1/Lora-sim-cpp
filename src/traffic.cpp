@@ -60,6 +60,8 @@ void Traffic::initialize() {
         int y = gw["y"];
         int z = gw["z"];
 
+        // cout << "id" << id << "x" << x << "y" << y << "z" << z << endl;
+
         Gateway *gateway;
         gateway = new Gateway(id, x, y, z);
         gateways.push_back(*gateway);

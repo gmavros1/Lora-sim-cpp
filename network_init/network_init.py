@@ -34,16 +34,34 @@ class Topology:
 
             return x, y
 
+
         if num_gateways > 1:
             # Range of x-coordinates for gateways
-            gateway_x_range = (rangekm / 2 - 5000, rangekm / 2 + 5000)
+            gateway_x_range = (rangekm / 2 - 10000, rangekm / 2 + 10000)
             # Range of y-coordinates for gateways
-            gateway_y_range = (rangekm / 2 - 5000, rangekm / 2 + 5000)
+            gateway_y_range = (rangekm / 2 - 10000, rangekm / 2 + 10000)
         else:
             # Range of x-coordinates for gateways
-            gateway_x_range = (rangekm / 2 - 100, rangekm / 2 + 100)
+            gateway_x_range = (rangekm / 2 - 10000, rangekm / 2 + 10000)
             # Range of y-coordinates for gateways
-            gateway_y_range = (rangekm / 2 - 100, rangekm / 2 + 100)
+            gateway_y_range = (rangekm / 2 - 10000, rangekm / 2 + 10000)
+
+        def get_gw_coordinates(num_of_gw, which_gw, rangekm, max_distance):
+            if num_of_gw == 1:
+                return rangekm/2, rangekm/2
+            if num_of_gw == 2:
+                if which_gw == 0:
+                    return (rangekm/2 + (2/3)*max_distance), (rangekm/2 + (2/3)*max_distance)
+                else:
+                    return (rangekm/2 - (2/3)*max_distance), (rangekm/2 - (2/3)*max_distance)
+            if num_of_gw == 3:
+                if which_gw == 0:
+                    return (rangekm/2), (rangekm/2 + (2/3)*max_distance)
+                elif which_gw == 1:
+                    return (rangekm/2 - (2/3)*max_distance), (rangekm/2 - (2/3)*max_distance)
+                else:
+                    return (rangekm/2 + (2/3)*max_distance), (rangekm/2 - (2/3)*max_distance)
+
         node_height_range = (100, 150)
         gateway_height_range = (40, 50)
         center_x = rangekm / 2  # Example center x-coordinate
@@ -66,8 +84,8 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)
 
         # For type 1 nodes
-        min_distance = 6000  # Example minimum distance in meters
-        max_distance = 12000  # Example maximum distance in meters
+        min_distance = 4000  # Example minimum distance in meters
+        max_distance = 8000  # Example maximum distance in meters
 
         for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
             node_id = i
@@ -79,11 +97,13 @@ class Topology:
         # Create gateways and assign positions
         gateways = {}
         for i in range(num_gateways):
-            gateway_id = i + 1
-            gateway_x = random.uniform(*gateway_x_range)
-            gateway_y = random.uniform(*gateway_y_range)
-            gateway_height = random.uniform(*gateway_height_range)
-            gateways[gateway_id] = (gateway_x, gateway_y, gateway_height)
+                gateway_id = i + 1
+                #gateway_x = random.uniform(*gateway_x_range)
+                #gateway_y = random.uniform(*gateway_y_range)
+                gateway_x, gateway_y = get_gw_coordinates(num_of_gw, i, rangekm, max_distance=15000)
+                gateway_height = random.uniform(*gateway_height_range)
+                gateways[gateway_id] = (gateway_x, gateway_y, gateway_height)
+
 
         self.nodes = []
         for node_id, position in nodes.items():
@@ -179,6 +199,7 @@ class Topology:
         for gateway_id, position in gateways.items():
             self.gateways.append(Gateway(gateway_id, position, self.server))
 
+
     def join_process(self):
         pass
 
@@ -212,12 +233,6 @@ class Topology:
                 node.protocol = Multihop()
                 type_1_nodes.append({"node": node, "rec_power": rec_power})
 
-        """print("1")
-        print(len(type_1_nodes))
-        print(type_1_nodes)
-        print("0")
-        print(len(type_0_nodes))
-        print(type_0_nodes)"""
 
         # 2. Assign channels to first 9 type 1 nodes
         for i in range(9):
