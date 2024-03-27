@@ -68,8 +68,8 @@ class Topology:
         center_y = rangekm / 2  # Example center y-coordinate
 
         # For type 0 nodes
-        min_distance = 13500  # Example minimum distance in meters
-        max_distance = 18000  # Example maximum distance in meters
+        min_distance = 6100  # Example minimum distance in meters
+        max_distance = 7100  # Example maximum distance in meters
 
         ratio_for_type_0 = 0.8
         # ratio_for_type_0 = 1 - ratio_for_type_1
@@ -84,8 +84,8 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)
 
         # For type 1 nodes
-        min_distance = 4000  # Example minimum distance in meters
-        max_distance = 8000  # Example maximum distance in meters
+        min_distance = 1000  # Example minimum distance in meters
+        max_distance = 6000  # Example maximum distance in meters
 
         for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
             node_id = i
@@ -100,7 +100,7 @@ class Topology:
                 gateway_id = i + 1
                 #gateway_x = random.uniform(*gateway_x_range)
                 #gateway_y = random.uniform(*gateway_y_range)
-                gateway_x, gateway_y = get_gw_coordinates(num_of_gw, i, rangekm, max_distance=15000)
+                gateway_x, gateway_y = get_gw_coordinates(num_of_gw, i, rangekm, max_distance=18000)
                 gateway_height = random.uniform(*gateway_height_range)
                 gateways[gateway_id] = (gateway_x, gateway_y, gateway_height)
 
@@ -224,7 +224,7 @@ class Topology:
 
             # if rec_power <= -149: print(rec_power)
 
-            if rec_power <= -149:
+            if rec_power <= -130:
                 node.type = 0
                 type_0_nodes.append({"node": node, "rec_power": rec_power})
             else:
@@ -232,6 +232,9 @@ class Topology:
                 node.type = 1  # middle node
                 node.protocol = Multihop()
                 type_1_nodes.append({"node": node, "rec_power": rec_power})
+
+        # print(len(type_1_nodes))
+        # print(len(type_0_nodes))
 
 
         # 2. Assign channels to first 9 type 1 nodes
@@ -303,7 +306,7 @@ class Topology:
             m_i = m[i].copy()
             m_i.sort()
             m_sorted.append(m_i)
-            m_sorted[-1] = [x for x in m_sorted[-1] if x > -149]
+            m_sorted[-1] = [x for x in m_sorted[-1] if x > -108]
 
         f_m = []
         for i in range(len(m_sorted)):
@@ -379,15 +382,17 @@ class Topology:
             ax = fig.add_subplot(projection='3d')
             ax.view_init(elev=90, azim=-90, roll=0)
 
-            # Plot nodes
-            for node in nodes:
-                ax.scatter(node.x, node.y, node.height,
-                           color=get_node_color(node.channel))
+
 
             # Plot gateways
             for gateway in gateways:
                 ax.scatter(gateway.x, gateway.y, gateway.height,
                            color='black', marker='^', s=100)
+
+            # Plot nodes
+            for node in nodes:
+                ax.scatter(node.x, node.y, node.height,
+                           color=get_node_color(node.channel))
 
             # Set labels
             ax.set_xlabel('X')
@@ -412,4 +417,4 @@ if __name__ == "__main__":
     protocol = sys.argv[3]
     num_of_gw = int(sys.argv[5])
     topology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i / 10, time)
-    #topology.plot_topology()
+    # topology.plot_topology()

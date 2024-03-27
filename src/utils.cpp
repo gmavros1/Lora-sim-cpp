@@ -57,7 +57,8 @@ double calculate_received_power(double distance, double transmission_power, doub
     // Generate a random value for shadowing
     std::default_random_engine generator;
     std::normal_distribution<double> distribution(0, shadowing_std_dev);
-    double shadowing = distribution(generator);
+    //double shadowing = distribution(generator);
+    double shadowing = 5.34;
 
     // Calculate the total path loss with shadowing
     PL += shadowing;

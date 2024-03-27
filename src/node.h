@@ -40,6 +40,8 @@ public:
 
     int getTrasmissionPower();
 
+    int generated_packets;
+
 protected:
     int id;
     int channel;

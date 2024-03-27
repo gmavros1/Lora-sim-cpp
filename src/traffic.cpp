@@ -70,6 +70,16 @@ void Traffic::initialize() {
 }
 
 void Traffic::put_metrics_in_file() {
+
+    int gen_packets = 0;
+    for (const Node& nd : nodes) {
+        gen_packets += nd.generated_packets;
+    }
+
+    for (const Node& nd : middle_nodes) {
+        gen_packets += nd.generated_packets;
+    }
+
     std::set<std::string> allDecodedPackets;
     for (const Gateway& gateway : gateways) {
         for (auto packet: gateway.decoded_packets_statistics){
@@ -95,9 +105,9 @@ void Traffic::put_metrics_in_file() {
     maximum_tr = life_time / (toa(15, 7) + duty_cycle(toa(15, 7)));
 
     int nodes_number;
-    nodes_number = nodes.size();
+    nodes_number = nodes.size() + middle_nodes.size();
 
-    outFile << net_case << "," << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "," << maximum_tr <<"\n";
+    outFile << net_case << "," << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "," << maximum_tr << "," << gen_packets << "\n";
 
     // Close the file
     outFile.close();

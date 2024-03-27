@@ -18,16 +18,16 @@ with open('metrics.txt', 'r') as file:
 
                 load, decoded, non_decoded, nodes_number, life_time, max_trans, gen_packs = map(float, line.split(",")[1:])
                 load_values.append(load)
-                throughput = (decoded / nodes_number) / (max_trans)
+                throughput = ((non_decoded/nodes_number) / (gen_packs/nodes_number))
                 throughput_values.append(throughput)
 
         plt.plot(load_values, throughput_values, marker='o', linestyle='-', label=case)
 
 # Create a line graph
 plt.legend()
-plt.title('Load vs. Throughput')
+plt.title('Load vs. Corrupted packets in Gateway')
 plt.xlabel('Load')
-plt.ylabel('Throughput')
+plt.ylabel('Number of packets')
 plt.grid(True)
 
 # Display the plot or save it to a file

@@ -40,7 +40,7 @@ def toa(payload_length, sf, crc=1, header=0, de=0, n_preamble=8, bw=125, cr=1):
 # Call it from node receive
 def calculate_received_power(distance, transmission_power, shadowing_std_dev=5.34):
     # Constants - sensors-22-03518-v3.pdf - reference
-    PLd0 = 40.7  # Reference path loss at the reference distance (d0)
+    PLd0 = 37  # Reference path loss at the reference distance (d0)
     d0 = 1.0  # Reference distance (1 meter)
     alpha = 2.85  # Path loss exponent - (2-4) - urban enviroments ~ 3
 
@@ -146,4 +146,7 @@ def debug_gw(packet, protocol):
 # print(toa(15, 7))
 # print(duty_cycle(toa(15, 7)))
 # print(toa(15, 7)+duty_cycle(toa(15, 7)))
-#print(calculate_received_power(12000, 14))
+# print(calculate_received_power(6000, 20))
+
+# 108 db sens --> 1 km
+# 130 db sens --> 6 km

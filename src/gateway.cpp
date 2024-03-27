@@ -20,7 +20,7 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
         double receive_power = calculate_received_power(distanceGatewayNode(this->location,
                                                                             current_packets[index].location),
                                                         current_packets[index].transmission_power);
-        if (receive_power >= -149) {
+        if (receive_power >= -130) {
             current_packets[index].receive_power = receive_power;
         } else {
             current_packets.erase(current_packets.begin() + index);

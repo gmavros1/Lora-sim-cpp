@@ -39,6 +39,8 @@ Node::Node(int id, int x, int y, int z, int sf, int channel, int transmission_po
     this->assigned_node = assigned_node;
     this->following = following;
     this->type = type;
+
+    this->generated_packets = 0;
 }
 
 void Node::generate_packet() {
@@ -55,6 +57,7 @@ void Node::generate_packet() {
     // Every time slot, when packet is in air, seq num is decreasing until 0
     int toa_seq = time_over_air;
     this->buffer->setSeqNumReversed(toa_seq);
+    generated_packets ++;
 
 }
 
