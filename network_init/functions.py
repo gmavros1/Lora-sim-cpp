@@ -18,16 +18,17 @@ def toa(payload_length, sf, crc=1, header=0, de=0, n_preamble=8, bw=125, cr=1):
     if bw == 125 and int(sf) >= 11:
         de = 1
 
+
     # Time of symbol (ms)
     Ts = (2 ** int(sf)) / bw
     # print(f"time of symbol {Ts}")
 
     # Time of payload - include header crc and low data range optimization
     num_payload_symbols = 8 + \
-                          max(math.ceil((8 * payload_length - 4 * int(sf) + 28 + 16 *
-                                         crc - 20 * header) / (4 * (int(sf) - 2 * de))) * (cr + 4), 0)
+                          max(math.ceil((8.0 * payload_length - 4.0 * int(sf) + 28.0 + 16.0 *
+                                         crc - 20.0 * header) / (4.0 * (int(sf) - 2.0 * de))) * (cr + 4), 0)
     # print(f"num of symbol {num_payload_symbols}")
-
+    print(num_payload_symbols)
     T_payload = Ts * num_payload_symbols
 
     T_preamble = (n_preamble + 4.25) * Ts

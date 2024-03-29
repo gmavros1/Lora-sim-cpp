@@ -37,8 +37,11 @@ double toa(int payload_length, int sf, int crc, int header, int de, int n_preamb
     }
 
     double Ts = std::pow(2, sf) / bw;
-    double num_payload_symbols = 8 + std::max(static_cast<double>(std::ceil(
-            (8 * payload_length - 4 * sf + 28 + 16 * crc - 20 * header) / (4 * (sf - 2 * de))) * (cr + 4)), 0.0);
+
+    double num_payload_symbols = 8.0 + std::max(static_cast<double>(std::ceil(
+            (8.0 * payload_length - 4.0 * sf + 28.0 + 16.0 * crc - 20.0 * header) / (4.0 * (sf - 2.0 * de))) * (cr + 4.0)), 0.0);
+
+    //cout << num_payload_symbols << endl;
     double T_payload = Ts * num_payload_symbols;
     double T_preamble = (n_preamble + 4.25) * Ts;
     return T_preamble + T_payload;
@@ -47,7 +50,7 @@ double toa(int payload_length, int sf, int crc, int header, int de, int n_preamb
 
 double calculate_received_power(double distance, double transmission_power, double shadowing_std_dev) {
     // Constants - sensors-22-03518-v3.pdf - reference
-    double PLd0 = 40.7;  // Reference path loss at the reference distance (d0)
+    double PLd0 = 37;  // Reference path loss at the reference distance (d0)
     double d0 = 1.0;     // Reference distance (1 meter)
     double alpha = 2.85; // Path loss exponent - (2-4) - urban environments ~ 3
 
@@ -117,3 +120,12 @@ int adr(const std::vector<double> &last_packets, int sf) {
         }
     }
 }
+
+/*
+int main() {
+
+    // cout << calculate_received_power(1000, 20);
+    cout << toa(15, 7);
+
+}
+ */

@@ -34,48 +34,48 @@ class Topology:
 
             return x, y
 
-
         if num_gateways > 1:
             # Range of x-coordinates for gateways
-            gateway_x_range = (rangekm / 2 - 10000, rangekm / 2 + 10000)
+            gateway_x_range = (rangekm / 2 - 8000, rangekm / 2 + 8000)
             # Range of y-coordinates for gateways
-            gateway_y_range = (rangekm / 2 - 10000, rangekm / 2 + 10000)
+            gateway_y_range = (rangekm / 2 - 8000, rangekm / 2 + 8000)
         else:
             # Range of x-coordinates for gateways
-            gateway_x_range = (rangekm / 2 - 10000, rangekm / 2 + 10000)
+            gateway_x_range = (rangekm / 2 - 8000, rangekm / 2 + 8000)
             # Range of y-coordinates for gateways
-            gateway_y_range = (rangekm / 2 - 10000, rangekm / 2 + 10000)
+            gateway_y_range = (rangekm / 2 - 8000, rangekm / 2 + 8000)
 
         def get_gw_coordinates(num_of_gw, which_gw, rangekm, max_distance):
             if num_of_gw == 1:
-                return rangekm/2, rangekm/2
+                return rangekm / 2, rangekm / 2
             if num_of_gw == 2:
                 if which_gw == 0:
-                    return (rangekm/2 + (2/3)*max_distance), (rangekm/2 + (2/3)*max_distance)
+                    return (rangekm / 2 + (2 / 3) * max_distance), (rangekm / 2 + (2 / 3) * max_distance)
                 else:
-                    return (rangekm/2 - (2/3)*max_distance), (rangekm/2 - (2/3)*max_distance)
+                    return (rangekm / 2 - (2 / 3) * max_distance), (rangekm / 2 - (2 / 3) * max_distance)
             if num_of_gw == 3:
                 if which_gw == 0:
-                    return (rangekm/2), (rangekm/2 + (2/3)*max_distance)
+                    return (rangekm / 2), (rangekm / 2 + (2 / 3) * max_distance)
                 elif which_gw == 1:
-                    return (rangekm/2 - (2/3)*max_distance), (rangekm/2 - (2/3)*max_distance)
+                    return (rangekm / 2 - (2 / 3) * max_distance), (rangekm / 2 - (2 / 3) * max_distance)
                 else:
-                    return (rangekm/2 + (2/3)*max_distance), (rangekm/2 - (2/3)*max_distance)
+                    return (rangekm / 2 + (2 / 3) * max_distance), (rangekm / 2 - (2 / 3) * max_distance)
 
         node_height_range = (100, 150)
         gateway_height_range = (40, 50)
         center_x = rangekm / 2  # Example center x-coordinate
         center_y = rangekm / 2  # Example center y-coordinate
 
-        # For type 0 nodes
-        min_distance = 6100  # Example minimum distance in meters
-        max_distance = 7100  # Example maximum distance in meters
-
-        ratio_for_type_0 = 0.8
+        ratio_for_type_0 = 0.85
         # ratio_for_type_0 = 1 - ratio_for_type_1
 
-        # Create nodes and assign positions
         nodes = {}
+
+        # For type 0 nodes
+        min_distance = 5990  # Example minimum distance in meters
+        max_distance = 6300  # Example maximum distance in meters
+
+        # Create nodes and assign positions
         for i in range(int(num_nodes * ratio_for_type_0)):
             node_id = i
             node_x, node_y = generate_random_coordinates(
@@ -84,8 +84,8 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)
 
         # For type 1 nodes
-        min_distance = 1000  # Example minimum distance in meters
-        max_distance = 6000  # Example maximum distance in meters
+        min_distance = 3000  # Example minimum distance in meters
+        max_distance = 5900  # Example maximum distance in meters
 
         for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
             node_id = i
@@ -97,13 +97,12 @@ class Topology:
         # Create gateways and assign positions
         gateways = {}
         for i in range(num_gateways):
-                gateway_id = i + 1
-                #gateway_x = random.uniform(*gateway_x_range)
-                #gateway_y = random.uniform(*gateway_y_range)
-                gateway_x, gateway_y = get_gw_coordinates(num_of_gw, i, rangekm, max_distance=18000)
-                gateway_height = random.uniform(*gateway_height_range)
-                gateways[gateway_id] = (gateway_x, gateway_y, gateway_height)
-
+            gateway_id = i + 1
+            # gateway_x = random.uniform(*gateway_x_range)
+            # gateway_y = random.uniform(*gateway_y_range)
+            gateway_x, gateway_y = get_gw_coordinates(num_of_gw, i, rangekm, max_distance=8000)
+            gateway_height = random.uniform(*gateway_height_range)
+            gateways[gateway_id] = (gateway_x, gateway_y, gateway_height)
 
         self.nodes = []
         for node_id, position in nodes.items():
@@ -158,7 +157,6 @@ class Topology:
 
             # min_Interval = toa(15, 7) + duty_cycle(toa(15, 7))
 
-
         # Which case of simulation
         net_case = ''
         if use_multihop:
@@ -166,7 +164,7 @@ class Topology:
         else:
             net_case = f"LoraWAN {num_gateways} gateways"
 
-        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case":net_case}
+        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -199,11 +197,64 @@ class Topology:
         for gateway_id, position in gateways.items():
             self.gateways.append(Gateway(gateway_id, position, self.server))
 
-
     def join_process(self):
         pass
 
         ### TO ENABLE MULTIHOP ###
+
+    def multihop_join_process_inf(self):
+
+        # Store nodes, first index is type (0 starting from close to gw)
+        # store node, rec_power, rec_id
+        node_and_types = []
+
+        # 1. Collect L0 - single hop to gw
+        node_and_types.append([])
+        for node in self.nodes:
+            # For each node select the min distance form gw
+            distance_to_gw = []
+            for gw in self.gateways:
+                distance_to_gw.append(distance_nodes(node, gw))
+            min_distance = min(distance_to_gw)
+
+            rec_power = calculate_received_power(
+                min_distance, node.transmission_power)
+
+            if rec_power >= -130:
+                node.type = 0  # middle node - which is also the type index of node_and_types list
+                node.state = "Listen"
+                node_and_types[-1].append(
+                    {"node": node, "rec_power": [rec_power], "rec_id": [-1]})  # same index - associate id - rec power
+
+        # 2. Go for the others
+        level = 1
+        while True:
+            node_and_types.append([])
+
+            for node in self.nodes:  # node which I want to associate with a relay node
+                if node.type is not None: continue  # Only unassigned nodes
+
+                rec_powers = []
+                rec_ids = []
+
+                for r_node in self.nodes:
+                    if node.type != level - 1: continue  # Only level - 1 nodes
+
+                    distance = distance_nodes(node, r_node)
+                    rec_power = calculate_received_power(distance, node.transmission_power)
+
+                    if rec_power >= -109:
+                        rec_powers.append(rec_power)
+                        rec_ids.append(r_node.id)
+                        node.type = level
+                        node.state = "Listen"
+
+                node_and_types[level].append(
+                    {"node": node, "rec_power": rec_powers, "rec_id": rec_ids})  # same index - associate id - rec power
+
+            level += 1
+
+        # Assing Multihop protocol to middle nodes
 
     def multihop_join_process(self):
 
@@ -224,7 +275,7 @@ class Topology:
 
             # if rec_power <= -149: print(rec_power)
 
-            if rec_power <= -130:
+            if rec_power < -130:
                 node.type = 0
                 type_0_nodes.append({"node": node, "rec_power": rec_power})
             else:
@@ -235,7 +286,6 @@ class Topology:
 
         # print(len(type_1_nodes))
         # print(len(type_0_nodes))
-
 
         # 2. Assign channels to first 9 type 1 nodes
         for i in range(9):
@@ -281,6 +331,11 @@ class Topology:
                 node.protocol = Lorawan(None)
                 node.state = "Sleep"
 
+        # Every node close to gw has assigned node -1
+        for node in self.nodes:
+            if node.type == 1:
+                node.assigned_node = -1
+
     def build_clusters(self, type0_nodes, type1_nodes):
         m = []
 
@@ -306,7 +361,7 @@ class Topology:
             m_i = m[i].copy()
             m_i.sort()
             m_sorted.append(m_i)
-            m_sorted[-1] = [x for x in m_sorted[-1] if x > -108]
+            m_sorted[-1] = [x for x in m_sorted[-1] if x > -109]
 
         f_m = []
         for i in range(len(m_sorted)):
@@ -382,8 +437,6 @@ class Topology:
             ax = fig.add_subplot(projection='3d')
             ax.view_init(elev=90, azim=-90, roll=0)
 
-
-
             # Plot gateways
             for gateway in gateways:
                 ax.scatter(gateway.x, gateway.y, gateway.height,
@@ -417,4 +470,15 @@ if __name__ == "__main__":
     protocol = sys.argv[3]
     num_of_gw = int(sys.argv[5])
     topology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i / 10, time)
-    # topology.plot_topology()
+
+    """print("TYPE 0")
+    for n in topology.nodes:
+        if n.type == 0:
+            print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
+
+    print("TYPE 1")
+    for n in topology.nodes:
+        if n.type == 1:
+            print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
+
+    topology.plot_topology()"""

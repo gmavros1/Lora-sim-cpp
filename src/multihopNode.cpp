@@ -18,7 +18,8 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
         double receive_power = calculate_received_power(distanceNodes(this->location,
                                                                             current_packets[index].location),
                                                         current_packets[index].transmission_power);
-        if ((receive_power >= -108) & (current_packets[index].channel == this->channel)) { //
+        if ((receive_power >= -109) & (current_packets[index].channel == this->channel) & (current_packets[index].packet.getDst() ==
+                this->id) ) { //
             current_packets[index].receive_power = receive_power;
         } else {
             current_packets.erase(current_packets.begin() + index);
@@ -96,7 +97,7 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
                 // Just forward
                 if (it->second.packet.getSrc() != this->following) {
                     Packet temp_pack = it->second.packet;
-                    this->buffer = new Packet(temp_pack.getSrc(), -1,
+                    this->buffer = new Packet(temp_pack.getSrc(), this->assigned_node,
                                               temp_pack.getTimestamp_start()); // pass the arguments
                     a_packet_has_decoded = true;
                 }
@@ -106,7 +107,7 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
                     this->generate_packet();
                     Packet temp_pack = it->second.packet;
                     // Aggregate
-                    this->buffer->aggregated_packet =new Packet(temp_pack.getSrc(), -1,
+                    this->buffer->aggregated_packet =new Packet(temp_pack.getSrc(), this->assigned_node,
                                                                 temp_pack.getTimestamp_start()); // pass the arguments
                     a_packet_has_decoded = true;
                 }
