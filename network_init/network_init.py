@@ -66,14 +66,17 @@ class Topology:
         center_x = rangekm / 2  # Example center x-coordinate
         center_y = rangekm / 2  # Example center y-coordinate
 
-        ratio_for_type_0 = 0.85
+        #ratio_for_type_0 = 0.85
+        ratio_for_type_0 = 1
         # ratio_for_type_0 = 1 - ratio_for_type_1
 
         nodes = {}
 
         # For type 0 nodes
-        min_distance = 5990  # Example minimum distance in meters
-        max_distance = 6300  # Example maximum distance in meters
+        min_distance = 6000  # Example minimum distance in meters
+        max_distance = 8000  # Example maximum distance in meters
+        #min_distance = 100  # Example minimum distance in meters
+        #max_distance = 10000  # Example maximum distance in meters
 
         # Create nodes and assign positions
         for i in range(int(num_nodes * ratio_for_type_0)):
@@ -113,7 +116,7 @@ class Topology:
             self.gateways.append(Gateway(gateway_id, position, self.server))
 
         if use_multihop:
-            self.multihop_join_process()
+            self.multihop_join_process_inf()
             # Plot topology
             print("MULTIHOP")
         else:
@@ -229,10 +232,14 @@ class Topology:
         # 2. Go for the others
         level = 1
         while True:
+
             node_and_types.append([])
 
+            count_new_entries = 0
             for node in self.nodes:  # node which I want to associate with a relay node
-                if node.type is not None: continue  # Only unassigned nodes
+                if node.type != -1: continue  # Only unassigned nodes
+
+                #print("IN")
 
                 rec_powers = []
                 rec_ids = []
@@ -244,6 +251,7 @@ class Topology:
                     rec_power = calculate_received_power(distance, node.transmission_power)
 
                     if rec_power >= -109:
+                        count_new_entries += 1 # To stop when we have no other nodes
                         rec_powers.append(rec_power)
                         rec_ids.append(r_node.id)
                         node.type = level
@@ -252,9 +260,15 @@ class Topology:
                 node_and_types[level].append(
                     {"node": node, "rec_power": rec_powers, "rec_id": rec_ids})  # same index - associate id - rec power
 
+            if count_new_entries == 0: break
             level += 1
 
-        # Assing Multihop protocol to middle nodes
+        # Assign Multihop protocol to middle nodes
+
+        for i in node_and_types:
+            try:
+                print(i[0])
+            except:pass
 
     def multihop_join_process(self):
 
@@ -481,4 +495,6 @@ if __name__ == "__main__":
         if n.type == 1:
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 
-    topology.plot_topology()"""
+    """
+
+    topology.plot_topology()

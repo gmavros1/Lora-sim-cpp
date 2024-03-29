@@ -37,7 +37,7 @@ class Node:
         self.current_transmiting_packet = None  # Null when a packet is not transmiting
         self.current_receiving_packet = None
 
-        self.type = 0  # type 0 only send, type 1 closer to gw can receive
+        self.type = -1 # type 0 only send, type 1 closer to gw can receive -- not assigned yet
 
     def tick(self, time):
         if self.time_dc > 0:
