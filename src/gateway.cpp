@@ -22,8 +22,10 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
                                                         current_packets[index].transmission_power);
         if (receive_power >= -130) {
             current_packets[index].receive_power = receive_power;
+            // cout << "IN" << endl;
         } else {
             current_packets.erase(current_packets.begin() + index);
+            // cout << "ABORT" << endl;
         }
     }
 

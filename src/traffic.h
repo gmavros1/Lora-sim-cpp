@@ -28,6 +28,8 @@ class Environment;
 class Traffic {
 private:
     string net_case = "";
+    int level;
+    string protocol_used = "";
     vector<Node> nodes;
     vector<MultihopNode> middle_nodes;
     vector<Gateway> gateways;

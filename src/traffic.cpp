@@ -25,6 +25,8 @@ void Traffic::initialize() {
     rate = j["load"];
     net_case = j["case"];
     rate = rate / (toa(15, 7) + duty_cycle(toa(15, 7)));
+    level = j["level"];
+    protocol_used = j["prt"];
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
 
@@ -41,16 +43,22 @@ void Traffic::initialize() {
         int assigned_node = nd["assigned_node"];
         int following = nd["following"];
 
-        if (type == 0) {
+        if (protocol_used == "Multihop") {
+            if (type == level) {
+                Node *node;
+                node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
+                nodes.push_back(*node);
+            } else {
+                MultihopNode *middle_node;
+                middle_node = new MultihopNode(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following,
+                                               type);
+                middle_nodes.push_back(*middle_node);
+            }
+        } else{
             Node *node;
             node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
             nodes.push_back(*node);
-        } else {
-            MultihopNode *middle_node;
-            middle_node = new MultihopNode(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
-            middle_nodes.push_back(*middle_node);
         }
-
     }
 
     // Gateways initialization

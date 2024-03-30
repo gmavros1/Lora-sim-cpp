@@ -20,6 +20,7 @@ class Topology:
         self.server = Server()
         self.metrics = Metrics()
         self.num_nodes = num_nodes
+        self.general_level = 0
 
         def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
             # Generate a random Euclidean distance within the specified range
@@ -73,7 +74,7 @@ class Topology:
         nodes = {}
 
         # For type 0 nodes
-        min_distance = 6000  # Example minimum distance in meters
+        min_distance = 5000  # Example minimum distance in meters
         max_distance = 8000  # Example maximum distance in meters
         #min_distance = 100  # Example minimum distance in meters
         #max_distance = 10000  # Example maximum distance in meters
@@ -87,15 +88,15 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)
 
         # For type 1 nodes
-        min_distance = 3000  # Example minimum distance in meters
-        max_distance = 5900  # Example maximum distance in meters
+        """min_distance = 3000  # Example minimum distance in meters
+        max_distance = 6000  # Example maximum distance in meters
 
         for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
             node_id = i
             node_x, node_y = generate_random_coordinates(
                 center_x, center_y, min_distance, max_distance)
             node_height = random.uniform(*node_height_range)
-            nodes[node_id] = (node_x, node_y, node_height)
+            nodes[node_id] = (node_x, node_y, node_height)"""
 
         # Create gateways and assign positions
         gateways = {}
@@ -162,12 +163,15 @@ class Topology:
 
         # Which case of simulation
         net_case = ''
+        protocol_used = ''
         if use_multihop:
             net_case = f"Multihop {num_gateways} gateways"
+            protocol_used = "Multihop"
         else:
             net_case = f"LoraWAN {num_gateways} gateways"
+            protocol_used = "Aloha"
 
-        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case}
+        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case, "level": int(self.general_level), "prt": protocol_used}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -239,15 +243,16 @@ class Topology:
             for node in self.nodes:  # node which I want to associate with a relay node
                 if node.type != -1: continue  # Only unassigned nodes
 
-                #print("IN")
-
                 rec_powers = []
                 rec_ids = []
 
                 for r_node in self.nodes:
-                    if node.type != level - 1: continue  # Only level - 1 nodes
+                    if (r_node.type != level - 1): continue  # Only level - 1 nodes
+
+                    #print("IN")
 
                     distance = distance_nodes(node, r_node)
+                    #print(distance)
                     rec_power = calculate_received_power(distance, node.transmission_power)
 
                     if rec_power >= -109:
@@ -257,18 +262,58 @@ class Topology:
                         node.type = level
                         node.state = "Listen"
 
-                node_and_types[level].append(
-                    {"node": node, "rec_power": rec_powers, "rec_id": rec_ids})  # same index - associate id - rec power
+                if len(rec_powers) > 0:
+                    node_and_types[level].append(
+                        {"node": node, "rec_power": rec_powers, "rec_id": rec_ids})  # same index - associate id - rec power
 
-            if count_new_entries == 0: break
+            if count_new_entries == 0:
+                node_and_types.pop()
+                break
             level += 1
 
-        # Assign Multihop protocol to middle nodes
+        self.general_level = level
 
-        for i in node_and_types:
+        # 3. Clustering algorithm preparation
+        only_nodes =[]
+        for level_in_level in node_and_types:
+            only_nodes.append([])
+            for node in level_in_level:
+                only_nodes[-1].append({"node": node["node"]})
+
+        # 4. Build clusters
+        for index_level in range(len(only_nodes)-1):
+            only_nodes[index_level+1], only_nodes[index_level] = self.build_clusters(only_nodes[index_level+1], only_nodes[index_level])
+
+        # 5. Define Following Nodes
+        for index_level in range(len(only_nodes)-1):
+            for node_type1 in only_nodes[index_level]:
+                nd1 = node_type1["node"]
+                for node_type0 in only_nodes[index_level+1]:
+                    nd0 = node_type0["node"]
+
+                    if nd1.id == nd0.assigned_node:
+                        nd1.node_following = nd0.id
+                        break
+
+        # 6 See if a type 1 node has no assigned type 0 nodes make it type 0
+        for node in self.nodes:  # Make them type 0
+            if node.node_following is None:
+                node.type = level
+                node.protocol = Lorawan(None)
+                node.state = "Sleep"
+            else:
+                node.protocol = Multihop()
+
+        # Every node close to gw has assigned node -1
+        for node in self.nodes:
+            if node.type == 0:
+                node.assigned_node = -1
+
+        """for i in node_and_types:
             try:
-                print(i[0])
-            except:pass
+                print(len(i))
+                print()
+            except:pass"""
 
     def multihop_join_process(self):
 
@@ -350,7 +395,12 @@ class Topology:
             if node.type == 1:
                 node.assigned_node = -1
 
+
+
     def build_clusters(self, type0_nodes, type1_nodes):
+
+        #print(type1_nodes)
+
         m = []
 
         # For every type 1 node
@@ -495,6 +545,21 @@ if __name__ == "__main__":
         if n.type == 1:
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 
-    """
+    print("TYPE 2")
+    for n in topology.nodes:
+        if n.type == 2:
+            print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 
-    topology.plot_topology()
+    print("TYPE 3")
+    for n in topology.nodes:
+        if n.type == 3:
+            print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
+
+    print("TYPE 4")
+    for n in topology.nodes:
+        if n.type == 4:
+            print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
+"""
+
+
+    # topology.plot_topology()
