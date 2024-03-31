@@ -74,8 +74,8 @@ class Topology:
         nodes = {}
 
         # For type 0 nodes
-        min_distance = 5000  # Example minimum distance in meters
-        max_distance = 8000  # Example maximum distance in meters
+        min_distance = 5500  # Example minimum distance in meters
+        max_distance = 10000  # Example maximum distance in meters
         #min_distance = 100  # Example minimum distance in meters
         #max_distance = 10000  # Example maximum distance in meters
 
