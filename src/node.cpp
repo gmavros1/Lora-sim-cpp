@@ -46,6 +46,11 @@ Node::Node(int id, int x, int y, int z, int sf, int channel, int transmission_po
 void Node::generate_packet() {
     this->buffer = new Packet(this->id, this->assigned_node, this->environment_time);
 
+    this->calculate_toa();
+
+}
+
+void Node::calculate_toa() {
     // Calculate toa nd dc
     this->ready_for_transmission = this->environment_time;
     double time_over_air = toa(this->buffer->getPayload_bytes(), this->sf);
@@ -58,12 +63,13 @@ void Node::generate_packet() {
     int toa_seq = time_over_air;
     this->buffer->setSeqNumReversed(toa_seq);
     generated_packets ++;
-
 }
+
+
 
 Packet* Node::transmit_packet() {
     if (this->buffer != nullptr) {
-        static Packet transmitted_packet = *new Packet(-1, -1, -1);
+        static Packet transmitted_packet = *new Packet( id, assigned_node, -1);
         transmitted_packet = *this->buffer;
         this->buffer = nullptr;
 
@@ -121,4 +127,6 @@ int Node::getSf() {
 int Node::getTrasmissionPower() {
     return this->transmission_power;
 }
+
+
 

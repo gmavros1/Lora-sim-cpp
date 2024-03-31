@@ -24,8 +24,8 @@ void Traffic::initialize() {
     life_time = j["life_time"];
     rate = j["load"];
     net_case = j["case"];
-    rate = rate / (toa(15, 7) + duty_cycle(toa(15, 7)));
     level = j["level"];
+    rate = rate / ((toa(15, 7) + duty_cycle(toa(15, 7))) * 1) ;
     protocol_used = j["prt"];
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
@@ -107,10 +107,10 @@ void Traffic::put_metrics_in_file() {
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
 
-    double normalized_rate = rate * (toa(15, 7), duty_cycle(toa(15, 7)));
+    double normalized_rate = rate * (1 * (toa(15, 7), duty_cycle(toa(15, 7))));
 
     double maximum_tr;
-    maximum_tr = life_time / (toa(15, 7) + duty_cycle(toa(15, 7)));
+    maximum_tr = life_time / ((toa(15, 7) + duty_cycle(toa(15, 7))) * 1);
 
     int nodes_number;
     nodes_number = nodes.size() + middle_nodes.size();
@@ -126,17 +126,21 @@ void Traffic::run() {
     vector<Packet > packets;
     for (int time=0; time < life_time; time ++) {
 
-        // Receiving Current Packets on air
+        // Receiving Current Packets on air - Gateways
         auto packet_to_receive = environment.getPackets();
         for (auto & gateway: gateways) {
             gateway.clock(time);
             gateway.receive(packet_to_receive);
         }
 
-        // Receiving Sleeping Transmitting
+        // Receiving Sleeping Transmitting - Relay (Multi-hop Nodes)
         for (auto & node : middle_nodes) {
             node.clock(time);
             string state = node.multiNode_driver();
+
+            if (state == "Packet Generation") {
+                node.generate_packet();
+            }
             if (state == "Transmitting") {
                 Packet* transmitted_packet = node.transmit_packet();
                 if (transmitted_packet != nullptr) {
@@ -147,9 +151,10 @@ void Traffic::run() {
             if (state == "Sleeping") {
                 node.receive_node(packet_to_receive);
             }
+
         }
 
-        // Transmitting - Sleeping
+        // Transmitting - Sleeping - LoRaWAN nodes
         for (auto & node : nodes) {
             node.clock(time);
             string state = node.node_driver();

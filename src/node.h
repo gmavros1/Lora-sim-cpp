@@ -42,6 +42,8 @@ public:
 
     int generated_packets;
 
+    void calculate_toa();
+
 protected:
     int id;
     int channel;

@@ -95,27 +95,33 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
     for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
         if (it->second.decoded_or_not == "Decoded") {
             if (!a_packet_has_decoded){
-                // Packet from reguler Node
+                // Packet from regular Node
                 // Just forward
-                if (it->second.packet.getSrc() != this->following) {
+                //if (it->second.packet.getSrc() != this->following) {
                     Packet temp_pack = it->second.packet;
                     this->buffer = new Packet(temp_pack.getSrc(), this->assigned_node,
                                               temp_pack.getTimestamp_start()); // pass the arguments
+
+                    // Compute Duty cycle
+                    this->calculate_toa();
+
                     a_packet_has_decoded = true;
-                }
+                //}
                 // Packet from Follower
                 // Generate Packet and aggrgate
-                else{
+                /*else{
                     this->generate_packet();
                     Packet temp_pack = it->second.packet;
                     // Aggregate
                     this->buffer->aggregated_packet =new Packet(temp_pack.getSrc(), this->assigned_node,
                                                                 temp_pack.getTimestamp_start()); // pass the arguments
                     a_packet_has_decoded = true;
-                }
+                }*/
+                decoded_packets_statistics.push_back(it->first);
+                it = receiving_buffer.erase(it); // Remove the item
+
+                //cout << "Node " << this->id << " received from " << temp_pack.getSrc() << endl;
             }
-            decoded_packets_statistics.push_back(it->first);
-            it = receiving_buffer.erase(it); // Remove the item
         } else if (it->second.decoded_or_not == "Non_decoded") {
             non_decoded_packets_statistics.push_back(it->first);
             it = receiving_buffer.erase(it);
@@ -147,9 +153,14 @@ string MultihopNode::multiNode_driver() {
         }
     }
     else {
-            // Because of duty cycle
+        if((rand() / double (RAND_MAX)) <= this->packet_gen_prob) {
+            this->state = "Packet Generation";
+            return this->state;
+        }
+        else{ // Duty Cycle
             this->state = "Sleeping";
             return this->state;
+        }
     }
 }
 

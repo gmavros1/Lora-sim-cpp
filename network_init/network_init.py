@@ -67,15 +67,15 @@ class Topology:
         center_x = rangekm / 2  # Example center x-coordinate
         center_y = rangekm / 2  # Example center y-coordinate
 
-        #ratio_for_type_0 = 0.85
-        ratio_for_type_0 = 1
+        ratio_for_type_0 = 0.85
+        #ratio_for_type_0 = 1
         # ratio_for_type_0 = 1 - ratio_for_type_1
 
         nodes = {}
 
         # For type 0 nodes
-        min_distance = 5500  # Example minimum distance in meters
-        max_distance = 10000  # Example maximum distance in meters
+        min_distance = 6000  # Example minimum distance in meters
+        max_distance = 9000  # Example maximum distance in meters
         #min_distance = 100  # Example minimum distance in meters
         #max_distance = 10000  # Example maximum distance in meters
 
@@ -88,7 +88,7 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)
 
         # For type 1 nodes
-        """min_distance = 3000  # Example minimum distance in meters
+        min_distance = 5000  # Example minimum distance in meters
         max_distance = 6000  # Example maximum distance in meters
 
         for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
@@ -96,7 +96,7 @@ class Topology:
             node_x, node_y = generate_random_coordinates(
                 center_x, center_y, min_distance, max_distance)
             node_height = random.uniform(*node_height_range)
-            nodes[node_id] = (node_x, node_y, node_height)"""
+            nodes[node_id] = (node_x, node_y, node_height)
 
         # Create gateways and assign positions
         gateways = {}
@@ -170,6 +170,8 @@ class Topology:
         else:
             net_case = f"LoraWAN {num_gateways} gateways"
             protocol_used = "Aloha"
+
+        print(f"LEVEL: {self.general_level}")
 
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case, "level": int(self.general_level), "prt": protocol_used}
 
@@ -271,6 +273,9 @@ class Topology:
                 break
             level += 1
 
+        # It is minus one due to last increase
+        level -= 1
+
         self.general_level = level
 
         # 3. Clustering algorithm preparation
@@ -313,87 +318,9 @@ class Topology:
             try:
                 print(len(i))
                 print()
-            except:pass"""
+            except:pass
 
-    def multihop_join_process(self):
-
-        type_1_nodes = []
-        type_0_nodes = []
-
-        # 1. Collect type 1 nodes (and type 0)
-        for node in self.nodes:
-            # For each node select the min distance form gw
-            distance_to_gw = []
-            for gw in self.gateways:
-                distance_to_gw.append(distance_nodes(node, gw))
-            min_distance = min(distance_to_gw)  # For this distance define SF
-            # print(min_distance)
-
-            rec_power = calculate_received_power(
-                min_distance, node.transmission_power)
-
-            # if rec_power <= -149: print(rec_power)
-
-            if rec_power < -130:
-                node.type = 0
-                type_0_nodes.append({"node": node, "rec_power": rec_power})
-            else:
-                node.state = "Listen"
-                node.type = 1  # middle node
-                node.protocol = Multihop()
-                type_1_nodes.append({"node": node, "rec_power": rec_power})
-
-        # print(len(type_1_nodes))
-        # print(len(type_0_nodes))
-
-        # 2. Assign channels to first 9 type 1 nodes
-        for i in range(9):
-            try:
-                type_1_nodes[i]["node"].channel = str(i)
-            except:
-                break  # less than 9 type 1 nodes
-
-        # 3. Assing channel to remaining type 1 nodes if exist
-        # Try to find channel-node pairs with max rec power diff (when gw receiving)
-        available_channels = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
-        if len(type_1_nodes) > 9:
-            for i in range(9, len(type_1_nodes)):  # remaining nodes
-                if len(available_channels) == 0:
-                    available_channels = ["0", "1", "2",
-                                          "3", "4", "5", "6", "7", "8"]
-                max_diff = 0
-                for j in range(9):
-                    diff = abs(
-                        type_1_nodes[i]["rec_power"] - type_1_nodes[j]["rec_power"])
-                    if diff > max_diff and type_1_nodes[j]["node"].channel in available_channels:
-                        max_diff = diff
-                        type_1_nodes[i]["node"].channel = type_1_nodes[j]["node"].channel
-                available_channels.remove(type_1_nodes[i]["node"].channel)
-
-        ##### HERE TRY THE BALANCED CLUSTER METHOD AND DISCARD THE ABOVE ######
-        type_0_nodes, type_1_nodes = self.build_clusters(type_0_nodes, type_1_nodes)
-
-        # 5. Define Following Nodes
-        for node_type1 in type_1_nodes:
-            nd1 = node_type1["node"]
-            for node_type0 in type_0_nodes:
-                nd0 = node_type0["node"]
-
-                if nd1.id == nd0.assigned_node:
-                    nd1.node_following = nd0.id
-                    break
-
-        # 6 See if a type 1 node has no assigned type 0 nodes make it type 0
-        for node in self.nodes:  # Make them type 0
-            if node.node_following is None:
-                node.type = 0
-                node.protocol = Lorawan(None)
-                node.state = "Sleep"
-
-        # Every node close to gw has assigned node -1
-        for node in self.nodes:
-            if node.type == 1:
-                node.assigned_node = -1
+        print(f"LEVEL {level}")"""
 
 
 
