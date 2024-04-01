@@ -2,8 +2,6 @@ import math
 import random
 import json
 
-
-# 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
 def distance_nodes(node1, node2):
     x1, y1, z1 = node1.x, node1.y, node1.height
     x2, y2, z2 = node2.x, node2.y, node2.height
