@@ -67,7 +67,7 @@ class Topology:
         center_x = rangekm / 2  # Example center x-coordinate
         center_y = rangekm / 2  # Example center y-coordinate
 
-        ratio_for_type_0 = 0.85
+        ratio_for_type_0 = 0.9
         #ratio_for_type_0 = 1
         # ratio_for_type_0 = 1 - ratio_for_type_1
 
@@ -75,7 +75,7 @@ class Topology:
 
         # For type 0 nodes
         min_distance = 6000  # Example minimum distance in meters
-        max_distance = 9000  # Example maximum distance in meters
+        max_distance = 12000  # Example maximum distance in meters
         #min_distance = 100  # Example minimum distance in meters
         #max_distance = 10000  # Example maximum distance in meters
 
@@ -88,7 +88,7 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)
 
         # For type 1 nodes
-        min_distance = 5000  # Example minimum distance in meters
+        min_distance = 5500  # Example minimum distance in meters
         max_distance = 6000  # Example maximum distance in meters
 
         for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
@@ -171,7 +171,11 @@ class Topology:
             net_case = f"LoraWAN {num_gateways} gateways"
             protocol_used = "Aloha"
 
-        print(f"LEVEL: {self.general_level}")
+        #print(f"LEVEL: {self.general_level}")
+
+        # Define metric related to load based to level of every node
+        level_sum = 0
+
 
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case, "level": int(self.general_level), "prt": protocol_used}
 
