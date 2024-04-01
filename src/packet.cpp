@@ -72,6 +72,12 @@ int Packet::getSrc() const {
     return src;
 }
 
+void Packet::setTimestamp_end(int timestamp) {
+    timestamp_end = timestamp;
+}
+
+
+
 /*int main() {
 
     Packet packet(1, 4, 6);

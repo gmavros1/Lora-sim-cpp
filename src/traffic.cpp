@@ -23,9 +23,11 @@ void Traffic::initialize() {
 
     life_time = j["life_time"];
     rate = j["load"];
+    norm_load = j["load"];
     net_case = j["case"];
     level = j["level"];
-    rate = rate / ((toa(15, 7) + duty_cycle(toa(15, 7))) * 1) ;
+    rate_prd = j["rate_prd"];
+    rate = rate / ((toa(15, 7) * rate_prd) + duty_cycle((toa(15, 7) * rate_prd) )) ;
     protocol_used = j["prt"];
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
@@ -107,10 +109,11 @@ void Traffic::put_metrics_in_file() {
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
 
-    double normalized_rate = rate * (1 * (toa(15, 7), duty_cycle(toa(15, 7))));
+    //double normalized_rate = rate * (1 * (toa(15, 7), duty_cycle(toa(15, 7))));
+    double normalized_rate = norm_load;
 
     double maximum_tr;
-    maximum_tr = life_time / ((toa(15, 7) + duty_cycle(toa(15, 7))) * 1);
+    maximum_tr = life_time / (((toa(15, 7) * rate_prd) + duty_cycle((toa(15, 7) * rate_prd) )));
 
     int nodes_number;
     nodes_number = nodes.size() + middle_nodes.size();

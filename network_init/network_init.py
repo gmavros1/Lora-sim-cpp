@@ -20,7 +20,7 @@ class Topology:
         self.server = Server()
         self.metrics = Metrics()
         self.num_nodes = num_nodes
-        self.general_level = 0
+        self.general_level = 1
 
         def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
             # Generate a random Euclidean distance within the specified range
@@ -68,7 +68,7 @@ class Topology:
         center_y = rangekm / 2  # Example center y-coordinate
 
         ratio_for_type_0 = 0.9
-        #ratio_for_type_0 = 1
+        # ratio_for_type_0 = 1
         # ratio_for_type_0 = 1 - ratio_for_type_1
 
         nodes = {}
@@ -76,8 +76,8 @@ class Topology:
         # For type 0 nodes
         min_distance = 6000  # Example minimum distance in meters
         max_distance = 12000  # Example maximum distance in meters
-        #min_distance = 100  # Example minimum distance in meters
-        #max_distance = 10000  # Example maximum distance in meters
+        # min_distance = 100  # Example minimum distance in meters
+        # max_distance = 10000  # Example maximum distance in meters
 
         # Create nodes and assign positions
         for i in range(int(num_nodes * ratio_for_type_0)):
@@ -171,13 +171,19 @@ class Topology:
             net_case = f"LoraWAN {num_gateways} gateways"
             protocol_used = "Aloha"
 
-        #print(f"LEVEL: {self.general_level}")
+        # print(f"LEVEL: {self.general_level}")
 
         # Define metric related to load based to level of every node
         level_sum = 0
+        for nd in nodes:
+            # nd
+            level_sum += int(nd["type"]) + 1
+        traffic_prd = level_sum / num_nodes
+        # print(level_sum/num_nodes)
+        # print(self.general_level)
 
-
-        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case, "level": int(self.general_level), "prt": protocol_used}
+        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
+                      "level": int(self.general_level), "prt": protocol_used, "rate_prd": float(traffic_prd)}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -211,7 +217,8 @@ class Topology:
             self.gateways.append(Gateway(gateway_id, position, self.server))
 
     def join_process(self):
-        pass
+        for nd in self.nodes:
+            nd.type = 0
 
         ### TO ENABLE MULTIHOP ###
 
@@ -255,14 +262,14 @@ class Topology:
                 for r_node in self.nodes:
                     if (r_node.type != level - 1): continue  # Only level - 1 nodes
 
-                    #print("IN")
+                    # print("IN")
 
                     distance = distance_nodes(node, r_node)
-                    #print(distance)
+                    # print(distance)
                     rec_power = calculate_received_power(distance, node.transmission_power)
 
                     if rec_power >= -109:
-                        count_new_entries += 1 # To stop when we have no other nodes
+                        count_new_entries += 1  # To stop when we have no other nodes
                         rec_powers.append(rec_power)
                         rec_ids.append(r_node.id)
                         node.type = level
@@ -270,7 +277,8 @@ class Topology:
 
                 if len(rec_powers) > 0:
                     node_and_types[level].append(
-                        {"node": node, "rec_power": rec_powers, "rec_id": rec_ids})  # same index - associate id - rec power
+                        {"node": node, "rec_power": rec_powers,
+                         "rec_id": rec_ids})  # same index - associate id - rec power
 
             if count_new_entries == 0:
                 node_and_types.pop()
@@ -283,21 +291,22 @@ class Topology:
         self.general_level = level
 
         # 3. Clustering algorithm preparation
-        only_nodes =[]
+        only_nodes = []
         for level_in_level in node_and_types:
             only_nodes.append([])
             for node in level_in_level:
                 only_nodes[-1].append({"node": node["node"]})
 
         # 4. Build clusters
-        for index_level in range(len(only_nodes)-1):
-            only_nodes[index_level+1], only_nodes[index_level] = self.build_clusters(only_nodes[index_level+1], only_nodes[index_level])
+        for index_level in range(len(only_nodes) - 1):
+            only_nodes[index_level + 1], only_nodes[index_level] = self.build_clusters(only_nodes[index_level + 1],
+                                                                                       only_nodes[index_level])
 
         # 5. Define Following Nodes
-        for index_level in range(len(only_nodes)-1):
+        for index_level in range(len(only_nodes) - 1):
             for node_type1 in only_nodes[index_level]:
                 nd1 = node_type1["node"]
-                for node_type0 in only_nodes[index_level+1]:
+                for node_type0 in only_nodes[index_level + 1]:
                     nd0 = node_type0["node"]
 
                     if nd1.id == nd0.assigned_node:
@@ -326,11 +335,9 @@ class Topology:
 
         print(f"LEVEL {level}")"""
 
-
-
     def build_clusters(self, type0_nodes, type1_nodes):
 
-        #print(type1_nodes)
+        # print(type1_nodes)
 
         m = []
 
@@ -492,5 +499,4 @@ if __name__ == "__main__":
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 """
 
-
-    # topology.plot_topology()
+    topology.plot_topology()

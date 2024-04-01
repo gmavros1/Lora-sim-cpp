@@ -66,10 +66,9 @@ void Node::calculate_toa() {
 }
 
 
-
 Packet* Node::transmit_packet() {
     if (this->buffer != nullptr) {
-        static Packet transmitted_packet = *new Packet( id, assigned_node, -1);
+        static Packet transmitted_packet = *new Packet( id, assigned_node, environment_time);
         transmitted_packet = *this->buffer;
         this->buffer = nullptr;
 

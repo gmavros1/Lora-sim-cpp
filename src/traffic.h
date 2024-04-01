@@ -36,6 +36,8 @@ private:
     Environment environment;
     double rate;
     int life_time;
+    float rate_prd;
+    double norm_load;
 
 public:
     void initialize();
