@@ -1,2 +1,4 @@
 case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets
 Multihop 1 gateways,0.1,150,0,200,1000000,18.1205,848
+LoraWAN 1 gateways,0.1,384,0,200,1000000,215.815,3901
+LoraWAN 1 gateways,0.1,384,0,200,1000000,215.815,3901

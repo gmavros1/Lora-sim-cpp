@@ -106,6 +106,34 @@ void Traffic::put_metrics_in_file() {
     }
     int num_non_decoded = allNonDecodedPackets.size();
 
+    // Measure Delay
+    unordered_map<std::string, int> lowestDelays;
+    for (const auto& gateway : gateways) {
+        // Iterate over each packet delay in the gateway
+        for (const auto& packetDelay : gateway.packetDelays) {
+            const std::string& packetId = packetDelay.first;
+            int delay = packetDelay.second;
+
+            // Check if this packet ID has been encountered before
+            auto search = lowestDelays.find(packetId);
+            if (search != lowestDelays.end()) {
+                // If the current delay is lower, update it in the map
+                if (delay < search->second) {
+                    search->second = delay;
+                }
+            } else {
+                // If this packet ID has not been encountered, add it to the map
+                lowestDelays[packetId] = delay;
+            }
+        }
+    }
+    int totalDelay = 0;
+    for (const auto& pair : lowestDelays) {
+        totalDelay += pair.second;
+    }
+
+    cout << totalDelay << endl;
+
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
 
