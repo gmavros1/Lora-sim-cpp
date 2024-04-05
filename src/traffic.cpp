@@ -132,7 +132,7 @@ void Traffic::put_metrics_in_file() {
         totalDelay += pair.second;
     }
 
-    cout << totalDelay << endl;
+    // cout << totalDelay << endl;
 
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
@@ -146,7 +146,7 @@ void Traffic::put_metrics_in_file() {
     int nodes_number;
     nodes_number = nodes.size() + middle_nodes.size();
 
-    outFile << net_case << "," << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "," << maximum_tr << "," << gen_packets << "\n";
+    outFile << net_case << "," << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "," << maximum_tr << "," << gen_packets << "," << totalDelay << "\n";
 
     // Close the file
     outFile.close();

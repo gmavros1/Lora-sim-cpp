@@ -18,8 +18,8 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
         double receive_power = calculate_received_power(distanceNodes(this->location,
                                                                             current_packets[index].location),
                                                         current_packets[index].transmission_power);
-        if ((receive_power >= -109) & (current_packets[index].channel == this->channel) & (current_packets[index].packet.getDst() ==
-                this->id) ) { //
+        if ((calculate_snr(receive_power, -(109.0+2.5)) >= snr_limit(current_packets[index].sf + 10)) &
+            (current_packets[index].channel == this->channel) & (current_packets[index].packet.getDst() == this->id) ) { //
             current_packets[index].receive_power = receive_power;
             //cout << "in" << endl;
         } else {
@@ -33,7 +33,7 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
         string packet_id = current_packet.packet.getPacketId();
 
         // Find max interference signal;
-        double max_itf = -1000;
+        double max_itf = -(109 + 2.5);
         for (auto current_packet_cmp: current_packets) { // packet compared (cmp)
             if (current_packet.sf == current_packet_cmp.sf &&
                 current_packet.channel == current_packet_cmp.channel &&

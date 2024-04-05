@@ -75,7 +75,7 @@ class Topology:
 
         # For type 0 nodes
         min_distance = 6000  # Example minimum distance in meters
-        max_distance = 12000  # Example maximum distance in meters
+        max_distance = 10000  # Example maximum distance in meters
         # min_distance = 100  # Example minimum distance in meters
         # max_distance = 10000  # Example maximum distance in meters
 
@@ -240,7 +240,7 @@ class Topology:
             rec_power = calculate_received_power(
                 min_distance, node.transmission_power)
 
-            if rec_power >= -130:
+            if calculate_snr(rec_power, -(130+2.5)) >= snr_limit(node.sf) + 10:   # rec_power >= -130:
                 node.type = 0  # middle node - which is also the type index of node_and_types list
                 node.state = "Listen"
                 node_and_types[-1].append(
@@ -268,7 +268,7 @@ class Topology:
                     # print(distance)
                     rec_power = calculate_received_power(distance, node.transmission_power)
 
-                    if rec_power >= -109:
+                    if calculate_snr(rec_power, - (109+2.5)) >= snr_limit(node.sf) + 10:   # rec_power >= -109:
                         count_new_entries += 1  # To stop when we have no other nodes
                         rec_powers.append(rec_power)
                         rec_ids.append(r_node.id)
@@ -499,4 +499,4 @@ if __name__ == "__main__":
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 """
 
-    topology.plot_topology()
+    # topology.plot_topology()

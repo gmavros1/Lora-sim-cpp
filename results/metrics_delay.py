@@ -12,22 +12,22 @@ with open('metrics.txt', 'r') as file:
     for case in cases:
         # Initialize lists to store data
         load_values = []
-        throughput_values = []
+        delay_values = []
         for line in lines[1:]:  # Skip the first line with headers
             if case == line.split(",")[0]:
 
                 load, decoded, non_decoded, nodes_number, life_time, max_trans, gen_packs, delay = map(float, line.split(",")[1:])
                 load_values.append(load)
-                throughput = ((non_decoded/nodes_number) / (gen_packs/nodes_number))
-                throughput_values.append(throughput)
+                throughput = ((delay/nodes_number) / decoded)
+                delay_values.append(throughput)
 
-        plt.plot(load_values, throughput_values, marker='o', linestyle='-', label=case)
+        plt.plot(load_values, delay_values, marker='o', linestyle='-', label=case)
 
 # Create a line graph
 plt.legend()
-plt.title('Load vs. Corrupted packets in Gateway')
+plt.title('Load vs. Delay per Node per Transmission')
 plt.xlabel('Load')
-plt.ylabel('Number of packets')
+plt.ylabel('Delay')
 plt.grid(True)
 
 # Display the plot or save it to a file
