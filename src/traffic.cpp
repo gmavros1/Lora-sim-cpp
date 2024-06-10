@@ -27,10 +27,20 @@ void Traffic::initialize() {
     net_case = j["case"];
     level = j["level"];
     rate_prd = j["rate_prd"];
-    rate = rate / ((toa(15, 7) * rate_prd) + duty_cycle((toa(15, 7) * rate_prd) )) ;
+    //cout << "rate prd" << rate_prd << endl;
+    max_sf = j["max_sf"];
+    // cout << rate << endl;
+    rate = rate / ((toa(15, max_sf) * rate_prd) + duty_cycle((toa(15, max_sf) * rate_prd) )) ;
+    //max_delay = toa(15, max_sf) * level;
     protocol_used = j["prt"];
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
+
+
+
+    //cout << "level: " << level << endl;
+    //cout << "max sf: " << max_sf << endl;
+    //cout << "max delay: " << max_delay << endl;
 
     // Nodes Initialization
     for (const auto& nd : nodes_info) {
@@ -90,6 +100,8 @@ void Traffic::put_metrics_in_file() {
         gen_packets += nd.generated_packets;
     }
 
+    //cout << gen_packets << endl;
+
     std::set<std::string> allDecodedPackets;
     for (const Gateway& gateway : gateways) {
         for (auto packet: gateway.decoded_packets_statistics){
@@ -141,12 +153,35 @@ void Traffic::put_metrics_in_file() {
     double normalized_rate = norm_load;
 
     double maximum_tr;
-    maximum_tr = life_time / (((toa(15, 7) * rate_prd) + duty_cycle((toa(15, 7) * rate_prd) )));
+    maximum_tr = life_time / (((toa(15, max_sf) * rate_prd) + duty_cycle((toa(15, max_sf) * rate_prd) )));
 
     int nodes_number;
     nodes_number = nodes.size() + middle_nodes.size();
 
-    outFile << net_case << "," << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "," << maximum_tr << "," << gen_packets << "," << totalDelay << "\n";
+    if (net_case=="Multihop 1 gateways") {
+
+        max_delay = 0;
+        for (Node& nd : nodes) {
+            max_delay += toa(15, 7);
+        }
+        for (Node& nd : middle_nodes) {
+            max_delay += toa(15, 7) * (nd.type + 1);
+        }
+        max_delay = max_delay/nodes_number;
+        max_delay = 492.428; // 345.173
+
+    } else{ // LoRaWAN
+        max_delay = 0;
+        for (Node& nd : nodes) {
+            max_delay += toa(15, nd.getSf());
+        }
+        max_delay = max_delay/nodes_number;
+        max_delay = 492.428;
+    }
+
+    // cout << "max delay " << max_delay << endl;
+
+    outFile << net_case << "," << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number << "," << life_time << "," << maximum_tr << "," << gen_packets << "," << totalDelay << "," << max_delay << "\n";
 
     // Close the file
     outFile.close();

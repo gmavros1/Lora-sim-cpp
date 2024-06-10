@@ -104,6 +104,9 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
             //cout << "Gateway received from " << it->second.packet.getSrc() <<  endl;
             decoded_packets_statistics.push_back(it->first);
             packetDelays[it->first] = (environment_time - it->second.packet.getTimestamp_start()); // Delay stuff
+            //if (it->second.sf>7) {
+            //    cout << it->second.sf << endl;
+            //}
             it = receiving_buffer.erase(it); // Remove the item
 
 

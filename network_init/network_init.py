@@ -21,6 +21,7 @@ class Topology:
         self.metrics = Metrics()
         self.num_nodes = num_nodes
         self.general_level = 1
+        self.max_sf = 7
 
         def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
             # Generate a random Euclidean distance within the specified range
@@ -62,12 +63,12 @@ class Topology:
                 else:
                     return (rangekm / 2 + (2 / 3) * max_distance), (rangekm / 2 - (2 / 3) * max_distance)
 
-        node_height_range = (100, 150)
+        node_height_range = (0, 10)
         gateway_height_range = (40, 50)
         center_x = rangekm / 2  # Example center x-coordinate
         center_y = rangekm / 2  # Example center y-coordinate
 
-        ratio_for_type_0 = 0.9
+        """ratio_for_type_0 = 0.9
         # ratio_for_type_0 = 1
         # ratio_for_type_0 = 1 - ratio_for_type_1
 
@@ -75,7 +76,7 @@ class Topology:
 
         # For type 0 nodes
         min_distance = 6000  # Example minimum distance in meters
-        max_distance = 10000  # Example maximum distance in meters
+        max_distance = 12000  # Example maximum distance in meters
         # min_distance = 100  # Example minimum distance in meters
         # max_distance = 10000  # Example maximum distance in meters
 
@@ -95,6 +96,16 @@ class Topology:
             node_id = i
             node_x, node_y = generate_random_coordinates(
                 center_x, center_y, min_distance, max_distance)
+            node_height = random.uniform(*node_height_range)
+            nodes[node_id] = (node_x, node_y, node_height)"""
+
+        nodes_cords = generate_nodes((center_x, center_y), 32, 5900, 9) # last arg - levels
+        nodes = {}
+
+        for i in range(len(nodes_cords)):
+            node_id = i
+            node_x = nodes_cords[i][0]
+            node_y = nodes_cords[i][1]
             node_height = random.uniform(*node_height_range)
             nodes[node_id] = (node_x, node_y, node_height)
 
@@ -178,12 +189,14 @@ class Topology:
         for nd in nodes:
             # nd
             level_sum += int(nd["type"]) + 1
-        traffic_prd = level_sum / num_nodes
+        traffic_prd = level_sum / len(nodes)
         # print(level_sum/num_nodes)
         # print(self.general_level)
+        all_same = 1
+        # print(f"max sf: {self.max_sf}")
 
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
-                      "level": int(self.general_level), "prt": protocol_used, "rate_prd": float(traffic_prd)}
+                      "level": int(self.general_level), "prt": protocol_used, "rate_prd": float(self.general_level), "max_sf": float(self.max_sf)}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -220,7 +233,46 @@ class Topology:
         for nd in self.nodes:
             nd.type = 0
 
+        self.max_sf = 7
+
+
+    def join_process_adr(self):
+        for nd in self.nodes:
+            nd.type = 0
+
+        sum_sf = 0.0
+
+        gw = self.gateways[0]
+        for nd in self.nodes:
+            dist = distance_nodes(nd, gw)
+
+            rec_power = calculate_received_power(
+                dist, nd.transmission_power)
+
+            # ADR like
+            while True:
+                if calculate_snr(rec_power, -(130 + 2.5)) >= snr_limit(nd.sf) + 10:
+                    break
+                elif nd.sf == 12:
+                    # print("OUT OF RANGE")
+                    break
+                else:
+                    nd.sf += 1
+
+            temp_sf = nd.sf
+
+            #plus_sf = dist // 6000
+            #temp_sf = 7 + plus_sf
+            # print(temp_sf)
+
+            sum_sf += temp_sf  # If we want the mean - comment out following
+
+            if temp_sf > self.max_sf:
+                self.max_sf = temp_sf
+
+        self.max_sf = float(sum_sf/len(self.nodes))
         ### TO ENABLE MULTIHOP ###
+        #print(self.max_sf)
 
     def multihop_join_process_inf(self):
 
@@ -240,7 +292,7 @@ class Topology:
             rec_power = calculate_received_power(
                 min_distance, node.transmission_power)
 
-            if calculate_snr(rec_power, -(130+2.5)) >= snr_limit(node.sf) + 10:   # rec_power >= -130:
+            if calculate_snr(rec_power, -(130 + 2.5)) >= snr_limit(node.sf) + 10:  # rec_power >= -130:
                 node.type = 0  # middle node - which is also the type index of node_and_types list
                 node.state = "Listen"
                 node_and_types[-1].append(
@@ -268,7 +320,7 @@ class Topology:
                     # print(distance)
                     rec_power = calculate_received_power(distance, node.transmission_power)
 
-                    if calculate_snr(rec_power, - (109+2.5)) >= snr_limit(node.sf) + 10:   # rec_power >= -109:
+                    if calculate_snr(rec_power, - (109 + 2.5)) >= snr_limit(node.sf) + 10:  # rec_power >= -109:
                         count_new_entries += 1  # To stop when we have no other nodes
                         rec_powers.append(rec_power)
                         rec_ids.append(r_node.id)
@@ -472,6 +524,7 @@ if __name__ == "__main__":
     protocol = sys.argv[3]
     num_of_gw = int(sys.argv[5])
     topology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i / 10, time)
+    #opology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i*2+1, time)  # is nodes per level
 
     """print("TYPE 0")
     for n in topology.nodes:
@@ -499,4 +552,4 @@ if __name__ == "__main__":
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 """
 
-    # topology.plot_topology()
+    #topology.plot_topology()

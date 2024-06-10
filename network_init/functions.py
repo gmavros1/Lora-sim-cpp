@@ -142,13 +142,30 @@ def debug_gw(packet, protocol):
     log_file.close()
 
 
+# Make topology - place nodes
+def generate_nodes(center, num_nodes, start_radius, level):
+    nodes = []
+    angle_increment = 2 * math.pi / num_nodes
+
+    for l in range(int(level)):
+        for i  in range(num_nodes):
+            angle = i * angle_increment
+
+            x = center[0] + (start_radius + 900*l) * math.cos(angle)
+            y = center[1] + (start_radius + 900*l) * math.sin(angle)
+            nodes.append((x, y))
+
+    return nodes
+
+
+
 # print(toa(15, 7))
 # print(duty_cycle(toa(15, 7)))
 # print(toa(15, 7)+duty_cycle(toa(15, 7)))
-#print(calculate_received_power(50000, 20))
+# print(calculate_received_power(50000, 20))
 
 # 108 db sens --> 1 km
 # 130 db sens --> 6 km
-#print(calculate_snr(-130, -132.5))
+# print(calculate_snr(-130, -132.5))
 # print(snr_limit(7))
-#print(snr_limit(8) + 10)
+# print(snr_limit(8) + 10)

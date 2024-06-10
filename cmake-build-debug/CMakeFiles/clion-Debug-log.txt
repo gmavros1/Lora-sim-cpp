@@ -1,4 +1,4 @@
-/snap/clion/265/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp -B /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
+/snap/clion/275/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -DPython_EXECUTABLE=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/venv/bin/python -DPython3_EXECUTABLE=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/venv/bin/python -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp -B /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
 CMake Deprecation Warning:
   Support for "Extra Generators" like
 
@@ -39,6 +39,13 @@ CMake Deprecation Warning at external/tqdm.cpp/CMakeLists.txt:11 (cmake_policy):
 
 
 -- Using the multi-header code from /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/
--- Configuring done (0.7s)
+-- Configuring done (0.5s)
 -- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    Python3_EXECUTABLE
+    Python_EXECUTABLE
+
+
 -- Build files have been written to: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
