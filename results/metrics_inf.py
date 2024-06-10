@@ -18,7 +18,7 @@ with open('metrics.txt', 'r') as file:
 
                 load, decoded, non_decoded, nodes_number, life_time, max_trans, gen_packs, delay, max_delay = map(float, line.split(",")[1:])
                 load_values.append(load)
-                throughput = ((non_decoded/nodes_number) / (gen_packs/nodes_number))
+                throughput = ((gen_packs - decoded) / gen_packs)
                 throughput_values.append(throughput)
 
         plt.plot(load_values, throughput_values, marker='o', linestyle='-', label=case)
