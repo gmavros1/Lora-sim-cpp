@@ -18,8 +18,8 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
         double receive_power = calculate_received_power(distanceNodes(this->location,
                                                                             current_packets[index].location),
                                                         current_packets[index].transmission_power);
-        if ((receive_power >= -109) & (current_packets[index].channel == this->channel) & (current_packets[index].packet.getDst() ==
-                this->id) ) { //
+        if ((calculate_snr(receive_power, -(109.0+2.5)) >= snr_limit(current_packets[index].sf + 10)) &
+            (current_packets[index].channel == this->channel) & (current_packets[index].packet.getDst() == this->id) ) { //
             current_packets[index].receive_power = receive_power;
             //cout << "in" << endl;
         } else {
@@ -33,7 +33,7 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
         string packet_id = current_packet.packet.getPacketId();
 
         // Find max interference signal;
-        double max_itf = -1000;
+        double max_itf = -(109 + 2.5);
         for (auto current_packet_cmp: current_packets) { // packet compared (cmp)
             if (current_packet.sf == current_packet_cmp.sf &&
                 current_packet.channel == current_packet_cmp.channel &&
@@ -95,27 +95,33 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
     for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
         if (it->second.decoded_or_not == "Decoded") {
             if (!a_packet_has_decoded){
-                // Packet from reguler Node
+                // Packet from regular Node
                 // Just forward
-                if (it->second.packet.getSrc() != this->following) {
+                //if (it->second.packet.getSrc() != this->following) {
                     Packet temp_pack = it->second.packet;
                     this->buffer = new Packet(temp_pack.getSrc(), this->assigned_node,
                                               temp_pack.getTimestamp_start()); // pass the arguments
+
+                    // Compute Duty cycle
+                    this->calculate_toa();
+
                     a_packet_has_decoded = true;
-                }
+                //}
                 // Packet from Follower
                 // Generate Packet and aggrgate
-                else{
+                /*else{
                     this->generate_packet();
                     Packet temp_pack = it->second.packet;
                     // Aggregate
                     this->buffer->aggregated_packet =new Packet(temp_pack.getSrc(), this->assigned_node,
                                                                 temp_pack.getTimestamp_start()); // pass the arguments
                     a_packet_has_decoded = true;
-                }
+                }*/
+                decoded_packets_statistics.push_back(it->first);
+                it = receiving_buffer.erase(it); // Remove the item
+
+                //cout << "Node " << this->id << " received from " << temp_pack.getSrc() << endl;
             }
-            decoded_packets_statistics.push_back(it->first);
-            it = receiving_buffer.erase(it); // Remove the item
         } else if (it->second.decoded_or_not == "Non_decoded") {
             non_decoded_packets_statistics.push_back(it->first);
             it = receiving_buffer.erase(it);
@@ -147,9 +153,14 @@ string MultihopNode::multiNode_driver() {
         }
     }
     else {
-            // Because of duty cycle
+        if((rand() / double (RAND_MAX)) <= this->packet_gen_prob) {
+            this->state = "Packet Generation";
+            return this->state;
+        }
+        else{ // Duty Cycle
             this->state = "Sleeping";
             return this->state;
+        }
     }
 }
 

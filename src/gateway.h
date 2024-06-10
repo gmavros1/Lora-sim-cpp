@@ -45,6 +45,7 @@ private:
 public:
     vector<string> decoded_packets_statistics; // Just metrics
     vector<string> non_decoded_packets_statistics;
+    unordered_map<std::string, int> packetDelays;
     Gateway(int id, int x, int y, int z);
     void receive(vector<radio_packet> &packets_received);
     void clock(int time);

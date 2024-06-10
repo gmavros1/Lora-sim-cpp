@@ -39,6 +39,8 @@ public:
 
     int getTimestamp_end() const;
 
+    void setTimestamp_end(int timestamp);
+
     int getPayload_bytes() const;
 
     int getSeqNum() const;

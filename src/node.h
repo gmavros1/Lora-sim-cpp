@@ -42,6 +42,8 @@ public:
 
     int generated_packets;
 
+    void calculate_toa();
+
 protected:
     int id;
     int channel;
@@ -57,6 +59,7 @@ protected:
     double packet_gen_prob;
     std::string state;
 
+public:
     int type;
     int assigned_node;
     int following;

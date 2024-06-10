@@ -20,7 +20,7 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
         double receive_power = calculate_received_power(distanceGatewayNode(this->location,
                                                                             current_packets[index].location),
                                                         current_packets[index].transmission_power);
-        if (receive_power >= -130) {
+        if (calculate_snr(receive_power, -(130.0+2.5)) >= snr_limit(current_packets[index].sf + 10)) { // receive_power >= -130
             current_packets[index].receive_power = receive_power;
             // cout << "IN" << endl;
         } else {
@@ -35,7 +35,7 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
         string packet_id = current_packet.packet.getPacketId();
 
         // Find max interference signal;
-        double max_itf = -1000;
+        double max_itf = -(130 + 2.5);
         for (auto current_packet_cmp: current_packets) { // packet compared (cmp)
             if (current_packet.sf == current_packet_cmp.sf &&
                 current_packet.channel == current_packet_cmp.channel &&
@@ -82,6 +82,7 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
                     }
                 }
                 if (num_of_sccs_decod_packets_req == num_of_sccs_decod_packets) {
+                    // cout << "eq" << endl;
                     receiving_buffer[packet_id].decoded_or_not = "Decoded";
                 } else {
                     receiving_buffer[packet_id].decoded_or_not = "Non_decoded";
@@ -95,12 +96,20 @@ void Gateway::receive(vector<radio_packet> &packets_received) {
     // Remove decoded packets
     for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
         if (it->second.decoded_or_not == "Decoded") {
+            //cout << "DEC" << endl;
             if (it->second.packet.aggregated_packet != nullptr){
                 string agg_packet = it->second.packet.aggregated_packet->getPacketId();
                 decoded_packets_statistics.push_back(agg_packet);
             }
+            //cout << "Gateway received from " << it->second.packet.getSrc() <<  endl;
             decoded_packets_statistics.push_back(it->first);
+            packetDelays[it->first] = (environment_time - it->second.packet.getTimestamp_start()); // Delay stuff
+            //if (it->second.sf>7) {
+            //    cout << it->second.sf << endl;
+            //}
             it = receiving_buffer.erase(it); // Remove the item
+
+
         } else if (it->second.decoded_or_not == "Non_decoded") {
             non_decoded_packets_statistics.push_back(it->first);
             it = receiving_buffer.erase(it);

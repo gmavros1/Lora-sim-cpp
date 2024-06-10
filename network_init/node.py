@@ -16,7 +16,8 @@ class Node:
         self.height = position[2]
         # self.sf = random.randint(7, 12) # By default on our approach ?
         self.sf = 7
-        self.channel = str(int(id) % (8 + 1))  # 0 to 8
+        #self.channel = str(int(id) % (8 + 1))  # 0 to 8
+        self.channel = str(random.randint(0, 8))
         self.bandwidth = 125  # Or 250
         self.transmission_power = 20  # 14 dB - default in our approach
         self.state = "Sleep"  # Sleep, Transmit, Listen, Receive (Idle Listening/Receiving)

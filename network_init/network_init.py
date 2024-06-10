@@ -20,7 +20,8 @@ class Topology:
         self.server = Server()
         self.metrics = Metrics()
         self.num_nodes = num_nodes
-        self.general_level = 0
+        self.general_level = 1
+        self.max_sf = 7
 
         def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
             # Generate a random Euclidean distance within the specified range
@@ -62,22 +63,22 @@ class Topology:
                 else:
                     return (rangekm / 2 + (2 / 3) * max_distance), (rangekm / 2 - (2 / 3) * max_distance)
 
-        node_height_range = (100, 150)
+        node_height_range = (0, 10)
         gateway_height_range = (40, 50)
         center_x = rangekm / 2  # Example center x-coordinate
         center_y = rangekm / 2  # Example center y-coordinate
 
-        #ratio_for_type_0 = 0.85
-        ratio_for_type_0 = 1
+        """ratio_for_type_0 = 0.9
+        # ratio_for_type_0 = 1
         # ratio_for_type_0 = 1 - ratio_for_type_1
 
         nodes = {}
 
         # For type 0 nodes
-        min_distance = 5500  # Example minimum distance in meters
-        max_distance = 10000  # Example maximum distance in meters
-        #min_distance = 100  # Example minimum distance in meters
-        #max_distance = 10000  # Example maximum distance in meters
+        min_distance = 6000  # Example minimum distance in meters
+        max_distance = 12000  # Example maximum distance in meters
+        # min_distance = 100  # Example minimum distance in meters
+        # max_distance = 10000  # Example maximum distance in meters
 
         # Create nodes and assign positions
         for i in range(int(num_nodes * ratio_for_type_0)):
@@ -88,7 +89,7 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)
 
         # For type 1 nodes
-        """min_distance = 3000  # Example minimum distance in meters
+        min_distance = 5500  # Example minimum distance in meters
         max_distance = 6000  # Example maximum distance in meters
 
         for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
@@ -97,6 +98,16 @@ class Topology:
                 center_x, center_y, min_distance, max_distance)
             node_height = random.uniform(*node_height_range)
             nodes[node_id] = (node_x, node_y, node_height)"""
+
+        nodes_cords = generate_nodes((center_x, center_y), 32, 5900, 9) # last arg - levels
+        nodes = {}
+
+        for i in range(len(nodes_cords)):
+            node_id = i
+            node_x = nodes_cords[i][0]
+            node_y = nodes_cords[i][1]
+            node_height = random.uniform(*node_height_range)
+            nodes[node_id] = (node_x, node_y, node_height)
 
         # Create gateways and assign positions
         gateways = {}
@@ -171,7 +182,21 @@ class Topology:
             net_case = f"LoraWAN {num_gateways} gateways"
             protocol_used = "Aloha"
 
-        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case, "level": int(self.general_level), "prt": protocol_used}
+        # print(f"LEVEL: {self.general_level}")
+
+        # Define metric related to load based to level of every node
+        level_sum = 0
+        for nd in nodes:
+            # nd
+            level_sum += int(nd["type"]) + 1
+        traffic_prd = level_sum / len(nodes)
+        # print(level_sum/num_nodes)
+        # print(self.general_level)
+        all_same = 1
+        # print(f"max sf: {self.max_sf}")
+
+        topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
+                      "level": int(self.general_level), "prt": protocol_used, "rate_prd": float(self.general_level), "max_sf": float(self.max_sf)}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -205,9 +230,49 @@ class Topology:
             self.gateways.append(Gateway(gateway_id, position, self.server))
 
     def join_process(self):
-        pass
+        for nd in self.nodes:
+            nd.type = 0
 
+        self.max_sf = 7
+
+
+    def join_process_adr(self):
+        for nd in self.nodes:
+            nd.type = 0
+
+        sum_sf = 0.0
+
+        gw = self.gateways[0]
+        for nd in self.nodes:
+            dist = distance_nodes(nd, gw)
+
+            rec_power = calculate_received_power(
+                dist, nd.transmission_power)
+
+            # ADR like
+            while True:
+                if calculate_snr(rec_power, -(130 + 2.5)) >= snr_limit(nd.sf) + 10:
+                    break
+                elif nd.sf == 12:
+                    # print("OUT OF RANGE")
+                    break
+                else:
+                    nd.sf += 1
+
+            temp_sf = nd.sf
+
+            #plus_sf = dist // 6000
+            #temp_sf = 7 + plus_sf
+            # print(temp_sf)
+
+            sum_sf += temp_sf  # If we want the mean - comment out following
+
+            if temp_sf > self.max_sf:
+                self.max_sf = temp_sf
+
+        self.max_sf = float(sum_sf/len(self.nodes))
         ### TO ENABLE MULTIHOP ###
+        #print(self.max_sf)
 
     def multihop_join_process_inf(self):
 
@@ -227,7 +292,7 @@ class Topology:
             rec_power = calculate_received_power(
                 min_distance, node.transmission_power)
 
-            if rec_power >= -130:
+            if calculate_snr(rec_power, -(130 + 2.5)) >= snr_limit(node.sf) + 10:  # rec_power >= -130:
                 node.type = 0  # middle node - which is also the type index of node_and_types list
                 node.state = "Listen"
                 node_and_types[-1].append(
@@ -249,14 +314,14 @@ class Topology:
                 for r_node in self.nodes:
                     if (r_node.type != level - 1): continue  # Only level - 1 nodes
 
-                    #print("IN")
+                    # print("IN")
 
                     distance = distance_nodes(node, r_node)
-                    #print(distance)
+                    # print(distance)
                     rec_power = calculate_received_power(distance, node.transmission_power)
 
-                    if rec_power >= -109:
-                        count_new_entries += 1 # To stop when we have no other nodes
+                    if calculate_snr(rec_power, - (109 + 2.5)) >= snr_limit(node.sf) + 10:  # rec_power >= -109:
+                        count_new_entries += 1  # To stop when we have no other nodes
                         rec_powers.append(rec_power)
                         rec_ids.append(r_node.id)
                         node.type = level
@@ -264,31 +329,36 @@ class Topology:
 
                 if len(rec_powers) > 0:
                     node_and_types[level].append(
-                        {"node": node, "rec_power": rec_powers, "rec_id": rec_ids})  # same index - associate id - rec power
+                        {"node": node, "rec_power": rec_powers,
+                         "rec_id": rec_ids})  # same index - associate id - rec power
 
             if count_new_entries == 0:
                 node_and_types.pop()
                 break
             level += 1
 
+        # It is minus one due to last increase
+        level -= 1
+
         self.general_level = level
 
         # 3. Clustering algorithm preparation
-        only_nodes =[]
+        only_nodes = []
         for level_in_level in node_and_types:
             only_nodes.append([])
             for node in level_in_level:
                 only_nodes[-1].append({"node": node["node"]})
 
         # 4. Build clusters
-        for index_level in range(len(only_nodes)-1):
-            only_nodes[index_level+1], only_nodes[index_level] = self.build_clusters(only_nodes[index_level+1], only_nodes[index_level])
+        for index_level in range(len(only_nodes) - 1):
+            only_nodes[index_level + 1], only_nodes[index_level] = self.build_clusters(only_nodes[index_level + 1],
+                                                                                       only_nodes[index_level])
 
         # 5. Define Following Nodes
-        for index_level in range(len(only_nodes)-1):
+        for index_level in range(len(only_nodes) - 1):
             for node_type1 in only_nodes[index_level]:
                 nd1 = node_type1["node"]
-                for node_type0 in only_nodes[index_level+1]:
+                for node_type0 in only_nodes[index_level + 1]:
                     nd0 = node_type0["node"]
 
                     if nd1.id == nd0.assigned_node:
@@ -313,93 +383,13 @@ class Topology:
             try:
                 print(len(i))
                 print()
-            except:pass"""
+            except:pass
 
-    def multihop_join_process(self):
-
-        type_1_nodes = []
-        type_0_nodes = []
-
-        # 1. Collect type 1 nodes (and type 0)
-        for node in self.nodes:
-            # For each node select the min distance form gw
-            distance_to_gw = []
-            for gw in self.gateways:
-                distance_to_gw.append(distance_nodes(node, gw))
-            min_distance = min(distance_to_gw)  # For this distance define SF
-            # print(min_distance)
-
-            rec_power = calculate_received_power(
-                min_distance, node.transmission_power)
-
-            # if rec_power <= -149: print(rec_power)
-
-            if rec_power < -130:
-                node.type = 0
-                type_0_nodes.append({"node": node, "rec_power": rec_power})
-            else:
-                node.state = "Listen"
-                node.type = 1  # middle node
-                node.protocol = Multihop()
-                type_1_nodes.append({"node": node, "rec_power": rec_power})
-
-        # print(len(type_1_nodes))
-        # print(len(type_0_nodes))
-
-        # 2. Assign channels to first 9 type 1 nodes
-        for i in range(9):
-            try:
-                type_1_nodes[i]["node"].channel = str(i)
-            except:
-                break  # less than 9 type 1 nodes
-
-        # 3. Assing channel to remaining type 1 nodes if exist
-        # Try to find channel-node pairs with max rec power diff (when gw receiving)
-        available_channels = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
-        if len(type_1_nodes) > 9:
-            for i in range(9, len(type_1_nodes)):  # remaining nodes
-                if len(available_channels) == 0:
-                    available_channels = ["0", "1", "2",
-                                          "3", "4", "5", "6", "7", "8"]
-                max_diff = 0
-                for j in range(9):
-                    diff = abs(
-                        type_1_nodes[i]["rec_power"] - type_1_nodes[j]["rec_power"])
-                    if diff > max_diff and type_1_nodes[j]["node"].channel in available_channels:
-                        max_diff = diff
-                        type_1_nodes[i]["node"].channel = type_1_nodes[j]["node"].channel
-                available_channels.remove(type_1_nodes[i]["node"].channel)
-
-        ##### HERE TRY THE BALANCED CLUSTER METHOD AND DISCARD THE ABOVE ######
-        type_0_nodes, type_1_nodes = self.build_clusters(type_0_nodes, type_1_nodes)
-
-        # 5. Define Following Nodes
-        for node_type1 in type_1_nodes:
-            nd1 = node_type1["node"]
-            for node_type0 in type_0_nodes:
-                nd0 = node_type0["node"]
-
-                if nd1.id == nd0.assigned_node:
-                    nd1.node_following = nd0.id
-                    break
-
-        # 6 See if a type 1 node has no assigned type 0 nodes make it type 0
-        for node in self.nodes:  # Make them type 0
-            if node.node_following is None:
-                node.type = 0
-                node.protocol = Lorawan(None)
-                node.state = "Sleep"
-
-        # Every node close to gw has assigned node -1
-        for node in self.nodes:
-            if node.type == 1:
-                node.assigned_node = -1
-
-
+        print(f"LEVEL {level}")"""
 
     def build_clusters(self, type0_nodes, type1_nodes):
 
-        #print(type1_nodes)
+        # print(type1_nodes)
 
         m = []
 
@@ -534,6 +524,7 @@ if __name__ == "__main__":
     protocol = sys.argv[3]
     num_of_gw = int(sys.argv[5])
     topology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i / 10, time)
+    #opology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i*2+1, time)  # is nodes per level
 
     """print("TYPE 0")
     for n in topology.nodes:
@@ -561,5 +552,4 @@ if __name__ == "__main__":
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 """
 
-
-    # topology.plot_topology()
+    #topology.plot_topology()

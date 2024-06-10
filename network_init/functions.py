@@ -3,7 +3,6 @@ import random
 import json
 
 
-# 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
 def distance_nodes(node1, node2):
     x1, y1, z1 = node1.x, node1.y, node1.height
     x2, y2, z2 = node2.x, node2.y, node2.height
@@ -17,7 +16,6 @@ def toa(payload_length, sf, crc=1, header=0, de=0, n_preamble=8, bw=125, cr=1):
     # The LowDataRateOptimize is enabled fo bandwidth 125 kHz and Spreading Factor >= 11
     if bw == 125 and int(sf) >= 11:
         de = 1
-
 
     # Time of symbol (ms)
     Ts = (2 ** int(sf)) / bw
@@ -144,10 +142,30 @@ def debug_gw(packet, protocol):
     log_file.close()
 
 
+# Make topology - place nodes
+def generate_nodes(center, num_nodes, start_radius, level):
+    nodes = []
+    angle_increment = 2 * math.pi / num_nodes
+
+    for l in range(int(level)):
+        for i  in range(num_nodes):
+            angle = i * angle_increment
+
+            x = center[0] + (start_radius + 900*l) * math.cos(angle)
+            y = center[1] + (start_radius + 900*l) * math.sin(angle)
+            nodes.append((x, y))
+
+    return nodes
+
+
+
 # print(toa(15, 7))
 # print(duty_cycle(toa(15, 7)))
 # print(toa(15, 7)+duty_cycle(toa(15, 7)))
-# print(calculate_received_power(6000, 20))
+# print(calculate_received_power(50000, 20))
 
 # 108 db sens --> 1 km
 # 130 db sens --> 6 km
+# print(calculate_snr(-130, -132.5))
+# print(snr_limit(7))
+# print(snr_limit(8) + 10)

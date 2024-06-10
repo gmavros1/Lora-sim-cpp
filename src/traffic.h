@@ -36,6 +36,10 @@ private:
     Environment environment;
     double rate;
     int life_time;
+    float rate_prd;
+    double norm_load;
+    double max_sf;
+    double max_delay;
 
 public:
     void initialize();
