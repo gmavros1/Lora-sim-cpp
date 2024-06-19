@@ -1,6 +1,8 @@
 import math
 import random
 import json
+from scipy.spatial import KDTree
+import numpy as np
 
 
 def distance_nodes(node1, node2):
@@ -148,16 +150,37 @@ def generate_nodes(center, num_nodes, start_radius, level):
     angle_increment = 2 * math.pi / num_nodes
 
     for l in range(int(level)):
-        for i  in range(num_nodes):
+        for i in range(num_nodes):
             angle = i * angle_increment
 
-            x = center[0] + (start_radius + 900*l) * math.cos(angle)
-            y = center[1] + (start_radius + 900*l) * math.sin(angle)
+            x = center[0] + (start_radius + 900 * l) * math.cos(angle)
+            y = center[1] + (start_radius + 900 * l) * math.sin(angle)
             nodes.append((x, y))
 
     return nodes
 
 
+def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
+    # Generate a random Euclidean distance within the specified range
+    euclidean_distance = np.random.uniform(min_distance, max_distance)
+
+    # Generate a random angle (theta) between 0 and 2*pi
+    theta = np.random.uniform(0, 2 * np.pi)
+
+    # Calculate x and y coordinates using polar coordinates
+    x = center_x + euclidean_distance * np.cos(theta)
+    y = center_y + euclidean_distance * np.sin(theta)
+
+    return x, y
+
+def generate_nodes_random(center, num_nodes, start_radius, max_radius):
+    nodes = []
+
+    for i in range(num_nodes):
+        node_x, node_y = generate_random_coordinates(center[0], center[1], start_radius, max_radius)
+        nodes.append((node_x, node_y))
+
+    return nodes
 
 # print(toa(15, 7))
 # print(duty_cycle(toa(15, 7)))
