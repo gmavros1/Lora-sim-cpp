@@ -178,15 +178,39 @@ def distance_from_cetner(i, center):
     return np.sqrt((i[0] - center[0]) ** 2 + (i[1] - center[1]) ** 2)
 
 
-def generate_nodes_random(center, num_nodes, start_radius, max_radius):
-    in_nodes = []
+def place_out_node(center, pointi):
 
-    in_range = int(0.3 * num_nodes)
-    #print(f"In range : {in_range}")
+    """if max_distance >= max_radius:
+        return"""
+
+    # Vector
+    vector = (pointi[0] - center[0], pointi[1], center[1])
+    # Angle
+    try:
+        theta = np.arctan2(vector[1], vector[0])
+    except:
+        theta = np.arctan2(vector[1])
+
+    # Random distance
+    r_distance = np.random.uniform(800, 800)
+    down_limit = theta - np.pi / 2
+    upper_limit = theta + np.pi / 2
+    r_angle = np.random.uniform(down_limit, upper_limit)
+
+    # Place next point
+    pointj = (pointi[0] + r_distance * np.cos(r_angle), pointi[1] + r_distance * np.sin(r_angle))
+
+    return pointj
+
+def generate_nodes_random(center, num_nodes, start_radius, max_radius):
+
+    nodes = []
+
+    in_range = int(0.2 * num_nodes)
     out_of_range = num_nodes - in_range
-    #print(f"Out of range : {out_of_range}")
 
     # Place nodes in range
+    in_nodes = []
     for i in range(in_range):
         node_x, node_y = generate_random_coordinates(center[0], center[1], 3000, start_radius)
         in_nodes.append((node_x, node_y))
@@ -195,42 +219,27 @@ def generate_nodes_random(center, num_nodes, start_radius, max_radius):
     relay_nodes = []
     for i in in_nodes:
         distance_temp = distance_from_cetner(i, center)
-        if distance_temp >= 5200:
+        if distance_temp >= 5500:
             relay_nodes.append(i)
 
-    def place_out_node(center, pointi, max_distance, nodes):
 
-        if max_distance >= max_radius :
-            return
+    for _ in range(out_of_range):
+        random_r_node = random.randint(0, len(relay_nodes)-1)
+        relay_node_temp = relay_nodes[random_r_node]
+        new_node = place_out_node(center, relay_node_temp)
 
-        # Vector
-        vector = (pointi[0] - center[0], pointi[1], center[1])
-        # Angle
-        try:
-            theta = np.arctan2(vector[1], vector[0])
-        except:
-            theta = np.arctan2(vector[1])
+        while distance_from_cetner(new_node, center) > max_radius:
+            new_node = place_out_node(center, relay_node_temp)
 
-        # Random distance
-        r_distance = np.random.uniform(800, 900)
-        down_limit = theta - np.pi / 2
-        upper_limit = theta + np.pi / 2
-        r_angle = np.random.uniform(down_limit, upper_limit)
+        nodes.append(new_node)
+        relay_nodes.append(new_node)
 
-        # Place next point
-        pointj = (pointi[0] + r_distance * np.cos(r_angle), pointi[1] + r_distance * np.sin(r_angle))
+        relay_nodes.pop(random.randrange(len(relay_nodes)))
 
-        nodes.append(pointj)
 
-        place_out_node(center, pointj, distance_from_cetner(pointj, center), nodes)
 
-    out_nodes = []
-    # Place every node outside range recursively
-    for i in relay_nodes:
-        max_distance = distance_from_cetner(i, center)
-        place_out_node(center, i, max_distance, out_nodes)
-
-    nodes = in_nodes + out_nodes
+        # Add inside nodes
+    nodes += in_nodes
 
     print(len(nodes))
 

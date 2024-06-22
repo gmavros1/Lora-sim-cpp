@@ -553,4 +553,4 @@ if __name__ == "__main__":
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 """
 
-    # topology.plot_topology()
+    topology.plot_topology()
