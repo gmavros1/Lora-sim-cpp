@@ -100,7 +100,7 @@ class Topology:
             nodes[node_id] = (node_x, node_y, node_height)"""
 
         # nodes_cords = generate_nodes((center_x, center_y), 32, 5900, 9) # last arg - levels
-        nodes_cords = generate_nodes_random((center_x, center_y), num_nodes, 5000, 12000)
+        nodes_cords = generate_nodes_random((center_x, center_y), num_nodes, 6000, 10000)
         nodes = {}
 
         for i in range(len(nodes_cords)):
@@ -553,4 +553,4 @@ if __name__ == "__main__":
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 """
 
-    topology.plot_topology()
+    # topology.plot_topology()

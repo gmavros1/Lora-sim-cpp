@@ -173,12 +173,66 @@ def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
 
     return x, y
 
-def generate_nodes_random(center, num_nodes, start_radius, max_radius):
-    nodes = []
 
-    for i in range(num_nodes):
-        node_x, node_y = generate_random_coordinates(center[0], center[1], start_radius, max_radius)
-        nodes.append((node_x, node_y))
+def distance_from_cetner(i, center):
+    return np.sqrt((i[0] - center[0]) ** 2 + (i[1] - center[1]) ** 2)
+
+
+def generate_nodes_random(center, num_nodes, start_radius, max_radius):
+    in_nodes = []
+
+    in_range = int(0.3 * num_nodes)
+    #print(f"In range : {in_range}")
+    out_of_range = num_nodes - in_range
+    #print(f"Out of range : {out_of_range}")
+
+    # Place nodes in range
+    for i in range(in_range):
+        node_x, node_y = generate_random_coordinates(center[0], center[1], 3000, start_radius)
+        in_nodes.append((node_x, node_y))
+
+    # Find relay nodes
+    relay_nodes = []
+    for i in in_nodes:
+        distance_temp = distance_from_cetner(i, center)
+        if distance_temp >= 5200:
+            relay_nodes.append(i)
+
+    def place_out_node(center, pointi, max_distance, nodes):
+
+        if max_distance >= max_radius :
+            return
+
+        # Vector
+        vector = (pointi[0] - center[0], pointi[1], center[1])
+        # Angle
+        try:
+            theta = np.arctan2(vector[1], vector[0])
+        except:
+            theta = np.arctan2(vector[1])
+
+        # Random distance
+        r_distance = np.random.uniform(800, 900)
+        down_limit = theta - np.pi / 2
+        upper_limit = theta + np.pi / 2
+        r_angle = np.random.uniform(down_limit, upper_limit)
+
+        # Place next point
+        pointj = (pointi[0] + r_distance * np.cos(r_angle), pointi[1] + r_distance * np.sin(r_angle))
+
+        nodes.append(pointj)
+
+        place_out_node(center, pointj, distance_from_cetner(pointj, center), nodes)
+
+    out_nodes = []
+    # Place every node outside range recursively
+    for i in relay_nodes:
+        max_distance = distance_from_cetner(i, center)
+        place_out_node(center, i, max_distance, out_nodes)
+
+    nodes = in_nodes + out_nodes
+
+    print(len(nodes))
 
     return nodes
 
