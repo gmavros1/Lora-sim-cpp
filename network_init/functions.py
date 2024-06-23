@@ -165,7 +165,7 @@ def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
     euclidean_distance = np.random.uniform(min_distance, max_distance)
 
     # Generate a random angle (theta) between 0 and 2*pi
-    theta = np.random.uniform(0, 2 * np.pi)
+    theta = np.random.uniform(0, np.pi)
 
     # Calculate x and y coordinates using polar coordinates
     x = center_x + euclidean_distance * np.cos(theta)
@@ -174,12 +174,11 @@ def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
     return x, y
 
 
-def distance_from_cetner(i, center):
+def distance_from_center(i, center):
     return np.sqrt((i[0] - center[0]) ** 2 + (i[1] - center[1]) ** 2)
 
 
 def place_out_node(center, pointi):
-
     """if max_distance >= max_radius:
         return"""
 
@@ -193,55 +192,52 @@ def place_out_node(center, pointi):
 
     # Random distance
     r_distance = np.random.uniform(800, 800)
-    down_limit = theta - np.pi / 2
-    upper_limit = theta + np.pi / 2
+    down_limit = theta - (np.pi) / 2
+    upper_limit = theta + (np.pi) / 2
     r_angle = np.random.uniform(down_limit, upper_limit)
 
-    # Place next point
     pointj = (pointi[0] + r_distance * np.cos(r_angle), pointi[1] + r_distance * np.sin(r_angle))
 
     return pointj
 
-def generate_nodes_random(center, num_nodes, start_radius, max_radius):
 
+def generate_nodes_random(center, num_nodes, start_radius, max_radius):
     nodes = []
 
-    in_range = int(0.2 * num_nodes)
+    in_range = int(0.1 * num_nodes)
     out_of_range = num_nodes - in_range
 
     # Place nodes in range
     in_nodes = []
     for i in range(in_range):
-        node_x, node_y = generate_random_coordinates(center[0], center[1], 3000, start_radius)
+        node_x, node_y = generate_random_coordinates(center[0], center[1], 5250, start_radius)
         in_nodes.append((node_x, node_y))
 
     # Find relay nodes
     relay_nodes = []
     for i in in_nodes:
-        distance_temp = distance_from_cetner(i, center)
-        if distance_temp >= 5500:
+        distance_temp = distance_from_center(i, center)
+        if distance_temp >= 5250:
             relay_nodes.append(i)
 
-
     for _ in range(out_of_range):
-        random_r_node = random.randint(0, len(relay_nodes)-1)
+        random_r_node = random.randint(0, len(relay_nodes) - 1)
         relay_node_temp = relay_nodes[random_r_node]
         new_node = place_out_node(center, relay_node_temp)
 
-        while distance_from_cetner(new_node, center) > max_radius:
+        while distance_from_center(new_node, center) > max_radius:
+            random_r_node = random.randint(0, len(relay_nodes) - 1)
+            relay_node_temp = relay_nodes[random_r_node]
             new_node = place_out_node(center, relay_node_temp)
 
         nodes.append(new_node)
         relay_nodes.append(new_node)
-
-        relay_nodes.pop(random.randrange(len(relay_nodes)))
-
-
+        relay_nodes.pop(random_r_node)
 
         # Add inside nodes
     nodes += in_nodes
 
-    print(len(nodes))
+    # print(len(nodes))
 
     return nodes
 

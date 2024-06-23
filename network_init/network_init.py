@@ -107,7 +107,7 @@ class Topology:
             node_id = i
             node_x = nodes_cords[i][0]
             node_y = nodes_cords[i][1]
-            node_height = random.uniform(*node_height_range)
+            node_height = 0  # random.uniform(*node_height_range)
             nodes[node_id] = (node_x, node_y, node_height)
 
         # Create gateways and assign positions
@@ -117,7 +117,7 @@ class Topology:
             # gateway_x = random.uniform(*gateway_x_range)
             # gateway_y = random.uniform(*gateway_y_range)
             gateway_x, gateway_y = get_gw_coordinates(num_of_gw, i, rangekm, max_distance=8000)
-            gateway_height = random.uniform(*gateway_height_range)
+            gateway_height = 0  # random.uniform(*gateway_height_range)
             gateways[gateway_id] = (gateway_x, gateway_y, gateway_height)
 
         self.nodes = []
@@ -197,7 +197,8 @@ class Topology:
         # print(f"max sf: {self.max_sf}")
 
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
-                      "level": int(self.general_level), "prt": protocol_used, "rate_prd": float(self.general_level), "max_sf": float(self.max_sf)}
+                      "level": int(self.general_level), "prt": protocol_used, "rate_prd": float(self.general_level),
+                      "max_sf": float(self.max_sf)}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -236,7 +237,6 @@ class Topology:
 
         self.max_sf = 7
 
-
     def join_process_adr(self):
         for nd in self.nodes:
             nd.type = 0
@@ -262,8 +262,8 @@ class Topology:
 
             temp_sf = nd.sf
 
-            #plus_sf = dist // 6000
-            #temp_sf = 7 + plus_sf
+            # plus_sf = dist // 6000
+            # temp_sf = 7 + plus_sf
             # print(temp_sf)
 
             sum_sf += temp_sf  # If we want the mean - comment out following
@@ -271,9 +271,9 @@ class Topology:
             if temp_sf > self.max_sf:
                 self.max_sf = temp_sf
 
-        self.max_sf = float(sum_sf/len(self.nodes))
+        self.max_sf = float(sum_sf / len(self.nodes))
         ### TO ENABLE MULTIHOP ###
-        #print(self.max_sf)
+        # print(self.max_sf)
 
     def multihop_join_process_inf(self):
 
@@ -489,24 +489,23 @@ class Topology:
 
         def plot_nodes_and_gateways(nodes, gateways):
             fig = plt.figure()
-            ax = fig.add_subplot(projection='3d')
-            ax.view_init(elev=90, azim=-90, roll=0)
+            ax = fig.add_subplot()
+            #ax = fig.add_subplot(projection='2d')
+            #ax.view_init(elev=90, azim=-90, roll=0)
 
             # Plot gateways
             for gateway in gateways:
-                ax.scatter(gateway.x, gateway.y, gateway.height,
+                ax.scatter(gateway.x, gateway.y,
                            color='black', marker='^', s=100)
 
             # Plot nodes
             for node in nodes:
-                ax.scatter(node.x, node.y, node.height,
+                ax.scatter(node.x, node.y,
                            color=get_node_color(node.channel))
 
             # Set labels
             ax.set_xlabel('X')
             ax.set_ylabel('Y')
-            ax.set_zlabel('Z')
-
             plt.show()
 
         plot_nodes_and_gateways(self.nodes, self.gateways)
@@ -525,7 +524,7 @@ if __name__ == "__main__":
     protocol = sys.argv[3]
     num_of_gw = int(sys.argv[5])
     topology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i / 10, time)
-    #opology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i*2+1, time)  # is nodes per level
+    # opology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i*2+1, time)  # is nodes per level
 
     """print("TYPE 0")
     for n in topology.nodes:
