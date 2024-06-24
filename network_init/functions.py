@@ -1,7 +1,6 @@
 import math
 import random
-import json
-from scipy.spatial import KDTree
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -49,18 +48,12 @@ def calculate_received_power(distance, transmission_power, shadowing_std_dev=5.3
     PL = PLd0 + 10 * alpha * math.log10(distance / d0)
 
     # Generate a random value for shadowing
-    shadowing = random.gauss(0, shadowing_std_dev)
     shadowing = shadowing_std_dev
 
     # Calculate the total path loss with shadowing
     PL += shadowing
 
-    # Calculate the received signal power at the receiver
-    # Pt = 10 ** (transmission_power / 10)  # Convert transmission power from dBm to Watts
-    # Pr = Pt / (10 ** (PL / 10))
-
     # Receive power returned in dB
-
     Pr = transmission_power - PL
 
     return Pr
@@ -125,25 +118,6 @@ def duty_cycle(toa):
     return t_interval  # ms have to wait until the next transmission
 
 
-def debug_node(node, action=None):
-    log_file = open("./logs.txt", "a")
-    dictionary = {"Time": node.environment_time, "Node": node.id, "Type": node.type,
-                  "state": node.state, "toa_remain": node.toa_remain,
-                  "buffer_len": len(node.buffer), "Action": action, "is receving": node.current_receiving_packet}
-    json_object = json.dumps(dictionary, indent=7)
-    log_file.write(json_object)
-    log_file.close()
-
-
-def debug_gw(packet, protocol):
-    log_file = open("./logs.txt", "a")
-    dictionary = {"Time": protocol.environment_time, "Source": packet.src, "flag": packet.start_end_flag,
-                  "sequence number": packet.seq_num, "Action": "Gw receive from node"}
-    json_object = json.dumps(dictionary, indent=7)
-    log_file.write(json_object)
-    log_file.close()
-
-
 # Make topology - place nodes
 def generate_nodes(center, num_nodes, start_radius, level):
     nodes = []
@@ -201,10 +175,11 @@ def place_out_node(center, pointi):
     return pointj
 
 
-def generate_nodes_random(center, num_nodes, start_radius, max_radius):
+def generate_nodes_random(center, num_nodes, start_radius):
     nodes = []
+    max_node_distance = 0
 
-    in_range = int(0.1 * num_nodes)
+    in_range = 12  # int(0.1 * num_nodes)
     out_of_range = num_nodes - in_range
 
     # Place nodes in range
@@ -225,29 +200,74 @@ def generate_nodes_random(center, num_nodes, start_radius, max_radius):
         relay_node_temp = relay_nodes[random_r_node]
         new_node = place_out_node(center, relay_node_temp)
 
-        while distance_from_center(new_node, center) > max_radius:
-            random_r_node = random.randint(0, len(relay_nodes) - 1)
-            relay_node_temp = relay_nodes[random_r_node]
-            new_node = place_out_node(center, relay_node_temp)
+        # Define range of network
+        max_node_distance += distance_from_center(new_node, center)
 
         nodes.append(new_node)
         relay_nodes.append(new_node)
-        relay_nodes.pop(random_r_node)
+        # relay_nodes.pop(random_r_node)
 
-        # Add inside nodes
+    # Add inside nodes
     nodes += in_nodes
 
-    # print(len(nodes))
+    return nodes, (max_node_distance / num_nodes)
 
-    return nodes
 
-# print(toa(15, 7))
-# print(duty_cycle(toa(15, 7)))
-# print(toa(15, 7)+duty_cycle(toa(15, 7)))
-# print(calculate_received_power(50000, 20))
+def get_gw_coordinates(num_of_gw, which_gw, rangeKm):
+    if num_of_gw == 1:
+        return 0, 0  # At the center of the topology
+    if num_of_gw == 2:
+        if which_gw == 0:
+            return rangeKm * np.cos(np.pi / 2), rangeKm * np.sin(np.pi / 2)
+        else:
+            return rangeKm * np.cos(3 * (np.pi / 2)), rangeKm * np.sin(3 * (np.pi / 2))
+    if num_of_gw == 3:
+        if which_gw == 0:
+            return rangeKm * np.cos((2 * np.pi) / 8), rangeKm * np.sin((2 * np.pi) / 8)
+        elif which_gw == 1:
+            return rangeKm * np.cos(3 * ((2 * np.pi) / 8)), rangeKm * np.sin(3 * ((2 * np.pi) / 8))
+        else:
+            return rangeKm * np.cos(6 * ((2 * np.pi) / 8)), rangeKm * np.sin(6 * ((2 * np.pi) / 8))
 
-# 108 db sens --> 1 km
-# 130 db sens --> 6 km
-# print(calculate_snr(-130, -132.5))
-# print(snr_limit(7))
-# print(snr_limit(8) + 10)
+
+def plot_topology(self):
+    def get_node_color(channel):
+        # Define a dictionary to map channels to colors
+        channel_colors = {
+            "0": "red",
+            "1": "blue",
+            "2": "green",
+            "3": "purple",
+            "4": "orange",
+            "5": "cyan",
+            "6": "magenta",
+            "7": "lime",
+            "8": "pink",
+        }
+
+        # Default to black if channel not found
+        return channel_colors.get(channel, "black")
+
+    def plot_nodes_and_gateways(nodes, gateways):
+        fig = plt.figure()
+        ax = fig.add_subplot()
+        ax.set_aspect('equal', adjustable='box')
+        # ax = fig.add_subplot(projection='2d')
+        # ax.view_init(elev=90, azim=-90, roll=0)
+
+        # Plot gateways
+        for gateway in gateways:
+            ax.scatter(gateway.x, gateway.y,
+                       color='black', marker='^', s=100)
+
+        # Plot nodes
+        for node in nodes:
+            ax.scatter(node.x, node.y,
+                       color=get_node_color(node.channel))
+
+        # Set labels
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        plt.show()
+
+    plot_nodes_and_gateways(self.nodes, self.gateways)

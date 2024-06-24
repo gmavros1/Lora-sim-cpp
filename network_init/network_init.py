@@ -1,6 +1,3 @@
-import random
-import matplotlib.pyplot as plt
-import numpy as np
 from node import Node
 from gateway import Gateway
 from server import Server
@@ -9,100 +6,26 @@ from functions import *
 from protocol import Multihop
 from protocol import Lorawan
 import json
-import os
 
 
 # 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
 class Topology:
 
-    def __init__(self, num_nodes, num_gateways, use_multihop, rangekm, load, life_time) -> None:
+    def __init__(self, num_nodes, num_gateways, use_multihop, load, life_time) -> None:
 
         self.server = Server()
         self.metrics = Metrics()
         self.num_nodes = num_nodes
-        self.general_level = 1
-        self.max_sf = 7
+        self.general_level = 1  # Initial value - before multi join all nodes are level 1
+        self.max_sf = 7  # If ADR is not applied all nodes have sf7
 
-        def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
-            # Generate a random Euclidean distance within the specified range
-            euclidean_distance = np.random.uniform(min_distance, max_distance)
-
-            # Generate a random angle (theta) between 0 and 2*pi
-            theta = np.random.uniform(0, 2 * np.pi)
-
-            # Calculate x and y coordinates using polar coordinates
-            x = center_x + euclidean_distance * np.cos(theta)
-            y = center_y + euclidean_distance * np.sin(theta)
-
-            return x, y
-
-        if num_gateways > 1:
-            # Range of x-coordinates for gateways
-            gateway_x_range = (rangekm / 2 - 8000, rangekm / 2 + 8000)
-            # Range of y-coordinates for gateways
-            gateway_y_range = (rangekm / 2 - 8000, rangekm / 2 + 8000)
-        else:
-            # Range of x-coordinates for gateways
-            gateway_x_range = (rangekm / 2 - 8000, rangekm / 2 + 8000)
-            # Range of y-coordinates for gateways
-            gateway_y_range = (rangekm / 2 - 8000, rangekm / 2 + 8000)
-
-        def get_gw_coordinates(num_of_gw, which_gw, rangekm, max_distance):
-            if num_of_gw == 1:
-                return rangekm / 2, rangekm / 2
-            if num_of_gw == 2:
-                if which_gw == 0:
-                    return (rangekm / 2 + (2 / 3) * max_distance), (rangekm / 2 + (2 / 3) * max_distance)
-                else:
-                    return (rangekm / 2 - (2 / 3) * max_distance), (rangekm / 2 - (2 / 3) * max_distance)
-            if num_of_gw == 3:
-                if which_gw == 0:
-                    return (rangekm / 2), (rangekm / 2 + (2 / 3) * max_distance)
-                elif which_gw == 1:
-                    return (rangekm / 2 - (2 / 3) * max_distance), (rangekm / 2 - (2 / 3) * max_distance)
-                else:
-                    return (rangekm / 2 + (2 / 3) * max_distance), (rangekm / 2 - (2 / 3) * max_distance)
-
-        node_height_range = (0, 10)
-        gateway_height_range = (40, 50)
-        center_x = rangekm / 2  # Example center x-coordinate
-        center_y = rangekm / 2  # Example center y-coordinate
-
-        """ratio_for_type_0 = 0.9
-        # ratio_for_type_0 = 1
-        # ratio_for_type_0 = 1 - ratio_for_type_1
-
-        nodes = {}
-
-        # For type 0 nodes
-        min_distance = 6000  # Example minimum distance in meters
-        max_distance = 12000  # Example maximum distance in meters
-        # min_distance = 100  # Example minimum distance in meters
-        # max_distance = 10000  # Example maximum distance in meters
-
-        # Create nodes and assign positions
-        for i in range(int(num_nodes * ratio_for_type_0)):
-            node_id = i
-            node_x, node_y = generate_random_coordinates(
-                center_x, center_y, min_distance, max_distance)
-            node_height = random.uniform(*node_height_range)
-            nodes[node_id] = (node_x, node_y, node_height)
-
-        # For type 1 nodes
-        min_distance = 5500  # Example minimum distance in meters
-        max_distance = 6000  # Example maximum distance in meters
-
-        for i in range(int(num_nodes * ratio_for_type_0), num_nodes):
-            node_id = i
-            node_x, node_y = generate_random_coordinates(
-                center_x, center_y, min_distance, max_distance)
-            node_height = random.uniform(*node_height_range)
-            nodes[node_id] = (node_x, node_y, node_height)"""
+        center_x, center_y = 0, 0  # rangekm / 2  # Example center x-coordinate
 
         # nodes_cords = generate_nodes((center_x, center_y), 32, 5900, 9) # last arg - levels
-        nodes_cords = generate_nodes_random((center_x, center_y), num_nodes, 6000, 10000)
+        nodes_cords, rangeKm = generate_nodes_random((center_x, center_y), num_nodes, 6000)
         nodes = {}
 
+        # Save nodes in a list
         for i in range(len(nodes_cords)):
             node_id = i
             node_x = nodes_cords[i][0]
@@ -114,9 +37,7 @@ class Topology:
         gateways = {}
         for i in range(num_gateways):
             gateway_id = i + 1
-            # gateway_x = random.uniform(*gateway_x_range)
-            # gateway_y = random.uniform(*gateway_y_range)
-            gateway_x, gateway_y = get_gw_coordinates(num_of_gw, i, rangekm, max_distance=8000)
+            gateway_x, gateway_y = get_gw_coordinates(num_of_gw, i, rangeKm)
             gateway_height = 0  # random.uniform(*gateway_height_range)
             gateways[gateway_id] = (gateway_x, gateway_y, gateway_height)
 
@@ -174,8 +95,6 @@ class Topology:
             # min_Interval = toa(15, 7) + duty_cycle(toa(15, 7))
 
         # Which case of simulation
-        net_case = ''
-        protocol_used = ''
         if use_multihop:
             net_case = f"Multihop {num_gateways} gateways"
             protocol_used = "Multihop"
@@ -183,18 +102,11 @@ class Topology:
             net_case = f"LoraWAN {num_gateways} gateways"
             protocol_used = "Aloha"
 
-        # print(f"LEVEL: {self.general_level}")
-
         # Define metric related to load based to level of every node
         level_sum = 0
         for nd in nodes:
             # nd
             level_sum += int(nd["type"]) + 1
-        traffic_prd = level_sum / len(nodes)
-        # print(level_sum/num_nodes)
-        # print(self.general_level)
-        all_same = 1
-        # print(f"max sf: {self.max_sf}")
 
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
                       "level": int(self.general_level), "prt": protocol_used, "rate_prd": float(self.general_level),
@@ -204,39 +116,14 @@ class Topology:
         with open("topology/topology.json", "w") as outfile:
             outfile.write(json_object)
 
-    def add_gateway(self, num_gateways, rangekm):
-
-        # Range of x-coordinates for gateways
-        def getrange(pos):
-            gateway_x_range = (rangekm / 2, rangekm / 2)
-            # Range of y-coordinates for gateways
-            gateway_y_range = (rangekm / 2 + pos, rangekm / 2 + pos)
-
-            return gateway_x_range, gateway_y_range
-
-        pos = [-8000, +8000]
-
-        gateway_height_range = (40, 50)
-
-        gateways = {}
-        for i in range(num_gateways):
-            gateway_x_range, gateway_y_range = getrange(pos[i % 2])
-
-            gateway_id = f"Gateway{len(self.gateways) + i + 1}"
-            gateway_x = random.uniform(*gateway_x_range)
-            gateway_y = random.uniform(*gateway_y_range)
-            gateway_height = random.uniform(*gateway_height_range)
-            gateways[gateway_id] = (gateway_x, gateway_y, gateway_height)
-
-        for gateway_id, position in gateways.items():
-            self.gateways.append(Gateway(gateway_id, position, self.server))
-
+    # Use it when comparing throughput
     def join_process(self):
         for nd in self.nodes:
             nd.type = 0
 
         self.max_sf = 7
 
+    # Use it when comparing delay | OR just want ADR
     def join_process_adr(self):
         for nd in self.nodes:
             nd.type = 0
@@ -261,10 +148,6 @@ class Topology:
                     nd.sf += 1
 
             temp_sf = nd.sf
-
-            # plus_sf = dist // 6000
-            # temp_sf = 7 + plus_sf
-            # print(temp_sf)
 
             sum_sf += temp_sf  # If we want the mean - comment out following
 
@@ -380,14 +263,6 @@ class Topology:
             if node.type == 0:
                 node.assigned_node = -1
 
-        """for i in node_and_types:
-            try:
-                print(len(i))
-                print()
-            except:pass
-
-        print(f"LEVEL {level}")"""
-
     def build_clusters(self, type0_nodes, type1_nodes):
 
         # print(type1_nodes)
@@ -402,10 +277,6 @@ class Topology:
                 node_0 = type0["node"]
                 m[-1].append(calculate_received_power(distance_nodes(node_1,
                                                                      node_0), node_0.transmission_power))
-
-        # c = len(m)
-        # n = len(m[0])
-        # opt = n/c
 
         def fm(i, p, m):
             return m[i].index(p)
@@ -468,49 +339,6 @@ class Topology:
 
         return type0_nodes, type1_nodes
 
-    def plot_topology(self):
-
-        def get_node_color(channel):
-            # Define a dictionary to map channels to colors
-            channel_colors = {
-                "0": "red",
-                "1": "blue",
-                "2": "green",
-                "3": "purple",
-                "4": "orange",
-                "5": "cyan",
-                "6": "magenta",
-                "7": "lime",
-                "8": "pink",
-            }
-
-            # Default to black if channel not found
-            return channel_colors.get(channel, "black")
-
-        def plot_nodes_and_gateways(nodes, gateways):
-            fig = plt.figure()
-            ax = fig.add_subplot()
-            ax.set_aspect('equal', adjustable='box')
-            #ax = fig.add_subplot(projection='2d')
-            #ax.view_init(elev=90, azim=-90, roll=0)
-
-            # Plot gateways
-            for gateway in gateways:
-                ax.scatter(gateway.x, gateway.y,
-                           color='black', marker='^', s=100)
-
-            # Plot nodes
-            for node in nodes:
-                ax.scatter(node.x, node.y,
-                           color=get_node_color(node.channel))
-
-            # Set labels
-            ax.set_xlabel('X')
-            ax.set_ylabel('Y')
-            plt.show()
-
-        plot_nodes_and_gateways(self.nodes, self.gateways)
-
 
 # top = Topology(50, 5)
 # top.plot_topology()
@@ -518,14 +346,12 @@ class Topology:
 import sys
 
 if __name__ == "__main__":
-    argument = sys.argv[1]
-    i = float(argument)  # Convert the argument to a float
+    load = float(sys.argv[1])
     time = sys.argv[2]
     num_nodes = int(sys.argv[4])
     protocol = sys.argv[3]
     num_of_gw = int(sys.argv[5])
-    topology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i / 10, time)
-    # opology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', 100000, i*2+1, time)  # is nodes per level
+    topology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', load / 10, time)
 
     """print("TYPE 0")
     for n in topology.nodes:
@@ -553,4 +379,4 @@ if __name__ == "__main__":
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 """
 
-    # topology.plot_topology()
+    # plot_topology(topology)
