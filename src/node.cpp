@@ -30,7 +30,6 @@ Node::Node(int id, int x, int y, int z, int sf, int channel, int transmission_po
     this->transmission_power = transmission_power;
     this->environment_time = 0;
     this->duty_cycle_current = 0.0;
-    //this->time_over_air_remained = 0;
     this->ready_for_transmission = 0;
     this->buffer = nullptr;
     this->packet_gen_prob = packet_gen_prob;
@@ -59,13 +58,13 @@ void Node::calculate_toa() {
 
     // toa is used as seq_number of packet
     // If toa = 40, receiver should be able to decode 40 segments
-    // Every time slot, when packet is in air, seq num is decreasing until 0
+    // Every time slot, when packet is in air, seq num is decreasing until reaches 0
     int toa_seq = time_over_air;
     this->buffer->setSeqNumReversed(toa_seq);
     generated_packets ++;
 }
 
-
+// Returns the pointer of a new generated packet or null pointer
 Packet* Node::transmit_packet() {
     if (this->buffer != nullptr) {
         static Packet transmitted_packet = *new Packet( id, assigned_node, environment_time);

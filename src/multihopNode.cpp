@@ -21,10 +21,8 @@ void MultihopNode::receive_node(vector<radio_packet> &packets_received) {
         if ((calculate_snr(receive_power, -(109.0+2.5)) >= snr_limit(current_packets[index].sf + 10)) &
             (current_packets[index].channel == this->channel) & (current_packets[index].packet.getDst() == this->id) ) { //
             current_packets[index].receive_power = receive_power;
-            //cout << "in" << endl;
         } else {
             current_packets.erase(current_packets.begin() + index);
-            //cout << "abort" << endl;
         }
     }
 

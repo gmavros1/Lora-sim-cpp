@@ -1,6 +1,4 @@
 #include "packet.h"
-#include <iostream>
-
 
 // Define the constructor for the Packet class
 Packet::Packet(int src, int dst, int timestamp, int payload_bytes, int crc, int header) {
@@ -58,10 +56,6 @@ void Packet::decrease_seq_num() {
     if (this->seq_num_reversed > 0) {
         this->seq_num_reversed -= 1;
     }
-}
-
-int Packet::getNumberOfSegments() const {
-    return this->number_of_segments;
 }
 
 int Packet::getNumber0fSegments() {

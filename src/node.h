@@ -52,7 +52,6 @@ protected:
     int transmission_power;
     int environment_time;
     double duty_cycle_current;
-    //int time_over_air_remained;
     double ready_for_transmission;
     coordinates location{};
     Packet *buffer;

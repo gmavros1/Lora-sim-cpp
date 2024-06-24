@@ -205,7 +205,9 @@ def generate_nodes_random(center, num_nodes, start_radius):
 
         nodes.append(new_node)
         relay_nodes.append(new_node)
-        # relay_nodes.pop(random_r_node)
+
+        if np.random.uniform(0, 1) < 0.4:
+            relay_nodes.pop(random_r_node)
 
     # Add inside nodes
     nodes += in_nodes
