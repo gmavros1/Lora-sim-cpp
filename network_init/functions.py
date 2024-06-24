@@ -165,7 +165,7 @@ def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
     euclidean_distance = np.random.uniform(min_distance, max_distance)
 
     # Generate a random angle (theta) between 0 and 2*pi
-    theta = np.random.uniform(0, np.pi)
+    theta = np.random.uniform(0, 2 * np.pi)
 
     # Calculate x and y coordinates using polar coordinates
     x = center_x + euclidean_distance * np.cos(theta)
