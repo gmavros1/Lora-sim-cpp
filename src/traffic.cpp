@@ -135,12 +135,10 @@ void Traffic::put_metrics_in_file() {
         totalDelay += pair.second;
     }
 
-    // cout << totalDelay << endl;
 
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
 
-    //double normalized_rate = rate * (1 * (toa(15, 7), duty_cycle(toa(15, 7))));
     double normalized_rate = norm_load;
 
     double maximum_tr;

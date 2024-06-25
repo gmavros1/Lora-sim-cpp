@@ -15,7 +15,7 @@ df['throughput'] = (df['decoded'] / df['nodes_number']) / df['maximum_trans']
 # Create a line plot for each case
 cases = df['case'].unique()
 
-plt.figure(figsize=(14, 8))
+#plt.figure(figsize=(14, 8))
 
 for case in cases:
     case_data = df[df['case'] == case]
@@ -27,6 +27,11 @@ plt.ylabel('Throughput / Load')
 plt.title('Throughput and Load vs Rate for Different Cases')
 plt.legend()
 plt.grid(True)
+
+
+#plt.xlim(0, 1)
+#plt.ylim(0, 1)
+
 plt.show()
 
 

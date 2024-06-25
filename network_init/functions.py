@@ -254,8 +254,6 @@ def plot_topology(self):
         fig = plt.figure()
         ax = fig.add_subplot()
         ax.set_aspect('equal', adjustable='box')
-        # ax = fig.add_subplot(projection='2d')
-        # ax.view_init(elev=90, azim=-90, roll=0)
 
         # Plot gateways
         for gateway in gateways:
