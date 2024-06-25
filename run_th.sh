@@ -1,30 +1,33 @@
 #!/bin/bash
 
 echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay" > results/metrics.txt
-for r in {1..10}; do
+for r in {1..5}; do
   echo ""
   echo "ROUND $r"
+
+  # Num nodes
+  python3 ./network_init/place_nodes.py 90
 
   for i in {1..10}; do
     echo "Running LoRaWAn Simulation with rate $i"
 
-    # Load - Time - Protocol - Num of nodes - num od gateways
-    python3 ./network_init/network_init.py "$i" 2000000 Multihop 200 1
+    # Load - Time - Protocol - num od gateways
+    python3 ./network_init/network_init.py "$i" 500000 Multihop 1
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$i" 2000000 LoRaWAn 200 1
+    python3 ./network_init/network_init.py "$i" 500000 LoRaWAn 1
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$i" 2000000 LoRaWAn 200 2
+    python3 ./network_init/network_init.py "$i" 500000 LoRaWAn 2
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$i" 2000000 LoRaWAn 200 3
+    python3 ./network_init/network_init.py "$i" 500000 LoRaWAn 3
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..

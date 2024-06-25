@@ -1,1 +1,10 @@
 case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay
+Multihop 1 gateways,0.1,16,19,200,20000,0.86326,35,1551,492.428
+LoraWAN 1 gateways,0.1,12,60,200,20000,4.3163,72,564,492.428
+LoraWAN 2 gateways,0.1,39,72,200,20000,4.3163,72,1833,492.428
+LoraWAN 3 gateways,0.1,63,72,200,20000,4.3163,72,2961,492.428
+Multihop 1 gateways,0.2,28,63,200,20000,0.86326,91,4183,492.428
+LoraWAN 1 gateways,0.2,19,124,200,20000,4.3163,143,893,492.428
+LoraWAN 2 gateways,0.2,69,143,200,20000,4.3163,143,3243,492.428
+LoraWAN 3 gateways,0.2,122,143,200,20000,4.3163,143,5734,492.428
+Multihop 1 gateways,0.3,42,87,200,20000,0.86326,129,5734,492.428

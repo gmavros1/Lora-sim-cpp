@@ -11,18 +11,24 @@ from join_functions import multihop_join_process_inf, join_process
 # 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
 class Topology:
 
-    def __init__(self, num_nodes, num_gateways, use_multihop, load, life_time) -> None:
+    def __init__(self, num_gateways, use_multihop, load, life_time) -> None:
 
         self.server = Server()
         self.metrics = Metrics()
-        self.num_nodes = num_nodes
         self.general_level = 1  # Initial value - before multi join all nodes are level 1
         self.max_sf = 7  # If ADR is not applied all nodes have sf7
 
         center_x, center_y = 0, 0  # rangekm / 2  # Example center x-coordinate
 
         # nodes_cords = generate_nodes((center_x, center_y), 32, 5900, 9) # last arg - levels
-        nodes_cords, rangeKm = generate_nodes_random((center_x, center_y), num_nodes, 6000)
+        f = open('topology/placed_nodes.json')
+        data = json.load(f)
+        nodes_cords, rangeKm = data["node_cords"], data["rangeKm"]
+
+        # Define num of nodes
+        self.num_nodes = len(nodes_cords)
+
+        # nodes_cords, rangeKm = generate_nodes_random((center_x, center_y), num_nodes, 6000)
         nodes = {}
 
         # Save nodes in a list
@@ -121,11 +127,10 @@ class Topology:
 
 if __name__ == "__main__":
     load = float(sys.argv[1])
-    time = sys.argv[2]
-    num_nodes = int(sys.argv[4])
+    time = int(sys.argv[2])
     protocol = sys.argv[3]
-    num_of_gw = int(sys.argv[5])
-    topology = Topology(num_nodes, num_of_gw, protocol == 'Multihop', load / 10, time)
+    num_of_gw = int(sys.argv[4])
+    topology = Topology(num_of_gw, protocol == 'Multihop', load / 10, time)
 
     """print("TYPE 0")
     for n in topology.nodes:
