@@ -2,49 +2,49 @@
     "nodes": [
         {
             "id": 0,
-            "channel": 4,
+            "channel": 2,
             "sf": 7,
             "transmission_p": 20,
-            "x": 1468,
-            "y": 5852,
+            "x": -4418,
+            "y": -3762,
             "z": 0,
             "type": 0,
             "assigned_node": -1,
-            "following": -1
+            "following": 1
         },
         {
             "id": 1,
-            "channel": 4,
+            "channel": 2,
             "sf": 7,
             "transmission_p": 20,
-            "x": 1381,
-            "y": 6647,
+            "x": -4888,
+            "y": -4410,
             "z": 0,
-            "type": 0,
-            "assigned_node": -1,
-            "following": -1
+            "type": 1,
+            "assigned_node": 0,
+            "following": 2
         },
         {
             "id": 2,
             "channel": 2,
             "sf": 7,
             "transmission_p": 20,
-            "x": 1215,
-            "y": 7430,
+            "x": -5264,
+            "y": -5116,
             "z": 0,
-            "type": 0,
-            "assigned_node": -1,
+            "type": 2,
+            "assigned_node": 1,
             "following": -1
         },
         {
             "id": 3,
-            "channel": 5,
+            "channel": 2,
             "sf": 7,
             "transmission_p": 20,
-            "x": 1555,
-            "y": 5057,
+            "x": -3738,
+            "y": -4185,
             "z": 0,
-            "type": 0,
+            "type": 2,
             "assigned_node": -1,
             "following": -1
         }
@@ -52,28 +52,16 @@
     "gateways": [
         {
             "id": 1,
-            "x": 3597,
-            "y": 3597,
-            "z": 0
-        },
-        {
-            "id": 2,
-            "x": -3597,
-            "y": 3597,
-            "z": 0
-        },
-        {
-            "id": 3,
             "x": 0,
-            "y": -5087,
+            "y": 0,
             "z": 0
         }
     ],
-    "load": 1.0,
+    "load": 0.1,
     "life_time": 500000,
-    "case": "LoraWAN 3 gateways",
-    "level": 1,
-    "prt": "Aloha",
-    "rate_prd": 1.0,
+    "case": "Multihop 1 gateways",
+    "level": 2,
+    "prt": "Multihop",
+    "rate_prd": 2.0,
     "max_sf": 7.0
 }
