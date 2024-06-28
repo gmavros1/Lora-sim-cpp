@@ -1,6 +1,7 @@
 import math
 import random
-import json
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def distance_nodes(node1, node2):
@@ -47,18 +48,12 @@ def calculate_received_power(distance, transmission_power, shadowing_std_dev=5.3
     PL = PLd0 + 10 * alpha * math.log10(distance / d0)
 
     # Generate a random value for shadowing
-    shadowing = random.gauss(0, shadowing_std_dev)
     shadowing = shadowing_std_dev
 
     # Calculate the total path loss with shadowing
     PL += shadowing
 
-    # Calculate the received signal power at the receiver
-    # Pt = 10 ** (transmission_power / 10)  # Convert transmission power from dBm to Watts
-    # Pr = Pt / (10 ** (PL / 10))
-
     # Receive power returned in dB
-
     Pr = transmission_power - PL
 
     return Pr
@@ -123,49 +118,156 @@ def duty_cycle(toa):
     return t_interval  # ms have to wait until the next transmission
 
 
-def debug_node(node, action=None):
-    log_file = open("./logs.txt", "a")
-    dictionary = {"Time": node.environment_time, "Node": node.id, "Type": node.type,
-                  "state": node.state, "toa_remain": node.toa_remain,
-                  "buffer_len": len(node.buffer), "Action": action, "is receving": node.current_receiving_packet}
-    json_object = json.dumps(dictionary, indent=7)
-    log_file.write(json_object)
-    log_file.close()
-
-
-def debug_gw(packet, protocol):
-    log_file = open("./logs.txt", "a")
-    dictionary = {"Time": protocol.environment_time, "Source": packet.src, "flag": packet.start_end_flag,
-                  "sequence number": packet.seq_num, "Action": "Gw receive from node"}
-    json_object = json.dumps(dictionary, indent=7)
-    log_file.write(json_object)
-    log_file.close()
-
-
 # Make topology - place nodes
 def generate_nodes(center, num_nodes, start_radius, level):
     nodes = []
     angle_increment = 2 * math.pi / num_nodes
 
     for l in range(int(level)):
-        for i  in range(num_nodes):
+        for i in range(num_nodes):
             angle = i * angle_increment
 
-            x = center[0] + (start_radius + 900*l) * math.cos(angle)
-            y = center[1] + (start_radius + 900*l) * math.sin(angle)
+            x = center[0] + (start_radius + 900 * l) * math.cos(angle)
+            y = center[1] + (start_radius + 900 * l) * math.sin(angle)
             nodes.append((x, y))
 
     return nodes
 
 
+def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
+    # Generate a random Euclidean distance within the specified range
+    euclidean_distance = np.random.uniform(min_distance, max_distance)
 
-# print(toa(15, 7))
-# print(duty_cycle(toa(15, 7)))
-# print(toa(15, 7)+duty_cycle(toa(15, 7)))
-# print(calculate_received_power(50000, 20))
+    # Generate a random angle (theta) between 0 and 2*pi
+    theta = np.random.uniform(0, 2 * np.pi)
 
-# 108 db sens --> 1 km
-# 130 db sens --> 6 km
-# print(calculate_snr(-130, -132.5))
-# print(snr_limit(7))
-# print(snr_limit(8) + 10)
+    # Calculate x and y coordinates using polar coordinates
+    x = center_x + euclidean_distance * np.cos(theta)
+    y = center_y + euclidean_distance * np.sin(theta)
+
+    return x, y
+
+
+def distance_from_center(i, center):
+    return np.sqrt((i[0] - center[0]) ** 2 + (i[1] - center[1]) ** 2)
+
+
+def place_out_node(center, pointi):
+    """if max_distance >= max_radius:
+        return"""
+
+    # Vector
+    vector = (pointi[0] - center[0], pointi[1], center[1])
+    # Angle
+    try:
+        theta = np.arctan2(vector[1], vector[0])
+    except:
+        theta = np.arctan2(vector[1])
+
+    # Random distance
+    r_distance = np.random.uniform(800, 800)
+    down_limit = theta - (np.pi) / 2
+    upper_limit = theta + (np.pi) / 2
+    r_angle = np.random.uniform(down_limit, upper_limit)
+
+    pointj = (pointi[0] + r_distance * np.cos(r_angle), pointi[1] + r_distance * np.sin(r_angle))
+
+    return pointj
+
+
+def generate_nodes_random(center, num_nodes, start_radius):
+    nodes = []
+    max_node_distance = 0
+
+    in_range = int(0.1 * num_nodes)
+    out_of_range = num_nodes - in_range
+
+    # Place nodes in range
+    in_nodes = []
+    for i in range(in_range):
+        node_x, node_y = generate_random_coordinates(center[0], center[1], 5250, start_radius)
+        in_nodes.append((node_x, node_y))
+
+    # Find relay nodes
+    relay_nodes = []
+    for i in in_nodes:
+        distance_temp = distance_from_center(i, center)
+        if distance_temp >= 5250:
+            relay_nodes.append(i)
+
+    for _ in range(out_of_range):
+        random_r_node = random.randint(0, len(relay_nodes) - 1)
+        relay_node_temp = relay_nodes[random_r_node]
+        new_node = place_out_node(center, relay_node_temp)
+
+        # Define range of network
+        max_node_distance += distance_from_center(new_node, center)
+
+        nodes.append(new_node)
+        relay_nodes.append(new_node)
+
+        if np.random.uniform(0, 1) < 0.4:
+            relay_nodes.pop(random_r_node)
+
+    # Add inside nodes
+    nodes += in_nodes
+
+    return nodes, (max_node_distance / num_nodes)
+
+
+def get_gw_coordinates(num_of_gw, which_gw, rangeKm):
+    if num_of_gw == 1:
+        return 0, 0  # At the center of the topology
+    if num_of_gw == 2:
+        if which_gw == 0:
+            return rangeKm * np.cos(np.pi / 2), rangeKm * np.sin(np.pi / 2)
+        else:
+            return rangeKm * np.cos(3 * (np.pi / 2)), rangeKm * np.sin(3 * (np.pi / 2))
+    if num_of_gw == 3:
+        if which_gw == 0:
+            return rangeKm * np.cos((2 * np.pi) / 8), rangeKm * np.sin((2 * np.pi) / 8)
+        elif which_gw == 1:
+            return rangeKm * np.cos(3 * ((2 * np.pi) / 8)), rangeKm * np.sin(3 * ((2 * np.pi) / 8))
+        else:
+            return rangeKm * np.cos(6 * ((2 * np.pi) / 8)), rangeKm * np.sin(6 * ((2 * np.pi) / 8))
+
+
+def plot_topology(self):
+    def get_node_color(channel):
+        # Define a dictionary to map channels to colors
+        channel_colors = {
+            "0": "red",
+            "1": "blue",
+            "2": "green",
+            "3": "purple",
+            "4": "orange",
+            "5": "cyan",
+            "6": "magenta",
+            "7": "lime",
+            "8": "pink",
+        }
+
+        # Default to black if channel not found
+        return channel_colors.get(channel, "black")
+
+    def plot_nodes_and_gateways(nodes, gateways):
+        fig = plt.figure()
+        ax = fig.add_subplot()
+        ax.set_aspect('equal', adjustable='box')
+
+        # Plot gateways
+        for gateway in gateways:
+            ax.scatter(gateway.x, gateway.y,
+                       color='black', marker='^', s=100)
+
+        # Plot nodes
+        for node in nodes:
+            ax.scatter(node.x, node.y,
+                       color=get_node_color(node.channel))
+
+        # Set labels
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        plt.show()
+
+    plot_nodes_and_gateways(self.nodes, self.gateways)

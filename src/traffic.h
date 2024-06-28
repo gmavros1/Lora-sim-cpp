@@ -27,16 +27,16 @@ class Packet;
 class Environment;
 class Traffic {
 private:
-    string net_case = "";
-    int level;
-    string protocol_used = "";
+    string net_case;
+    string protocol_used;
     vector<Node> nodes;
     vector<MultihopNode> middle_nodes;
     vector<Gateway> gateways;
     Environment environment;
-    double rate;
+    int level;
     int life_time;
     float rate_prd;
+    double rate;
     double norm_load;
     double max_sf;
     double max_delay;

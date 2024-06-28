@@ -1,34 +1,38 @@
 import matplotlib.pyplot as plt
+import pandas as pd
+from IPython.display import display
+pd.set_option('display.max_columns', None)
 
-plt.figure(figsize=(8, 6))
-cases = []
+results_df = pd.read_csv("metrics.txt")
+display(results_df)
 
-# Read the text file and extract load and throughput values
-with open('metrics.txt', 'r') as file:
-    lines = file.readlines()
-    for line in lines[1:]: cases.append(line.split(",")[0])
-    cases = list(set(cases))
+# result_df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 
-    for case in cases:
-        # Initialize lists to store data
-        load_values = []
-        throughput_values = []
-        for line in lines[1:]:  # Skip the first line with headers
-            if case == line.split(",")[0]:
+df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 
-                load, decoded, non_decoded, nodes_number, life_time, max_trans, gen_packs, delay, max_delay = map(float, line.split(",")[1:])
-                load_values.append(load)
-                throughput = (decoded / nodes_number) / (max_trans)
-                throughput_values.append(throughput)
+df['throughput'] = (df['decoded'] / df['nodes_number']) / df['maximum_trans']
 
-        plt.plot(load_values, throughput_values, marker='o', linestyle='-', label=case)
+# Create a line plot for each case
+cases = df['case'].unique()
 
-# Create a line graph
+#plt.figure(figsize=(14, 8))
+
+for case in cases:
+    case_data = df[df['case'] == case]
+    plt.plot(case_data['rate'], case_data['throughput'], label=f"Throughput - {case}")
+    #plt.plot(case_data['rate'], case_data['load'], label=f"Load - {case}", linestyle='--')
+
+plt.xlabel('Rate')
+plt.ylabel('Throughput / Load')
+plt.title('Throughput and Load vs Rate for Different Cases')
 plt.legend()
-plt.title('Load vs. Throughput')
-plt.xlabel('Load')
-plt.ylabel('Throughput')
 plt.grid(True)
 
-# Display the plot or save it to a file
+
+#plt.xlim(0, 1)
+#plt.ylim(0, 1)
+
 plt.show()
+
+
+
