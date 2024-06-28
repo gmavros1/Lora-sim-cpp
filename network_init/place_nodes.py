@@ -6,7 +6,7 @@ import sys
 
 def place_nodes(num_nodes):
     center_x, center_y = 0, 0
-    nodes_cords, rangeKm = generate_nodes_random((center_x, center_y), num_nodes, 6000)
+    nodes_cords, rangeKm = generate_nodes_random((center_x, center_y), num_nodes, 5700)
 
     nodes = {"node_cords": nodes_cords, "rangeKm": rangeKm}
 

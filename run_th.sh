@@ -1,12 +1,12 @@
 #!/bin/bash
 
 echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay" > results/metrics.txt
-for r in {1..5}; do
+for r in {1..10}; do
   echo ""
   echo "ROUND $r"
 
   # Num nodes
-  python3 ./network_init/place_nodes.py 90
+  python3 ./network_init/place_nodes.py 4
 
   for i in {1..10}; do
     echo "Running LoRaWAn Simulation with rate $i"

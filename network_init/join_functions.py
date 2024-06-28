@@ -62,6 +62,9 @@ def multihop_join_process_inf(self):
         rec_power = calculate_received_power(
             min_distance, node.transmission_power)
 
+        #print("Type 0 nodes")
+        #print(f"id : {node.id} | rec_power -->  {rec_power}")
+
         if calculate_snr(rec_power, -(130 + 2.5)) >= snr_limit(node.sf) + 10:  # rec_power >= -130:
             node.type = 0  # middle node - which is also the type index of node_and_types list
             node.state = "Listen"
@@ -122,7 +125,7 @@ def multihop_join_process_inf(self):
     # 4. Build clusters
     for index_level in range(len(only_nodes) - 1):
         only_nodes[index_level + 1], only_nodes[index_level] = build_clusters(self, only_nodes[index_level + 1],
-                                                                                   only_nodes[index_level])
+                                                                              only_nodes[index_level])
 
     # 5. Define Following Nodes
     for index_level in range(len(only_nodes) - 1):
@@ -150,7 +153,7 @@ def multihop_join_process_inf(self):
             node.assigned_node = -1
 
 
-def build_clusters(self, type0_nodes, type1_nodes):
+def build_clusters(self, type0_nodes, type1_nodes):  # Type 1 relay nodes
     # print(type1_nodes)
 
     m = []
@@ -161,8 +164,9 @@ def build_clusters(self, type0_nodes, type1_nodes):
         m.append([])
         for type0 in type0_nodes:
             node_0 = type0["node"]
-            m[-1].append(calculate_received_power(distance_nodes(node_1,
-                                                                 node_0), node_0.transmission_power))
+            received_power = calculate_received_power(distance_nodes(node_1, node_0), node_0.transmission_power)
+            #print(f"Node {node_1.id} receives signal {received_power} dbm from {node_0.id} Node")
+            m[-1].append(received_power)
 
     def fm(i, p, m):
         return m[i].index(p)

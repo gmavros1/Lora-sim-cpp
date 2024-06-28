@@ -11,7 +11,7 @@ display(results_df)
 df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 
 df['inference'] = (df['gen_packets'] - df['decoded']) / df['gen_packets']
-# df['inference'] = (df['non_decoded']) / df['gen_packets']
+#df['inference'] = (df['non_decoded']) / df['gen_packets']
 
 # Create a line plot for each case
 cases = df['case'].unique()
