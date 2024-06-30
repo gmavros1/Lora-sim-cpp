@@ -194,6 +194,30 @@ cfmt/fast:
 	$(MAKE) $(MAKESILENT) -f external/tqdm.cpp/CMakeFiles/cfmt.dir/build.make external/tqdm.cpp/CMakeFiles/cfmt.dir/build
 .PHONY : cfmt/fast
 
+src/device.o: src/device.cpp.o
+.PHONY : src/device.o
+
+# target to build an object file
+src/device.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/device.cpp.o
+.PHONY : src/device.cpp.o
+
+src/device.i: src/device.cpp.i
+.PHONY : src/device.i
+
+# target to preprocess a source file
+src/device.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/device.cpp.i
+.PHONY : src/device.cpp.i
+
+src/device.s: src/device.cpp.s
+.PHONY : src/device.s
+
+# target to generate assembly for a file
+src/device.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/device.cpp.s
+.PHONY : src/device.cpp.s
+
 src/environment.o: src/environment.cpp.o
 .PHONY : src/environment.o
 
@@ -241,30 +265,6 @@ src/gateway.s: src/gateway.cpp.s
 src/gateway.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/gateway.cpp.s
 .PHONY : src/gateway.cpp.s
-
-src/multihopNode.o: src/multihopNode.cpp.o
-.PHONY : src/multihopNode.o
-
-# target to build an object file
-src/multihopNode.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/multihopNode.cpp.o
-.PHONY : src/multihopNode.cpp.o
-
-src/multihopNode.i: src/multihopNode.cpp.i
-.PHONY : src/multihopNode.i
-
-# target to preprocess a source file
-src/multihopNode.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/multihopNode.cpp.i
-.PHONY : src/multihopNode.cpp.i
-
-src/multihopNode.s: src/multihopNode.cpp.s
-.PHONY : src/multihopNode.s
-
-# target to generate assembly for a file
-src/multihopNode.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/multihopNode.cpp.s
-.PHONY : src/multihopNode.cpp.s
 
 src/node.o: src/node.cpp.o
 .PHONY : src/node.o
@@ -376,15 +376,15 @@ help:
 	@echo "... test_tqdm"
 	@echo "... tqdm"
 	@echo "... tqdmlib"
+	@echo "... src/device.o"
+	@echo "... src/device.i"
+	@echo "... src/device.s"
 	@echo "... src/environment.o"
 	@echo "... src/environment.i"
 	@echo "... src/environment.s"
 	@echo "... src/gateway.o"
 	@echo "... src/gateway.i"
 	@echo "... src/gateway.s"
-	@echo "... src/multihopNode.o"
-	@echo "... src/multihopNode.i"
-	@echo "... src/multihopNode.s"
 	@echo "... src/node.o"
 	@echo "... src/node.i"
 	@echo "... src/node.s"

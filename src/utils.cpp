@@ -5,27 +5,14 @@
 #include "utils.h"
 
 
-double distanceNodes(coordinates node1, coordinates node2) {
-    double x1 = node1.x;
-    double y1 = node1.y;
-    double z1 = node1.z;
+double devicesDistance(coordinates device1, coordinates device2) {
+    double x1 = device1.x;
+    double y1 = device1.y;
+    double z1 = device1.z;
 
-    double x2 = node2.x;
-    double y2 = node2.y;
-    double z2 = node2.z;
-
-    double distance = std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
-    return distance;
-}
-
-double distanceGatewayNode(coordinates_gw gateway, coordinates node) {
-    double x1 = gateway.x;
-    double y1 = gateway.y;
-    double z1 = gateway.z;
-
-    double x2 = node.x;
-    double y2 = node.y;
-    double z2 = node.z;
+    double x2 = device2.x;
+    double y2 = device2.y;
+    double z2 = device2.z;
 
     double distance = std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
     return distance;
@@ -121,11 +108,10 @@ int adr(const std::vector<double> &last_packets, int sf) {
     }
 }
 
-/*
+
 int main() {
 
     // cout << calculate_received_power(1000, 20);
-    cout << toa(15, 7);
+    //cout << toa(15, 7);
 
 }
- */

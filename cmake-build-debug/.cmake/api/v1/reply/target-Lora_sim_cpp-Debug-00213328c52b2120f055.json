@@ -196,12 +196,12 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/multihopNode.cpp",
+			"path" : "src/device.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "src/multihopNode.h",
+			"path" : "src/device.h",
 			"sourceGroupIndex" : 1
 		}
 	],

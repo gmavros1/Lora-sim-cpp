@@ -273,6 +273,12 @@
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/tqdm.cpp/test/test-example.cpp">
 			<Option target="test_tqdm"/>
 		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/device.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/device.h">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.cpp">
 			<Option target="Lora_sim_cpp"/>
 		</Unit>
@@ -283,12 +289,6 @@
 			<Option target="Lora_sim_cpp"/>
 		</Unit>
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.h">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/multihopNode.cpp">
-			<Option target="Lora_sim_cpp"/>
-		</Unit>
-		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/multihopNode.h">
 			<Option target="Lora_sim_cpp"/>
 		</Unit>
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.cpp">
