@@ -41,6 +41,7 @@ Device::Device(int id, int x, int y, int z, int sf, int channel, int transmissio
     this->type = type;
 
     this->generated_packets = 0;
+    this->received_packets = 0;
 }
 
 void Device::generate_packet() {
@@ -50,12 +51,12 @@ void Device::generate_packet() {
 
 }
 
-/*void Device::calculate_toa() {
+int Device::calculate_toa() {
     // Calculate toa nd dc
-    this->ready_for_transmission = this->environment_time;
+    //this->ready_for_transmission = this->environment_time;
     double time_over_air = toa(this->buffer->getPayload_bytes(), this->sf);
-    this->duty_cycle_current = duty_cycle(time_over_air);
-    this->ready_for_transmission += time_over_air + this->duty_cycle_current;
+    //double duty_cycle_current = duty_cycle(time_over_air);
+    //this->ready_for_transmission += time_over_air;
 
     // toa is used as seq_number of packet
     // If toa = 40, receiver should be able to decode 40 segments
@@ -63,7 +64,9 @@ void Device::generate_packet() {
     int toa_seq = time_over_air;
     this->buffer->setSeqNumReversed(toa_seq);
     generated_packets ++;
-}*/
+
+    return toa_seq;
+}
 
 // Returns the pointer of a new generated packet or null pointer
 Packet* Device::transmit_packet() {
@@ -211,7 +214,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
             //    cout << it->second.sf << endl;
             //}
             it = receiving_buffer.erase(it); // Remove the item
-
+            this->received_packets +=0;
 
         } else if (it->second.decoded_or_not == "Non_decoded") {
             //non_decoded_packets_statistics.push_back(it->first);

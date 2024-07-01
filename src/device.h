@@ -53,8 +53,9 @@ public:
     int getTrasmissionPower();
 
     int generated_packets; // Statistics
+    int received_packets;
 
-    // void calculate_toa();
+    int calculate_toa();
 
 protected:
     int id;
