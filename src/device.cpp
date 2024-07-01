@@ -30,11 +30,11 @@ Device::Device(int id, int x, int y, int z, int sf, int channel, int transmissio
     this->bandwidth = 125;
     this->transmission_power = transmission_power;
     this->environment_time = 0;
-    this->duty_cycle_current = 0.0;
-    this->ready_for_transmission = 0;
+    //this->duty_cycle_current = 0.0;
+    //this->ready_for_transmission = 0;
     this->buffer = nullptr;
     this->packet_gen_prob = packet_gen_prob;
-    this->state = "Sleeping";
+    //this->state = "Sleeping";
 
     this->assigned_node = assigned_node;
     this->following = following;
@@ -46,11 +46,11 @@ Device::Device(int id, int x, int y, int z, int sf, int channel, int transmissio
 void Device::generate_packet() {
     this->buffer = new Packet(this->id, this->assigned_node, this->environment_time);
 
-    this->calculate_toa();
+    //this->calculate_toa();
 
 }
 
-void Device::calculate_toa() {
+/*void Device::calculate_toa() {
     // Calculate toa nd dc
     this->ready_for_transmission = this->environment_time;
     double time_over_air = toa(this->buffer->getPayload_bytes(), this->sf);
@@ -63,7 +63,7 @@ void Device::calculate_toa() {
     int toa_seq = time_over_air;
     this->buffer->setSeqNumReversed(toa_seq);
     generated_packets ++;
-}
+}*/
 
 // Returns the pointer of a new generated packet or null pointer
 Packet* Device::transmit_packet() {
@@ -123,7 +123,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
         double receive_power = calculate_received_power(devicesDistance(this->location,
                                                                             current_packets[index].location),
                                                         current_packets[index].transmission_power);
-        if (calculate_snr(receive_power, -(130.0+2.5)) >= snr_limit(current_packets[index].sf + 10)) { // receive_power >= -130
+        if (calculate_snr(receive_power, -(130.0+2.5)) >= snr_limit(current_packets[index].sf) + 10 ) { // receive_power >= -130
             current_packets[index].receive_power = receive_power;
             // cout << "IN" << endl;
         } else {

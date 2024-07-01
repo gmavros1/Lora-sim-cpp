@@ -52,9 +52,9 @@ public:
 
     int getTrasmissionPower();
 
-    int generated_packets;
+    int generated_packets; // Statistics
 
-    void calculate_toa();
+    // void calculate_toa();
 
 protected:
     int id;
@@ -62,13 +62,13 @@ protected:
     int sf; // -1 if gateway
     int transmission_power;
     int environment_time;
-    double duty_cycle_current;
-    double ready_for_transmission;
+    //double duty_cycle_current;
+    //double ready_for_transmission;
     int bandwidth;
     coordinates location{};
     Packet *buffer;
     double packet_gen_prob;
-    std::string state;
+    //std::string state;
 
 public:
     int type;
