@@ -1,2 +1,1 @@
 case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay
-Multihop 1 gateways,0.1,25,15,4,500000,53.9537,40,1880,492.428

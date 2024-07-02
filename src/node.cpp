@@ -36,6 +36,7 @@ std::string Node::LoRaWan() {
                 this->dc_timer = dc;
                 this->toa_timer = toa;
                 this->current_state = states[2]; // TRANSITION
+                cout << "Node " << this->id << " generate/transmit at " << this->environment_time << endl;
                 return states[2];
             } else{ // NO EVENT TO GENERATE PACKET
                 return states[0];
@@ -51,11 +52,12 @@ std::string Node::LoRaWan() {
     }
 
     if (this->current_state == states[2]) { // TRANSMIT
-        if (this->toa_timer > 0){
+        if (this->toa_timer > 1){
             this->toa_timer--;
             return states[2];
         } else{
             this->current_state = states[0]; // TRANSITION
+            cout << "Node " << this->id << " Completed transmission at " << this->environment_time << endl;
             return states[0];
         }
     }

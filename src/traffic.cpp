@@ -58,27 +58,29 @@ void Traffic::run() {
 
     for (int time = 0; time < life_time; time++) {
 
-        // Receiving Current Packets on air - Gateways
+        // PACKETS ON AIR
         auto packet_to_receive = environment.getPackets();
-        for (auto &gateway: gateways) {
-            gateway.clock(time);
-            gateway.receive(packet_to_receive);
-        }
 
         // Transmitting - Sleeping - LoRaWAN nodes
         for (auto &node: nodes) {
             node.clock(time);
             string state = node.LoRaWan();
 
-            if (state == "Transmitting") {
+            if (state == "TRANSMIT") {
                 Packet *transmitted_packet = node.transmit_packet();
                 if (transmitted_packet != nullptr) {
                     environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
                                            node.getTrasmissionPower(), node.getLocation());
                 }
             }
-            if (state == "Sleeping") {
+            if (state == "SLEEP") {
             }
+        }
+
+        // Receiving Current Packets on air - Gateways
+        for (auto &gateway: gateways) {
+            gateway.clock(time);
+            gateway.receive(packet_to_receive);
         }
 
         // Decreasing time over air and remove timed out packets from radio
@@ -98,4 +100,7 @@ int main() {
     cout << "calculated snr :  " << calculate_snr(receive_power, -(130.0+2.5)) << endl;
     cout << "snr Limit : " << snr_limit(sf) + 10 << endl;
     cout << "If positive, could be decoded : " << calculate_snr(receive_power, -(130.0+2.5)) - (snr_limit(sf) + 10) << endl; */
+    Traffic traffic;
+    traffic.initialize();
+    traffic.run();
 }

@@ -203,7 +203,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
     // Remove decoded packets
     for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
         if (it->second.decoded_or_not == "Decoded") {
-            //cout << "DEC" << endl;
+            cout << "Gateway received packet at " <<  this->environment_time << endl << endl;
             if (it->second.packet.aggregated_packet != nullptr){
                 string agg_packet = it->second.packet.aggregated_packet->getPacketId();
                 //decoded_packets_statistics.push_back(agg_packet);

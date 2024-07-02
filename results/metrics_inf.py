@@ -4,7 +4,7 @@ from IPython.display import display
 pd.set_option('display.max_columns', None)
 
 results_df = pd.read_csv("metrics.txt")
-display(results_df)
+# display(results_df)
 
 # result_df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 

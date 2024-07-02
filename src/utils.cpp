@@ -110,3 +110,14 @@ int adr(const std::vector<double> &last_packets, int sf) {
 }
 
 
+/*int main() {
+
+    int sf = 9;
+    int distance = 9000;
+    int transmission_p = 20;
+    double receive_power = calculate_received_power(distance, transmission_p);
+    cout << "received power : " << receive_power << endl;
+    cout << "calculated snr :  " << calculate_snr(receive_power, -(130.0+2.5)) << endl;
+    cout << "snr Limit : " << snr_limit(sf) + 10 << endl;
+    cout << "If positive, could be decoded : " << calculate_snr(receive_power, -(130.0+2.5)) - (snr_limit(sf) + 10) << endl;
+}*/
