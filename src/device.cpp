@@ -107,6 +107,7 @@ int Device::getTrasmissionPower() {
     return this->transmission_power;
 }
 
+// Receive packet segments and decode the packet if everything came
 void Device::receive(vector<radio_packet> &packets_received) {
     // Packets within Range
     vector<radio_packet> current_packets;

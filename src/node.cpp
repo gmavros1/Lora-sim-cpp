@@ -18,58 +18,82 @@ Node::Node(int id, int x, int y, int z, int sf, int channel, int transmissionPow
     this->previous_state = this->states[0];
     this->current_state = this->states[0];
 
-    this->num_of_received_packets_known_in_protocol = 0;
+    this->num_of_decoded_packets_known_in_protocol = 0;
+    this->num_of_ongoing_packets_in_receiver = 0;
     this->dc_timer = 0;
     this->toa_timer = 0;
-    this->rx1_timer = 0;
-    this->rx1_delay_timer = 0;
-    this->rx2_timer = 0;
-    this->rx2_delay_timer = 0;
 
 }
 
-std::string Node::LoRaWan(bool acknowledge) {
+std::string Node::LoRaWan() {
     if (this->current_state == states[0]) { // SLEEP
-        // CONDITIONS TO GENERATE PACKET IN ORDER TO TRANSMIT
-        if ((this->previous_state != states[7] || this->previous_state != states[4]) && this->dc_timer == 0){
+        if (dc_timer==0){
+            // CONDITIONS TO GENERATE PACKET IN ORDER TO TRANSMIT
             if((rand() / double (RAND_MAX)) <= this->packet_gen_prob){
-                // GENERATE PACKET
-                this->generate_packet();
-                this->toa_timer = this->calculate_toa();
-                this->dc_timer = duty_cycle(this->toa_timer);
+                generate_packet();
+                double toa = calculate_toa();
+                double dc = duty_cycle(toa);
+                this->dc_timer = dc;
+                this->toa_timer = toa;
+                this->current_state = states[2]; // TRANSITION
+                return states[2];
+            } else{ // NO EVENT TO GENERATE PACKET
+                return states[0];
+            }
+        } else{ // CANNOT SEND DUE TO DC RESTRICTIONS
+            dc_timer --;
+            return states[0];
+        }
+    }
 
+    if (this->current_state == states[1]) { // RECEIVE
+        return states[0];
+    }
 
+    if (this->current_state == states[2]) { // TRANSMIT
+        if (this->toa_timer > 0){
+            this->toa_timer--;
+            return states[2];
+        } else{
+            this->current_state = states[0]; // TRANSITION
+            return states[0];
+        }
+    }
 
+    if (this->current_state == states[3]) { // LISTEN
+        return states[0];
+    }
+
+    return "BUG";
+}
+
+void Node::identify_incoming_segments(vector<radio_packet> &packets_received) {
+    // Packets within Range
+    vector<radio_packet> current_packets;
+    current_packets = packets_received;
+
+    // Keep only sf and channel where device can tune to
+    if (this->sf != -1 && this->channel!=-1){
+        for (int index = current_packets.size() - 1; index >= 0; index--){
+            if (current_packets[index].sf == this->sf && current_packets[index].channel == this->channel){
+                current_packets.erase(current_packets.begin() + index);
             }
         }
-
     }
 
-    if (this->current_state == states[1]) { // LISTEN
-
+    // Abort packet due to range issues
+    for (int index = current_packets.size() - 1; index >= 0; index--) {
+        double receive_power = calculate_received_power(devicesDistance(this->location,
+                                                                        current_packets[index].location),
+                                                        current_packets[index].transmission_power);
+        if (calculate_snr(receive_power, -(130.0+2.5)) >= snr_limit(current_packets[index].sf) + 10 ) { // receive_power >= -130
+            current_packets[index].receive_power = receive_power;
+            // cout << "IN" << endl;
+        } else {
+            current_packets.erase(current_packets.begin() + index);
+            // cout << "ABORT" << endl;
+        }
     }
 
-    if (this->current_state == states[2]) { // RECEIVE
-
-    }
-
-    if (this->current_state == states[3]) { // TRANSMIT
-
-    }
-
-    if (this->current_state == states[4]) { // RX1
-
-    }
-
-    if (this->current_state == states[5]) { // RX2
-
-    }
-
-    if (this->current_state == states[6]) { // PACKET_RECEIVED
-
-    }
-
-    if (this->current_state == states[7]) { // PACKET_TRANSMITTED
-
-    }
+    this->num_of_ongoing_packets_in_receiver = current_packets.size();
 }
