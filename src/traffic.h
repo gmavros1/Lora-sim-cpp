@@ -12,6 +12,7 @@
 class Traffic{
 public:
     void initialize();
+    void run();
 private:
     string net_case;
     string protocol_used;

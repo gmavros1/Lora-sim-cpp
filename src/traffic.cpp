@@ -48,9 +48,42 @@ void Traffic::initialize() {
         int z = gw["z"];
 
         Gateway *gateway;
-        //gateway = new Gateway(id, x, y, z);
         gateway = new Gateway(id, x, y, z, -1, -1, 25, -1, -1, -1, -1);
         gateways.push_back(*gateway);
+    }
+}
+
+void Traffic::run() {
+    vector<Packet> packets;
+
+    for (int time = 0; time < life_time; time++) {
+
+        // Receiving Current Packets on air - Gateways
+        auto packet_to_receive = environment.getPackets();
+        for (auto &gateway: gateways) {
+            gateway.clock(time);
+            gateway.receive(packet_to_receive);
+        }
+
+        // Transmitting - Sleeping - LoRaWAN nodes
+        for (auto &node: nodes) {
+            node.clock(time);
+            string state = node.LoRaWan();
+
+            if (state == "Transmitting") {
+                Packet *transmitted_packet = node.transmit_packet();
+                if (transmitted_packet != nullptr) {
+                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
+                                           node.getTrasmissionPower(), node.getLocation());
+                }
+            }
+            if (state == "Sleeping") {
+            }
+        }
+
+        // Decreasing time over air and remove timed out packets from radio
+        environment.time_over_air_handling();
+
     }
 }
 
