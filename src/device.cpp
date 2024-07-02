@@ -191,6 +191,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
                 if (num_of_sccs_decod_packets_req == num_of_sccs_decod_packets) {
                     // cout << "eq" << endl;
                     receiving_buffer[packet_id].decoded_or_not = "Decoded";
+                    //cout << "Gateway received packet " << receiving_buffer[packet_id].id <<" at " <<  this->environment_time << endl << endl;
                 } else {
                     receiving_buffer[packet_id].decoded_or_not = "Non_decoded";
                 }
@@ -203,7 +204,6 @@ void Device::receive(vector<radio_packet> &packets_received) {
     // Remove decoded packets
     for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
         if (it->second.decoded_or_not == "Decoded") {
-            cout << "Gateway received packet at " <<  this->environment_time << endl << endl;
             if (it->second.packet.aggregated_packet != nullptr){
                 string agg_packet = it->second.packet.aggregated_packet->getPacketId();
                 //decoded_packets_statistics.push_back(agg_packet);

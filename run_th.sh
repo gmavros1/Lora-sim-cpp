@@ -6,7 +6,7 @@ for r in {1..1}; do
   echo "ROUND $r"
 
   # Num nodes
-  python3 ./network_init/place_nodes.py 1
+  python3 ./network_init/place_nodes.py 3
 
   for i in {4..4}; do
     echo "Running LoRaWAn Simulation with rate $i"
@@ -17,7 +17,7 @@ for r in {1..1}; do
     #./Lora_sim_cpp
     #cd ..
 
-    python3 ./network_init/network_init.py "$i" 500000 LoRaWAn 1
+    python3 ./network_init/network_init.py "$i" 50000 LoRaWAn 1
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..

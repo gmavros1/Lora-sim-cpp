@@ -29,14 +29,14 @@ std::string Node::LoRaWan() {
     if (this->current_state == states[0]) { // SLEEP
         if (dc_timer==0){
             // CONDITIONS TO GENERATE PACKET IN ORDER TO TRANSMIT
-            if((rand() / double (RAND_MAX)) <= this->packet_gen_prob){
+            if(/*(rand() / double (RAND_MAX))*/ 0.0 <= this->packet_gen_prob){
                 generate_packet();
                 double toa = calculate_toa();
                 double dc = duty_cycle(toa);
                 this->dc_timer = dc;
                 this->toa_timer = toa;
                 this->current_state = states[2]; // TRANSITION
-                cout << "Node " << this->id << " generate/transmit at " << this->environment_time << endl;
+                //cout << "Node " << this->id << " generate/transmit at " << this->environment_time << endl;
                 return states[2];
             } else{ // NO EVENT TO GENERATE PACKET
                 return states[0];
@@ -57,7 +57,7 @@ std::string Node::LoRaWan() {
             return states[2];
         } else{
             this->current_state = states[0]; // TRANSITION
-            cout << "Node " << this->id << " Completed transmission at " << this->environment_time << endl;
+            //cout << "Node " << this->id << " Completed transmission at " << this->environment_time << endl;
             return states[0];
         }
     }

@@ -2,11 +2,35 @@
     "nodes": [
         {
             "id": 0,
+            "channel": 0,
+            "sf": 7,
+            "transmission_p": 20,
+            "x": 2312,
+            "y": 5698,
+            "z": 0,
+            "type": 0,
+            "assigned_node": -1,
+            "following": -1
+        },
+        {
+            "id": 1,
+            "channel": 0,
+            "sf": 7,
+            "transmission_p": 20,
+            "x": 1811,
+            "y": 5075,
+            "z": 0,
+            "type": 0,
+            "assigned_node": -1,
+            "following": -1
+        },
+        {
+            "id": 2,
             "channel": 1,
             "sf": 7,
             "transmission_p": 20,
-            "x": -5337,
-            "y": -1858,
+            "x": -4304,
+            "y": 3328,
             "z": 0,
             "type": 0,
             "assigned_node": -1,
@@ -22,7 +46,7 @@
         }
     ],
     "load": 0.4,
-    "life_time": 500000,
+    "life_time": 50000,
     "case": "LoraWAN 1 gateways",
     "level": 1,
     "prt": "Aloha",
