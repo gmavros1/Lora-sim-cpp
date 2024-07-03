@@ -2,26 +2,26 @@
     "nodes": [
         {
             "id": 0,
-            "channel": 0,
+            "channel": 1,
             "sf": 7,
             "transmission_p": 20,
-            "x": 2312,
-            "y": 5698,
+            "x": -3974,
+            "y": 4576,
             "z": 0,
-            "type": 0,
-            "assigned_node": -1,
-            "following": -1
+            "type": 1,
+            "assigned_node": 2,
+            "following": 1
         },
         {
             "id": 1,
-            "channel": 0,
+            "channel": 1,
             "sf": 7,
             "transmission_p": 20,
-            "x": 1811,
-            "y": 5075,
+            "x": -3417,
+            "y": 5150,
             "z": 0,
-            "type": 0,
-            "assigned_node": -1,
+            "type": 2,
+            "assigned_node": 0,
             "following": -1
         },
         {
@@ -29,12 +29,12 @@
             "channel": 1,
             "sf": 7,
             "transmission_p": 20,
-            "x": -4304,
-            "y": 3328,
+            "x": -3665,
+            "y": 3838,
             "z": 0,
             "type": 0,
             "assigned_node": -1,
-            "following": -1
+            "following": 0
         }
     ],
     "gateways": [
@@ -46,10 +46,10 @@
         }
     ],
     "load": 0.4,
-    "life_time": 50000,
-    "case": "LoraWAN 1 gateways",
-    "level": 1,
-    "prt": "Aloha",
-    "rate_prd": 1.0,
+    "life_time": 500000,
+    "case": "Multihop 1 gateways",
+    "level": 2,
+    "prt": "Multihop",
+    "rate_prd": 2.0,
     "max_sf": 7.0
 }
