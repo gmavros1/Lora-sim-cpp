@@ -27,6 +27,8 @@ add_executable(Lora_sim_cpp
         src/utils.cpp
         src/device.cpp
         src/device.h
+        src/node_wur.cpp
+        src/node_wur.h
 )
 
 # Link the external modules to your main target

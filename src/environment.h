@@ -8,15 +8,18 @@
 //#include "packet.h" // Include the header for the Packet class
 #include "node.h"
 #include "gateway.h"
+#include "node_wur.h"
 
 using namespace std;
 
 class Environment {
 private:
     vector<radio_packet> packets;
+    vector<wake_up_radio> wake_up_radios;
 public:
     Environment();
     void add_packet(Packet packet, int channel, int sf, int transmission_power, coordinates location);
+    void add_wur_signal(int dst, int channel, coordinates location);
     vector<radio_packet> getPackets();
     void time_over_air_handling();
 

@@ -297,6 +297,12 @@
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.h">
 			<Option target="Lora_sim_cpp"/>
 		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur.cpp">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
+		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur.h">
+			<Option target="Lora_sim_cpp"/>
+		</Unit>
 		<Unit filename="/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.cpp">
 			<Option target="Lora_sim_cpp"/>
 		</Unit>

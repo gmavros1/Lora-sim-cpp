@@ -23,11 +23,11 @@ void Environment::add_packet(Packet packet, int channel, int sf, int transmissio
 
 }
 
-vector<radio_packet > Environment::getPackets() {
+vector<radio_packet> Environment::getPackets() {
     return packets;
 }
 
-void Environment::time_over_air_handling(){
+void Environment::time_over_air_handling() {
     for (int index = packets.size() - 1; index >= 0; --index) {
         if (packets[index].packet.getSeqNum() > 0) {
             packets[index].packet.decrease_seq_num();
@@ -35,5 +35,16 @@ void Environment::time_over_air_handling(){
             packets.erase(packets.begin() + index);
         }
     }
+
+    // In fact they will remain at least for 8 ms.
+    // But we handle that (simulate) with timer inside the node
+    // If node catch the first segments of wur its ok
+    for (int index = wake_up_radios.size() - 1; index >= 0; --index) {
+        packets.erase(packets.begin() + index);
+    }
+
+}
+
+void Environment::add_wur_signal(int dst, int channel, coordinates location) {
 
 }

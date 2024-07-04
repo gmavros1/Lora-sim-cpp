@@ -290,6 +290,30 @@ src/node.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.s
 .PHONY : src/node.cpp.s
 
+src/node_wur.o: src/node_wur.cpp.o
+.PHONY : src/node_wur.o
+
+# target to build an object file
+src/node_wur.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/node_wur.cpp.o
+.PHONY : src/node_wur.cpp.o
+
+src/node_wur.i: src/node_wur.cpp.i
+.PHONY : src/node_wur.i
+
+# target to preprocess a source file
+src/node_wur.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/node_wur.cpp.i
+.PHONY : src/node_wur.cpp.i
+
+src/node_wur.s: src/node_wur.cpp.s
+.PHONY : src/node_wur.s
+
+# target to generate assembly for a file
+src/node_wur.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Lora_sim_cpp.dir/build.make CMakeFiles/Lora_sim_cpp.dir/src/node_wur.cpp.s
+.PHONY : src/node_wur.cpp.s
+
 src/packet.o: src/packet.cpp.o
 .PHONY : src/packet.o
 
@@ -388,6 +412,9 @@ help:
 	@echo "... src/node.o"
 	@echo "... src/node.i"
 	@echo "... src/node.s"
+	@echo "... src/node_wur.o"
+	@echo "... src/node_wur.i"
+	@echo "... src/node_wur.s"
 	@echo "... src/packet.o"
 	@echo "... src/packet.i"
 	@echo "... src/packet.s"

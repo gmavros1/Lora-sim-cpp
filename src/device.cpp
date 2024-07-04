@@ -51,6 +51,8 @@ void Device::generate_packet() {
 
 }
 
+// Given a saved packet in buffer after packet generation or packet reception
+// Calculate the time over air
 int Device::calculate_toa() {
     // Calculate toa nd dc
     //this->ready_for_transmission = this->environment_time;
@@ -206,8 +208,11 @@ void Device::receive(vector<radio_packet> &packets_received) {
         if (it->second.decoded_or_not == "Decoded") {
 
             // If we have node, received packet should be saved in buffer
-
-
+            if (this->sf != -1 && this->channel!=-1){
+                Packet temp_pack = it->second.packet;
+                this->buffer = new Packet(temp_pack.getSrc(), this->assigned_node,
+                                          temp_pack.getTimestamp_start());
+            }
             /*if (it->second.packet.aggregated_packet != nullptr){
                 string agg_packet = it->second.packet.aggregated_packet->getPacketId();
                 //decoded_packets_statistics.push_back(agg_packet);
