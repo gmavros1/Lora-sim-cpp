@@ -182,7 +182,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
             //cout << packet_id << " " << current_packet.packet.getSeqNum() << endl;
             if (current_packet.packet.getSeqNum() == 0) {
                 int num_of_sccs_decod_packets_req = receiving_buffer[packet_id].packet.getNumber0fSegments();
-                int num_of_sccs_decod_packets = 0;
+                int num_of_sccs_decod_packets = 0; // Check if all decoded packets are in place
                 for (auto &s: receiving_buffer[packet_id].segments_received) {
                     if (s.able_to_decode) {
                         num_of_sccs_decod_packets++;
@@ -204,10 +204,14 @@ void Device::receive(vector<radio_packet> &packets_received) {
     // Remove decoded packets
     for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
         if (it->second.decoded_or_not == "Decoded") {
-            if (it->second.packet.aggregated_packet != nullptr){
+
+            // If we have node, received packet should be saved in buffer
+
+
+            /*if (it->second.packet.aggregated_packet != nullptr){
                 string agg_packet = it->second.packet.aggregated_packet->getPacketId();
                 //decoded_packets_statistics.push_back(agg_packet);
-            }
+            }*/
             //cout << "Gateway received from " << it->second.packet.getSrc() <<  endl;
             //decoded_packets_statistics.push_back(it->first);
             //packetDelays[it->first] = (environment_time - it->second.packet.getTimestamp_start()); // Delay stuff

@@ -2,39 +2,39 @@
     "nodes": [
         {
             "id": 0,
-            "channel": 1,
+            "channel": 2,
             "sf": 7,
             "transmission_p": 20,
-            "x": -3974,
-            "y": 4576,
+            "x": -1604,
+            "y": -5841,
             "z": 0,
             "type": 1,
-            "assigned_node": 2,
-            "following": 1
-        },
-        {
-            "id": 1,
-            "channel": 1,
-            "sf": 7,
-            "transmission_p": 20,
-            "x": -3417,
-            "y": 5150,
-            "z": 0,
-            "type": 2,
-            "assigned_node": 0,
+            "assigned_node": 1,
             "following": -1
         },
         {
-            "id": 2,
-            "channel": 1,
+            "id": 1,
+            "channel": 2,
             "sf": 7,
             "transmission_p": 20,
-            "x": -3665,
-            "y": 3838,
+            "x": -929,
+            "y": -5694,
             "z": 0,
             "type": 0,
             "assigned_node": -1,
             "following": 0
+        },
+        {
+            "id": 2,
+            "channel": 3,
+            "sf": 7,
+            "transmission_p": 20,
+            "x": -1420,
+            "y": -5063,
+            "z": 0,
+            "type": 1,
+            "assigned_node": -1,
+            "following": -1
         }
     ],
     "gateways": [
@@ -48,8 +48,8 @@
     "load": 0.4,
     "life_time": 500000,
     "case": "Multihop 1 gateways",
-    "level": 2,
+    "level": 1,
     "prt": "Multihop",
-    "rate_prd": 2.0,
+    "rate_prd": 1.0,
     "max_sf": 7.0
 }

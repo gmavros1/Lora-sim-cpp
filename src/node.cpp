@@ -29,7 +29,7 @@ std::string Node::LoRaWan() {
     if (this->current_state == states[0]) { // SLEEP
         if (dc_timer==0){
             // CONDITIONS TO GENERATE PACKET IN ORDER TO TRANSMIT
-            if(/*(rand() / double (RAND_MAX))*/ 0.0 <= this->packet_gen_prob){
+            if((rand() / double (RAND_MAX)) /*0.0*/ <= this->packet_gen_prob){
                 generate_packet();
                 double toa = calculate_toa();
                 double dc = duty_cycle(toa);
