@@ -21,6 +21,7 @@ public:
     void add_packet(Packet packet, int channel, int sf, int transmission_power, coordinates location);
     void add_wur_signal(int dst, int channel, coordinates location);
     vector<radio_packet> getPackets();
+    vector<wake_up_radio> get_wurs();
     void time_over_air_handling();
 
 };

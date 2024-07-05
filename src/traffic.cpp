@@ -22,22 +22,46 @@ void Traffic::initialize() {
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
 
-    // Nodes Initialization
-    for (const auto &nd: nodes_info) {
-        int id = nd["id"];
-        int channel = nd["channel"];
-        int sf = nd["sf"];
-        int transmission_p = nd["transmission_p"];
-        int x = nd["x"];
-        int y = nd["y"];
-        int z = nd["z"];
-        int type = nd["type"];
-        int assigned_node = nd["assigned_node"];
-        int following = nd["following"];
+    if (protocol_used == "Multihop"){
 
-        Node *node;
-        node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
-        nodes.push_back(*node);
+        // Multi-hop Nodes initialization
+        // Nodes Initialization
+        for (const auto &nd: nodes_info) {
+            int id = nd["id"];
+            int channel = nd["channel"];
+            int sf = nd["sf"];
+            int transmission_p = nd["transmission_p"];
+            int x = nd["x"];
+            int y = nd["y"];
+            int z = nd["z"];
+            int type = nd["type"];
+            int assigned_node = nd["assigned_node"];
+            int following = nd["following"];
+
+            Node_wur *node;
+            node = new Node_wur(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
+            nodes_wur.push_back(*node);
+        }
+    } else{
+
+        // Nodes Initialization
+        for (const auto &nd: nodes_info) {
+
+            int id = nd["id"];
+            int channel = nd["channel"];
+            int sf = nd["sf"];
+            int transmission_p = nd["transmission_p"];
+            int x = nd["x"];
+            int y = nd["y"];
+            int z = nd["z"];
+            int type = nd["type"];
+            int assigned_node = nd["assigned_node"];
+            int following = nd["following"];
+
+            Node *node;
+            node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
+            nodes.push_back(*node);
+        }
     }
 
     // Gateways initialization
@@ -60,8 +84,9 @@ void Traffic::run() {
 
         // PACKETS ON AIR
         auto packet_to_receive = environment.getPackets();
+        auto wake_up_radio_to_receive = environment.get_wurs();
 
-        // Transmitting - Sleeping - LoRaWAN nodes
+        // Transmitting - Sleeping - LoRaWAN NODES
         for (auto &node: nodes) {
             node.clock(time);
             string state = node.LoRaWan();
@@ -73,11 +98,43 @@ void Traffic::run() {
                                            node.getTrasmissionPower(), node.getLocation());
                 }
             }
-            if (state == "SLEEP") {
-            }
         }
 
-        // Receiving Current Packets on air - Gateways
+        // Send WUR/Transmit - SLEEP - MULTI-HOP NODES
+        for (auto &node: nodes_wur) {
+            node.clock(time);
+            string state = node.protocol();
+
+            if (state == "TRANSMIT") {
+                Packet *transmitted_packet = node.transmit_packet();
+                if (transmitted_packet != nullptr) {
+                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
+                                           node.getTrasmissionPower(), node.getLocation());
+                }
+            }
+
+            if (state == "SEND_WUR"){
+                wake_up_radio *transmitted_wur = node.send_wur();
+                environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel, transmitted_wur->location);
+            }
+
+        }
+
+        // RECEPTION MECHANISM FOR MULTIHOP NODES
+        for (auto & node : nodes_wur){
+            node.clock(time);
+            string state = node.protocol();
+
+            if (state == "RECEIVE"){
+                node.receive(packet_to_receive);
+            }
+            if (state == "SLEEP"){ // ELSE CHECK IF THERE IS A WAKEUP RADIO AVAILABLE
+                node.receive_wur(wake_up_radio_to_receive);
+            }
+
+        }
+
+        // Receiving Current Packets on air - GATEWAYS
         for (auto &gateway: gateways) {
             gateway.clock(time);
             gateway.receive(packet_to_receive);

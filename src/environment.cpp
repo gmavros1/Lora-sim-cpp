@@ -40,11 +40,22 @@ void Environment::time_over_air_handling() {
     // But we handle that (simulate) with timer inside the node
     // If node catch the first segments of wur its ok
     for (int index = wake_up_radios.size() - 1; index >= 0; --index) {
-        packets.erase(packets.begin() + index);
+        wake_up_radios.erase(wake_up_radios.begin() + index);
     }
 
 }
 
 void Environment::add_wur_signal(int dst, int channel, coordinates location) {
+    wake_up_radio inserted_radio;
 
+    inserted_radio.dst = dst;
+    inserted_radio.channel = channel;
+    inserted_radio.location = location;
+
+    wake_up_radios.push_back(inserted_radio);
+
+}
+
+vector<wake_up_radio> Environment::get_wurs() {
+    return wake_up_radios;
 }

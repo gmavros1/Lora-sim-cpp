@@ -7,6 +7,7 @@
 
 #include "node.h"
 #include "gateway.h"
+#include "node_wur.h"
 #include "environment.h"
 
 class Traffic{
@@ -17,6 +18,7 @@ private:
     string net_case;
     string protocol_used;
     vector<Node> nodes;
+    vector<Node_wur> nodes_wur;
     vector<Gateway> gateways;
     Environment environment;
     int level;
