@@ -23,6 +23,8 @@ Node::Node(int id, int x, int y, int z, int sf, int channel, int transmissionPow
     this->dc_timer = 0;
     this->toa_timer = 0;
 
+    this->receiver_timeout = 0;
+
 }
 
 std::string Node::LoRaWan() {

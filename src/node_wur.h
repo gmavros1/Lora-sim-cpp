@@ -26,6 +26,7 @@ public:
 
 private:
     bool wur_received = false;
+    int wur_timer;
 
 };
 

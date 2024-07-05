@@ -27,6 +27,12 @@ Node_wur::Node_wur(int id, int x, int y, int z, int sf, int channel, int transmi
     this->dc_timer = 0;
     this->toa_timer = 0;
 
+    //New states due to wake up transceivers
+    this->states[4] = "SEND_WUR";
+    this->states[5] = "RECEIVE_WUR";
+
+    this->wur_timer = 0;
+
 }
 
 // After generation of data, send.
@@ -68,5 +74,105 @@ void Node_wur::receive_wur(vector<wake_up_radio> &interrupt) {
 }
 
 std::string Node_wur::protocol() {
-    return std::string();
+
+    if (this->current_state == states[0]) { // SLEEP
+        if (wur_received){
+            this->wur_timer = 8;
+            this->current_state = states[5];
+            return this->current_state;
+        }
+
+        if (dc_timer==0){
+            // CONDITIONS TO GENERATE PACKET IN ORDER TO TRANSMIT
+            if((rand() / double (RAND_MAX)) /*0.0*/ <= this->packet_gen_prob){
+
+                generate_packet();
+                if (assigned_node < 0) { // Node near gateway
+                    double toa = calculate_toa();
+                    double dc = duty_cycle(toa);
+                    this->dc_timer = dc;
+                    this->toa_timer = toa;
+                    this->current_state = states[2]; // TRANSITION
+                } else{ // Two hop nodes
+                    this->wur_timer = 8; // Lets assume 8 ms delay
+                    this->current_state = states[4]; // SEND WUR
+                }
+                cout << "Node " << this->id << " generate/transmit at " << this->environment_time << endl;
+                return this->current_state;
+            } else{ // NO EVENT TO GENERATE PACKET
+                return this->current_state;
+            }
+        } else{ // CANNOT SEND DUE TO DC RESTRICTIONS
+            dc_timer --;
+            return this->current_state;
+        }
+    }
+
+    if (this->current_state == states[1]) { // RECEIVE
+        if (this->buffer != nullptr){
+            if (assigned_node < 0) { // Node near gateway
+                double toa = calculate_toa();
+                double dc = duty_cycle(toa);
+                this->dc_timer = dc;
+                this->toa_timer = toa;
+                this->current_state = states[2]; // TRANSITION
+            } else{ // Two hop nodes
+                this->wur_timer = 8; // Lets assume 8 ms delay
+                this->current_state = states[4]; // SEND WUR
+            }
+            return this->current_state; // HAS A PACKET, SO TRANSMIT
+        } else{
+            if (receiver_timeout == 0) { // Couldn't receive, go to sleep
+                this->current_state = states[0];
+                return this->current_state;
+            } else{
+                receiver_timeout --;
+                this->current_state = states[1];
+                return this->current_state; // KEEP RECEIVING
+            }
+        }
+    }
+
+    if (this->current_state == states[2]) { // TRANSMIT
+        if (this->toa_timer > 1){
+            this->toa_timer--;
+            return this->current_state;
+        } else{
+            this->current_state = states[0]; // TRANSITION GOES TO SLEEP
+            cout << "Node " << this->id << " Completed transmission at " << this->environment_time << endl;
+            return this->current_state;
+        }
+    }
+
+    if (this->current_state == states[3]) { // LISTEN
+        return this->current_state;
+    }
+
+    if (this->current_state == states[4]) { // SEND WUR
+        if (this->wur_timer > 1){
+            this->wur_timer--;
+            return this->current_state;
+
+        } else{
+            double toa = calculate_toa();
+            double dc = duty_cycle(toa);
+            this->dc_timer = dc;
+            this->toa_timer = toa;
+            this->current_state = states[2]; // TRANSITION
+            return this->current_state;
+        }
+
+    }
+
+    if (this->current_state == states[5]) { // RECEIVE WUR
+        if (this->wur_timer == 0){
+            this->current_state = states[1]; // receiving
+            return this->current_state;
+        } else{
+            this->wur_timer--;
+            return this->current_state;
+        }
+    }
+
+    return "BUG";
 }

@@ -217,7 +217,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
                 string agg_packet = it->second.packet.aggregated_packet->getPacketId();
                 //decoded_packets_statistics.push_back(agg_packet);
             }*/
-            //cout << "Gateway received from " << it->second.packet.getSrc() <<  endl;
+            cout << "Device " << this->getId()  <<  " received from " << it->second.packet.getSrc() << " at " << this->environment_time << endl << endl;
             //decoded_packets_statistics.push_back(it->first);
             //packetDelays[it->first] = (environment_time - it->second.packet.getTimestamp_start()); // Delay stuff
             //if (it->second.sf>7) {

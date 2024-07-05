@@ -6,7 +6,7 @@
 class Node: public Device{
 
 protected:
-    std::string states[4] = {"SLEEP", "RECEIVE", "TRANSMIT", "LISTEN"};
+    std::string states[20] = {"SLEEP", "RECEIVE", "TRANSMIT", "LISTEN"};
     std::string previous_state;
     std::string current_state;
 
@@ -14,6 +14,8 @@ protected:
     // RX1 AND RX2 1 AND 2 SECONDS RESPECTIVELY
     int dc_timer;
     int toa_timer;
+
+    int receiver_timeout;
 
     // IN ORDER TO IDENTIFY SUCCESSFUL TRANSMISSION
     int num_of_decoded_packets_known_in_protocol;
