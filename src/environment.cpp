@@ -46,7 +46,7 @@ void Environment::time_over_air_handling() {
 }
 
 void Environment::add_wur_signal(int dst, int channel, coordinates location) {
-    wake_up_radio inserted_radio;
+    static wake_up_radio inserted_radio;
 
     inserted_radio.dst = dst;
     inserted_radio.channel = channel;

@@ -28,6 +28,11 @@ private:
     bool wur_received = false;
     int wur_timer;
 
+    std::string ctrl_send_packet();
+    std::string ctrl_receive_packet();
+    std::string ctrl_send_wur();
+    std::string ctrl_receive_wur();
+
 };
 
 

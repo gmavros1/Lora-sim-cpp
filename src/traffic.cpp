@@ -22,7 +22,7 @@ void Traffic::initialize() {
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
 
-    if (protocol_used == "Multihop"){
+    if (protocol_used == "Multihop") {
 
         // Multi-hop Nodes initialization
         // Nodes Initialization
@@ -42,7 +42,7 @@ void Traffic::initialize() {
             node = new Node_wur(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
             nodes_wur.push_back(*node);
         }
-    } else{
+    } else {
 
         // Nodes Initialization
         for (const auto &nd: nodes_info) {
@@ -100,11 +100,20 @@ void Traffic::run() {
             }
         }
 
-        // Send WUR/Transmit - SLEEP - MULTI-HOP NODES
         for (auto &node: nodes_wur) {
             node.clock(time);
             string state = node.protocol();
 
+            if (state != "SLEEP" && state != "TRANSMIT"){
+                cout << "DEVICE " << node.getId() << " || " << state << " at " << time << endl;
+            }
+
+            if (state == "SLEEP") {
+                node.receive_wur(wake_up_radio_to_receive);
+            }
+            if (state == "RECEIVE") {
+                node.receive(packet_to_receive);
+            }
             if (state == "TRANSMIT") {
                 Packet *transmitted_packet = node.transmit_packet();
                 if (transmitted_packet != nullptr) {
@@ -112,27 +121,16 @@ void Traffic::run() {
                                            node.getTrasmissionPower(), node.getLocation());
                 }
             }
-
-            if (state == "SEND_WUR"){
+            if (state == "SEND_WUR") {
                 wake_up_radio *transmitted_wur = node.send_wur();
                 environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel, transmitted_wur->location);
             }
-
+            if (state == "RECEIVE_WUR") {
+                //
+            }
         }
 
-        // RECEPTION MECHANISM FOR MULTIHOP NODES
-        for (auto & node : nodes_wur){
-            node.clock(time);
-            string state = node.protocol();
 
-            if (state == "RECEIVE"){
-                node.receive(packet_to_receive);
-            }
-            if (state == "SLEEP"){ // ELSE CHECK IF THERE IS A WAKEUP RADIO AVAILABLE
-                node.receive_wur(wake_up_radio_to_receive);
-            }
-
-        }
 
         // Receiving Current Packets on air - GATEWAYS
         for (auto &gateway: gateways) {
