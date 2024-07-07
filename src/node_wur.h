@@ -23,6 +23,7 @@ public:
     void receive_wur(vector<wake_up_radio> &interrupt);
 
     std::string protocol();
+    std::string get_state();
 
 private:
     bool wur_received = false;

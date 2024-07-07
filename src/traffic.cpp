@@ -86,6 +86,9 @@ void Traffic::run() {
         auto packet_to_receive = environment.getPackets();
         auto wake_up_radio_to_receive = environment.get_wurs();
 
+        // Decreasing time over air and remove timed out packets from radio
+        environment.time_over_air_handling();
+
         // Transmitting - Sleeping - LoRaWAN NODES
         for (auto &node: nodes) {
             node.clock(time);
@@ -123,14 +126,16 @@ void Traffic::run() {
             }
             if (state == "SEND_WUR") {
                 wake_up_radio *transmitted_wur = node.send_wur();
-                environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel, transmitted_wur->location);
+                if (transmitted_wur != nullptr) {
+                    cout << transmitted_wur << endl;
+                    environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel,
+                                               transmitted_wur->location);
+                }
             }
             if (state == "RECEIVE_WUR") {
                 //
             }
         }
-
-
 
         // Receiving Current Packets on air - GATEWAYS
         for (auto &gateway: gateways) {
@@ -138,8 +143,6 @@ void Traffic::run() {
             gateway.receive(packet_to_receive);
         }
 
-        // Decreasing time over air and remove timed out packets from radio
-        environment.time_over_air_handling();
 
     }
 }

@@ -194,8 +194,12 @@ void Device::receive(vector<radio_packet> &packets_received) {
                     // cout << "eq" << endl;
                     receiving_buffer[packet_id].decoded_or_not = "Decoded";
                     //cout << "Gateway received packet " << receiving_buffer[packet_id].id <<" at " <<  this->environment_time << endl << endl;
+                    cout << " RECEIVED " << num_of_sccs_decod_packets << endl;
+                    cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
                 } else {
                     receiving_buffer[packet_id].decoded_or_not = "Non_decoded";
+                    cout << " RECEIVED " << num_of_sccs_decod_packets << endl;
+                    cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
                 }
 
             }

@@ -48,6 +48,10 @@ wake_up_radio *Node_wur::send_wur() {
     wur_signal.channel = ch;
     wur_signal.dst = dst;
 
+    // SEND ONLY THE FIRST SEGMENT
+    if (this->wur_timer < 8){
+        return nullptr;
+    }
     return &wur_signal;
 }
 
@@ -132,7 +136,7 @@ std::string Node_wur::protocol() {
             // IT MEANS THAT KEEP RECEIVING OR FAILED TO RECEIVE
         } else {
             // TIMED OUT -> RETURN TO SLEEP
-            if (receiver_timeout <= 1) {
+            if (receiver_timeout < 1) {
                 this->current_state = states[0];
                 return this->current_state;
             } else {
@@ -165,7 +169,7 @@ std::string Node_wur::protocol() {
     // IF NODE IS SENDING WUR NOW
     if (this->current_state == states[4]) {
         // WUR DELAY ONGOING
-        if (this->wur_timer > 1) {
+        if (this->wur_timer > 0) {
             this->wur_timer--;
             return this->current_state;
 
@@ -209,7 +213,7 @@ std::string Node_wur::ctrl_send_packet() {
 std::string Node_wur::ctrl_receive_packet() {
     this->current_state = states[1];
     this->wur_received = false;
-    this->receiver_timeout = 1000;
+    this->receiver_timeout = 50;
     return this->current_state;
 }
 
@@ -223,5 +227,9 @@ std::string Node_wur::ctrl_send_wur() {
 std::string Node_wur::ctrl_receive_wur() {
     this->wur_timer = 8;
     this->current_state = states[5];
+    return this->current_state;
+}
+
+std::string Node_wur::get_state() {
     return this->current_state;
 }
