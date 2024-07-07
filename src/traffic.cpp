@@ -72,6 +72,7 @@ void Traffic::initialize() {
         int z = gw["z"];
 
         Gateway *gateway;
+        id = -id;
         gateway = new Gateway(id, x, y, z, -1, -1, 25, -1, -1, -1, -1);
         gateways.push_back(*gateway);
     }
@@ -79,6 +80,8 @@ void Traffic::initialize() {
 
 void Traffic::run() {
     vector<Packet> packets;
+
+    bool debugging_flag = false;
 
     for (int time = 0; time < life_time; time++) {
 
@@ -89,7 +92,7 @@ void Traffic::run() {
         // Decreasing time over air and remove timed out packets from radio
         environment.time_over_air_handling();
 
-        // Transmitting - Sleeping - LoRaWAN NODES
+        // Transmitting - Sleeping - LoRaWAN NODES ****************************
         for (auto &node: nodes) {
             node.clock(time);
             string state = node.LoRaWan();
@@ -102,40 +105,57 @@ void Traffic::run() {
                 }
             }
         }
+        // Transmitting - Sleeping - LoRaWAN NODES ****************************
 
-        for (auto &node: nodes_wur) {
+        // GET STATE FOR MULTI-HOP NODES ****************************
+        for (auto &node: nodes_wur){
             node.clock(time);
             string state = node.protocol();
+            cout << "Node " << node.getId() << " " << state << " at " << time << endl;
+        }
 
-            if (state != "SLEEP" && state != "TRANSMIT"){
-                cout << "DEVICE " << node.getId() << " || " << state << " at " << time << endl;
-            }
+        // MULTI-HOP SENDING STUFF ****************************
+        for (auto &node: nodes_wur) {
 
-            if (state == "SLEEP") {
+            if (node.get_state() == "SLEEP") {
                 node.receive_wur(wake_up_radio_to_receive);
+                continue;
             }
-            if (state == "RECEIVE") {
-                node.receive(packet_to_receive);
-            }
-            if (state == "TRANSMIT") {
+            if (node.get_state() == "TRANSMIT") {
                 Packet *transmitted_packet = node.transmit_packet();
                 if (transmitted_packet != nullptr) {
                     environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
                                            node.getTrasmissionPower(), node.getLocation());
+
+                    packet_to_receive = environment.getPackets();
                 }
+                continue;
             }
-            if (state == "SEND_WUR") {
+            if (node.get_state() == "SEND_WUR") {
                 wake_up_radio *transmitted_wur = node.send_wur();
                 if (transmitted_wur != nullptr) {
-                    cout << transmitted_wur << endl;
                     environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel,
                                                transmitted_wur->location);
+
+                    wake_up_radio_to_receive = environment.get_wurs();
                 }
-            }
-            if (state == "RECEIVE_WUR") {
-                //
+                continue;
             }
         }
+
+        // MULTI-HOP RECEIVING STUFF ****************************
+        for (auto &node: nodes_wur) {
+
+            if (node.get_state() == "RECEIVE") {
+                node.receive(packet_to_receive);
+                continue;
+            }
+
+            if (node.get_state() == "RECEIVE_WUR") {
+                continue;
+            }
+        }
+
 
         // Receiving Current Packets on air - GATEWAYS
         for (auto &gateway: gateways) {

@@ -151,7 +151,7 @@ std::string Node_wur::protocol() {
     // IF NODE IS TRANSMITTING NOW
     if (this->current_state == states[2]) {
         // PACKET TRANSMISSION HAS NOT COMPLETED YET
-        if (this->toa_timer > 1) {
+        if (this->toa_timer > 0) {
             this->toa_timer--;
             return this->current_state;
         } else {

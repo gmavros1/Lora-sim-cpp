@@ -12,7 +12,7 @@ for r in {1..1}; do
     echo "Running LoRaWAn Simulation with rate $i"
 
     # Load - Time - Protocol - num od gateways
-    python3 ./network_init/network_init.py "$i" 500000 Multihop 1
+    python3 ./network_init/network_init.py "$i" 1000 Multihop 1
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
