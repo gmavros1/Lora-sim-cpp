@@ -98,6 +98,7 @@ std::string Node_wur::protocol() {
 
                 // IF IT GOES FOR GW, TRANSMIT
                 // SET COUNTERS AND RETURN THE STATE
+                //cout << "Generated packet from " << this->id << endl;
                 if (assigned_node < 0) {
                     return ctrl_send_packet();
                 } else {
