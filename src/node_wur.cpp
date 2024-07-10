@@ -204,7 +204,7 @@ std::string Node_wur::ctrl_send_packet() {
     double toa = calculate_toa();
     double dc = duty_cycle(toa);
     this->dc_timer = dc;
-    this->toa_timer = toa;
+    this->toa_timer = toa; // -1 Because the next ms should be in the air
     this->current_state = states[2]; // OTHERWISE SEND WUR
     // TO WAKE UP THE NEXT NODE
     return this->current_state;

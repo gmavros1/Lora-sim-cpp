@@ -89,9 +89,6 @@ void Traffic::run() {
         auto packet_to_receive = environment.getPackets();
         auto wake_up_radio_to_receive = environment.get_wurs();
 
-        // Decreasing time over air and remove timed out packets from radio
-        environment.time_over_air_handling();
-
         // Transmitting - Sleeping - LoRaWAN NODES ****************************
         for (auto &node: nodes) {
             node.clock(time);
@@ -112,6 +109,25 @@ void Traffic::run() {
             node.clock(time);
             string state = node.protocol();
             cout << "Node " << node.getId() << " " << state << " at " << time << endl;
+        }
+
+        // MULTI-HOP RECEIVING STUFF ****************************
+        for (auto &node: nodes_wur) {
+
+            if (node.get_state() == "RECEIVE") {
+                node.receive(packet_to_receive);
+                continue;
+            }
+
+            if (node.get_state() == "RECEIVE_WUR") {
+                continue;
+            }
+        }
+
+        // Receiving Current Packets on air - GATEWAYS
+        for (auto &gateway: gateways) {
+            gateway.clock(time);
+            gateway.receive(packet_to_receive);
         }
 
         // MULTI-HOP SENDING STUFF ****************************
@@ -135,7 +151,7 @@ void Traffic::run() {
                 wake_up_radio *transmitted_wur = node.send_wur();
                 if (transmitted_wur != nullptr) {
                     environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel,
-                                               transmitted_wur->location);
+                                                time,transmitted_wur->location);
 
                     wake_up_radio_to_receive = environment.get_wurs();
                 }
@@ -143,26 +159,8 @@ void Traffic::run() {
             }
         }
 
-        // MULTI-HOP RECEIVING STUFF ****************************
-        for (auto &node: nodes_wur) {
-
-            if (node.get_state() == "RECEIVE") {
-                node.receive(packet_to_receive);
-                continue;
-            }
-
-            if (node.get_state() == "RECEIVE_WUR") {
-                continue;
-            }
-        }
-
-
-        // Receiving Current Packets on air - GATEWAYS
-        for (auto &gateway: gateways) {
-            gateway.clock(time);
-            gateway.receive(packet_to_receive);
-        }
-
+        // Decreasing time over air and remove timed out packets from radio
+        environment.time_over_air_handling(time);
 
     }
 }

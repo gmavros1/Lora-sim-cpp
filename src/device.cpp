@@ -182,6 +182,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
 
             // If it is the last segment
             cout << packet_id << " " << current_packet.packet.getSeqNum() << endl;
+
             if (current_packet.packet.getSeqNum() == 0) {
                 int num_of_sccs_decod_packets_req = receiving_buffer[packet_id].packet.getNumber0fSegments();
                 int num_of_sccs_decod_packets = 0; // Check if all decoded packets are in place

@@ -10,6 +10,7 @@
 struct wake_up_radio{
     int dst = 0;
     int channel = 0;
+    int timestamp = 0;
     coordinates location{};
     };
 
