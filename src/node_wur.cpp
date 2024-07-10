@@ -202,8 +202,14 @@ std::string Node_wur::ctrl_send_packet() {
     // SET COUNTERS AND RETURN THE STATE
     // Node near gateway
     double toa = calculate_toa();
-    double dc = duty_cycle(toa);
-    this->dc_timer = dc;
+
+    if (buffer->getSrc() == this->id) { // Duty cycle only when generating a packet
+        double dc = duty_cycle(toa);
+        this->dc_timer = dc;
+    } else{
+        this->dc_timer = 0;
+    }
+
     this->toa_timer = toa; // -1 Because the next ms should be in the air
     this->current_state = states[2]; // OTHERWISE SEND WUR
     // TO WAKE UP THE NEXT NODE
