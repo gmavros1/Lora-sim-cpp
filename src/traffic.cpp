@@ -22,6 +22,8 @@ void Traffic::initialize() {
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
 
+    cout << rate << " " << rate_prd << endl;
+
     if (protocol_used == "Multihop") {
 
         // Multi-hop Nodes initialization
@@ -163,6 +165,10 @@ void Traffic::run() {
         environment.time_over_air_handling(time);
 
     }
+}
+
+void Traffic::metrics() {
+    int generated_packets, decoded_packets_in_gateway, non_decoded_packets_in_gw_due_to_inference;
 }
 
 

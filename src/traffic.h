@@ -14,6 +14,7 @@ class Traffic{
 public:
     void initialize();
     void run();
+    void metrics();
 private:
     string net_case;
     string protocol_used;
