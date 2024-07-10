@@ -46,7 +46,7 @@ Device::Device(int id, int x, int y, int z, int sf, int channel, int transmissio
 
 void Device::generate_packet() {
     this->buffer = new Packet(this->id, this->assigned_node, this->environment_time);
-
+    this->generated_packets ++; // Metrics
     //this->calculate_toa();
 
 }
@@ -212,32 +212,33 @@ void Device::receive(vector<radio_packet> &packets_received) {
     for (auto it = receiving_buffer.begin(); it != receiving_buffer.end();) {
         if (it->second.decoded_or_not == "Decoded") {
 
-            //cout << "From " << it->second.packet.getSrc() << " To " << it->second.packet.getDst() << endl;
-            //if (it->second.packet.getDst() < 0){
-                //cout << endl;
-            //}
-
-            // If we have node, received packet should be saved in buffer
+            // IT IS A NODE STO SAVE IN BUFFER FOR RETRANSMISSION
             if (this->sf != -1 && this->channel!=-1){
                 Packet temp_pack = it->second.packet;
                 this->buffer = new Packet(temp_pack.getSrc(), this->assigned_node,
                                           temp_pack.getTimestamp_start());
             }
+
+            // THIS IS FOR GATEWAYS
+            decoded_packets_statistics.push_back(it->first);
+            packetDelays[it->first] = (environment_time - it->second.packet.getTimestamp_start()); // Delay stuff
+
+            // THIS IS MAINLY FOR NODES
+            // TRANSMISSIONS ARE UNICAST
+            this->received_packets ++;
+
             /*if (it->second.packet.aggregated_packet != nullptr){
                 string agg_packet = it->second.packet.aggregated_packet->getPacketId();
                 //decoded_packets_statistics.push_back(agg_packet);
             }*/
-            //cout << "Device " << this->getId()  <<  " received from " << it->second.packet.getSrc() << " at " << this->environment_time << endl << endl;
-            //decoded_packets_statistics.push_back(it->first);
-            //packetDelays[it->first] = (environment_time - it->second.packet.getTimestamp_start()); // Delay stuff
-            //if (it->second.sf>7) {
-            //    cout << it->second.sf << endl;
-            //}
+
             it = receiving_buffer.erase(it); // Remove the item
-            this->received_packets +=0;
 
         } else if (it->second.decoded_or_not == "Non_decoded") {
-            //non_decoded_packets_statistics.push_back(it->first);
+
+            // PACKET LOSS DUE TO INTERFERENCE
+            non_decoded_packets_statistics.push_back(it->first);
+
             it = receiving_buffer.erase(it);
         } else {
             ++it; // Move to the next item

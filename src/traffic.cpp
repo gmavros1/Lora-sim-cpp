@@ -22,7 +22,7 @@ void Traffic::initialize() {
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
 
-    cout << rate << " " << rate_prd << endl;
+    //cout << rate << " " << rate_prd << endl;
 
     if (protocol_used == "Multihop") {
 
@@ -168,7 +168,79 @@ void Traffic::run() {
 }
 
 void Traffic::metrics() {
-    int generated_packets, decoded_packets_in_gateway, non_decoded_packets_in_gw_due_to_inference;
+    unsigned long generated_packets, decoded_packets_in_gateway, non_decoded_packets_in_gw_due_to_inference,
+    non_decoded_packet_in_retransmissions, received_packet_delays_in_gw;
+
+    // GENERATED PACKETS OF ALL NODES
+    generated_packets = 0;
+    for (const Node &nd: nodes) {
+        generated_packets += nd.generated_packets;
+    }
+    for (const Node &nd: nodes_wur) {
+        generated_packets += nd.generated_packets;
+    }
+
+    // DECODED PACKETS IN GWs
+    std::set<std::string> allDecodedPackets;
+    for (const Gateway &gateway: gateways) {
+        for (auto packet: gateway.decoded_packets_statistics) {
+            allDecodedPackets.insert(packet);
+        }
+    }
+    decoded_packets_in_gateway = allDecodedPackets.size();
+
+    // INTERFERENCE IN GATEWAY
+    std::set<std::string> allNonDecodedPackets;
+    for (const Gateway &gateway: gateways) {
+        for (auto packet: gateway.non_decoded_packets_statistics) {
+            allNonDecodedPackets.insert(packet);
+        }
+    }
+    non_decoded_packets_in_gw_due_to_inference = allDecodedPackets.size();
+
+    // INTERFERENCE IN RETRANSMISSIONS
+    std::set<std::string> allNonDecodedPackets_retrans;
+    for (const Node_wur &nd_wr: nodes_wur) {
+        for (auto packet: nd_wr.non_decoded_packets_statistics) {
+            allNonDecodedPackets_retrans.insert(packet);
+        }
+    }
+    non_decoded_packet_in_retransmissions = allDecodedPackets.size();
+
+    // DELAY OF RECEIVED PACKETS
+    unordered_map<std::string, int> lowestDelays;
+    for (const auto &gateway: gateways) {
+        // Iterate over each packet delay in the gateway
+        for (const auto &packetDelay: gateway.packetDelays) {
+            const std::string &packetId = packetDelay.first;
+            int delay = packetDelay.second;
+
+            // Check if this packet ID has been encountered before
+            auto search = lowestDelays.find(packetId);
+            if (search != lowestDelays.end()) {
+                // If the current delay is lower, update it in the map
+                if (delay < search->second) {
+                    search->second = delay;
+                }
+            } else {
+                // If this packet ID has not been encountered, add it to the map
+                lowestDelays[packetId] = delay;
+            }
+        }
+    }
+    received_packet_delays_in_gw = 0;
+    for (const auto &pair: lowestDelays) {
+        received_packet_delays_in_gw += pair.second;
+    }
+
+
+    // PRINT RESULT FOR TESTING
+    cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
+    cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
+    cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
+    cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
+    cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
+
 }
 
 
@@ -185,4 +257,5 @@ int main() {
     Traffic traffic;
     traffic.initialize();
     traffic.run();
+    traffic.metrics();
 }

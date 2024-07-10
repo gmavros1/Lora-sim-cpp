@@ -54,6 +54,9 @@ public:
 
     int generated_packets; // Statistics
     int received_packets;
+    vector<string> decoded_packets_statistics; // Just metrics
+    vector<string> non_decoded_packets_statistics;
+    unordered_map<std::string, int> packetDelays;
 
     int calculate_toa();
 
@@ -63,8 +66,6 @@ protected:
     int sf; // -1 if gateway
     int transmission_power;
     int environment_time;
-    //double duty_cycle_current;
-    //double ready_for_transmission;
     int bandwidth;
     coordinates location{};
     Packet *buffer;
