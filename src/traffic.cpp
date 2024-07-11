@@ -79,11 +79,11 @@ void Traffic::initialize() {
         gateways.push_back(*gateway);
     }
 
-    cout << endl;
-    cout << "Nodes " << nodes.size() << endl;
-    cout << "Nodes wur " << nodes_wur.size() << endl;
-    cout << "Gateways " << gateways.size() << endl;
-    cout << endl;
+    //cout << endl;
+    //cout << "Nodes " << nodes.size() << endl;
+    //cout << "Nodes wur " << nodes_wur.size() << endl;
+    //cout << "Gateways " << gateways.size() << endl;
+    //cout << endl;
 }
 
 void Traffic::run_Multihop() {
@@ -260,13 +260,24 @@ void Traffic::metrics() {
         received_packet_delays_in_gw += pair.second;
     }
 
+    // CONSTANT METRICS
+    int maximum_trans = life_time / (toa(15, 7) + duty_cycle(toa(15, 7)));
+    int maximum_delay = toa(15, 7) * level;
+
 
     // PRINT RESULT FOR TESTING
-    cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
-    cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
-    cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
-    cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
-    cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
+    //cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
+    //cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
+    //cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
+    //cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
+    //cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
+
+    // Create a file to write the combined strings
+    std::ofstream outFile("../results/metrics.txt", std::ios::app);
+
+    outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
+    << "," << nodes_wur.size() + nodes.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
+    << "," << received_packet_delays_in_gw << "," << maximum_delay << "\n";
 
 }
 
