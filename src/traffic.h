@@ -13,11 +13,12 @@
 class Traffic{
 public:
     void initialize();
-    void run();
+    void run_Multihop();
+    void run_LoRaWAN();
     void metrics();
+    string protocol_used;
 private:
     string net_case;
-    string protocol_used;
     vector<Node> nodes;
     vector<Node_wur> nodes_wur;
     vector<Gateway> gateways;

@@ -78,33 +78,22 @@ void Traffic::initialize() {
         gateway = new Gateway(id, x, y, z, -1, -1, 25, -1, -1, -1, -1);
         gateways.push_back(*gateway);
     }
+
+    cout << endl;
+    cout << "Nodes " << nodes.size() << endl;
+    cout << "Nodes wur " << nodes_wur.size() << endl;
+    cout << "Gateways " << gateways.size() << endl;
+    cout << endl;
 }
 
-void Traffic::run() {
+void Traffic::run_Multihop() {
     vector<Packet> packets;
-
-    bool debugging_flag = false;
 
     for (int time = 0; time < life_time; time++) {
 
         // PACKETS ON AIR
         auto packet_to_receive = environment.getPackets();
         auto wake_up_radio_to_receive = environment.get_wurs();
-
-        // Transmitting - Sleeping - LoRaWAN NODES ****************************
-        for (auto &node: nodes) {
-            node.clock(time);
-            string state = node.LoRaWan();
-
-            if (state == "TRANSMIT") {
-                Packet *transmitted_packet = node.transmit_packet();
-                if (transmitted_packet != nullptr) {
-                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
-                                           node.getTrasmissionPower(), node.getLocation());
-                }
-            }
-        }
-        // Transmitting - Sleeping - LoRaWAN NODES ****************************
 
         // GET STATE FOR MULTI-HOP NODES ****************************
         for (auto &node: nodes_wur){
@@ -167,6 +156,44 @@ void Traffic::run() {
     }
 }
 
+void Traffic::run_LoRaWAN() {
+    vector<Packet> packets;
+
+    for (int time = 0; time < life_time; time++) {
+
+        // PACKETS ON AIR
+        auto packet_to_receive = environment.getPackets();
+        auto wake_up_radio_to_receive = environment.get_wurs();
+
+        // Transmitting - Sleeping - LoRaWAN NODES ****************************
+        for (auto &node: nodes) {
+            node.clock(time);
+            string state = node.LoRaWan();
+
+            if (state == "TRANSMIT") {
+                Packet *transmitted_packet = node.transmit_packet();
+                if (transmitted_packet != nullptr) {
+                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
+                                           node.getTrasmissionPower(), node.getLocation());
+                }
+            }
+        }
+        // Transmitting - Sleeping - LoRaWAN NODES ****************************
+
+
+
+        // Receiving Current Packets on air - GATEWAYS
+        for (auto &gateway: gateways) {
+            gateway.clock(time);
+            gateway.receive(packet_to_receive);
+        }
+
+        // Decreasing time over air and remove timed out packets from radio
+        environment.time_over_air_handling(time);
+
+    }
+}
+
 void Traffic::metrics() {
     unsigned long generated_packets, decoded_packets_in_gateway, non_decoded_packets_in_gw_due_to_inference,
     non_decoded_packet_in_retransmissions, received_packet_delays_in_gw;
@@ -196,7 +223,7 @@ void Traffic::metrics() {
             allNonDecodedPackets.insert(packet);
         }
     }
-    non_decoded_packets_in_gw_due_to_inference = allDecodedPackets.size();
+    non_decoded_packets_in_gw_due_to_inference = allNonDecodedPackets.size();
 
     // INTERFERENCE IN RETRANSMISSIONS
     std::set<std::string> allNonDecodedPackets_retrans;
@@ -205,7 +232,7 @@ void Traffic::metrics() {
             allNonDecodedPackets_retrans.insert(packet);
         }
     }
-    non_decoded_packet_in_retransmissions = allDecodedPackets.size();
+    non_decoded_packet_in_retransmissions = allNonDecodedPackets_retrans.size();
 
     // DELAY OF RECEIVED PACKETS
     unordered_map<std::string, int> lowestDelays;
@@ -256,6 +283,12 @@ int main() {
     cout << "If positive, could be decoded : " << calculate_snr(receive_power, -(130.0+2.5)) - (snr_limit(sf) + 10) << endl; */
     Traffic traffic;
     traffic.initialize();
-    traffic.run();
+
+    if (traffic.protocol_used == "Multihop"){
+        traffic.run_Multihop();
+    } else{
+        traffic.run_LoRaWAN();
+    }
+
     traffic.metrics();
 }

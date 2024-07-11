@@ -47,6 +47,7 @@ Device::Device(int id, int x, int y, int z, int sf, int channel, int transmissio
 void Device::generate_packet() {
     this->buffer = new Packet(this->id, this->assigned_node, this->environment_time);
     this->generated_packets ++; // Metrics
+    //cout << "Node " << this->id << " generated packet" << endl;
     //this->calculate_toa();
 
 }
@@ -65,7 +66,7 @@ int Device::calculate_toa() {
     // Every time slot, when packet is in air, seq num is decreasing until reaches 0
     int toa_seq = time_over_air;
     this->buffer->setSeqNumReversed(toa_seq);
-    generated_packets ++;
+    //generated_packets ++;
 
     return toa_seq;
 }
