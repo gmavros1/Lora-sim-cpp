@@ -197,7 +197,7 @@ void Traffic::run_LoRaWAN() {
 
 void Traffic::metrics() {
     unsigned long generated_packets, decoded_packets_in_gateway, non_decoded_packets_in_gw_due_to_inference,
-    non_decoded_packet_in_retransmissions, received_packet_delays_in_gw, out_of_range_trans_to_gw;
+    non_decoded_packet_in_retransmissions, received_packet_delays_in_gw, out_of_range_trans_to_gw, in_range_trans_to_gw;
 
     // GENERATED PACKETS OF ALL NODES
     generated_packets = 0;
@@ -270,6 +270,15 @@ void Traffic::metrics() {
     }
     out_of_range_trans_to_gw = allOutOfRangePackets.size();
 
+    // IN RANGE TRANSMISSIONS TO GATEWAY
+    std::set<std::string> allINRangePackets;
+    for (const Gateway &gateway: gateways) {
+        for (auto packet: gateway.transmissions_to_gw) {
+            allINRangePackets.insert(packet);
+        }
+    }
+    in_range_trans_to_gw = allINRangePackets.size();
+
     // CONSTANT METRICS
     int maximum_trans = life_time / (toa(15, 7) + duty_cycle(toa(15, 7)));
     int maximum_delay = toa(15, 7) * level;
@@ -289,7 +298,7 @@ void Traffic::metrics() {
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
     << "," << nodes_wur.size() + nodes.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
     << "," << received_packet_delays_in_gw << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
-    << "," << out_of_range_trans_to_gw <<"\n";
+    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw <<"\n";
 
 }
 

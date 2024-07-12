@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge" > results/metrics.txt
+echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge,in_range_in_ge" > results/metrics.txt
 for r in {1..10}; do
   echo ""
   nodes_num=$((40 * r))
@@ -31,5 +31,5 @@ for r in {1..10}; do
 done
 
 cd ./results || return
-# python3 metrics.py & python3 metrics_inf.py
+# python3 metrics_th.py & python3 metrics_inf.py
 python3 metrics_delay.py

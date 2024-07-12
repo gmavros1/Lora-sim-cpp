@@ -57,6 +57,7 @@ public:
     vector<string> decoded_packets_statistics; // Just metrics
     vector<string> non_decoded_packets_statistics;
     vector<string> out_of_range_to_gw;
+    vector<string> transmissions_to_gw;
     unordered_map<std::string, int> packetDelays;
 
     int calculate_toa();

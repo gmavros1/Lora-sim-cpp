@@ -20,7 +20,6 @@ cases = df['case'].unique()
 for case in cases:
     case_data = df[df['case'] == case]
     plt.plot(case_data['nodes_number'], case_data['normalized_delay'], label=f"Delay - {case}")
-    #plt.plot(case_data['rate'], case_data['load'], label=f"Load - {case}", linestyle='--')
 
 plt.xlabel('Rate')
 plt.ylabel('Delay (ms))')
@@ -28,9 +27,6 @@ plt.title('Delay vs Number of nodes for Different Cases')
 plt.legend()
 plt.grid(True)
 
-
-#plt.xlim(0, 1)
-#plt.ylim(0, 1)
 
 plt.show()
 

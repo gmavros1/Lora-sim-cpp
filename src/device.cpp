@@ -132,14 +132,17 @@ void Device::receive(vector<radio_packet> &packets_received) {
                                                         current_packets[index].transmission_power);
         if (calculate_snr(receive_power, -(130.0+2.5)) >= snr_limit(current_packets[index].sf) + 10 ) { // receive_power >= -130
             current_packets[index].receive_power = receive_power;
-            //cout << "IN" << endl;
+            // IF GATEWAY, CHECK FOR RECEPTIONS OF IN RANGE SIGNALS
+            if (this->id < 0 && current_packets[index].packet.getDst() < 0){
+                this->transmissions_to_gw.push_back(current_packets[index].packet.getPacketId());
+            }
         } else {
             // IF GATEWAY, CHECK FOR RECEPTIONS OF OUT OF RANGE SIGNALS
             if (this->id < 0 && current_packets[index].packet.getDst() < 0){
                 this->out_of_range_to_gw.push_back(current_packets[index].packet.getPacketId());
             }
             current_packets.erase(current_packets.begin() + index);
-            //cout << "ABORT" << endl;
+
         }
     }
 
