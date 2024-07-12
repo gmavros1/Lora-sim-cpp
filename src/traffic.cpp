@@ -276,12 +276,12 @@ void Traffic::metrics() {
 
 
     // PRINT RESULT FOR TESTING
-    cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
-    cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
-    cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
-    cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
-    cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
-    cout << " OUT OF RANGE TRANSMISSION IN GW : " << out_of_range_trans_to_gw << endl;
+    //cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
+    //cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
+    //cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
+    //cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
+    //cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
+    //cout << " OUT OF RANGE TRANSMISSION IN GW : " << out_of_range_trans_to_gw << endl;
 
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
