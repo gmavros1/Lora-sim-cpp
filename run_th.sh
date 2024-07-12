@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay" > results/metrics.txt
-for r in {1..4}; do
+for r in {1..3}; do
   echo ""
   echo "ROUND $r"
 
@@ -37,4 +37,3 @@ done
 
 cd ./results || return
 python3 metrics.py & python3 metrics_inf.py
-# & python3 metrics_delay.py

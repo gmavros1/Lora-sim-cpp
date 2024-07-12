@@ -11,18 +11,19 @@ void Traffic::initialize() {
     i >> j;
 
     life_time = j["life_time"];
-    rate = j["load"];
+    double rate_norm = j["load"]; // Normalized [0.1 , 1]
     norm_load = j["load"];
     net_case = j["case"];
     level = j["level"];
     rate_prd = j["rate_prd"];
     max_sf = j["max_sf"];
-    rate = rate / ((toa(15, max_sf) * rate_prd) + duty_cycle((toa(15, max_sf) * rate_prd)));
+    // rate = rate / ((toa(15, max_sf) * rate_prd) + duty_cycle((toa(15, max_sf) * rate_prd)));
+    rate = rate_norm / (toa(15, 7) + duty_cycle(toa(15, 7)));
     protocol_used = j["prt"];
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
 
-    //cout << rate << " " << rate_prd << endl;
+    // cout << rate << " " << rate_prd << endl;
 
     if (protocol_used == "Multihop") {
 

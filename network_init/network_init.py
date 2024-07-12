@@ -5,13 +5,13 @@ from metrics import Metrics
 from functions import *
 import json
 import sys
-from join_functions import multihop_join_process_inf, join_process
+from join_functions import multihop_join_process_inf, join_process, join_process_adr
 
 
 # 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
 class Topology:
 
-    def __init__(self, num_gateways, use_multihop, load, life_time) -> None:
+    def __init__(self, num_gateways, use_multihop, load, life_time, use_adr_on_join) -> None:
 
         self.server = Server()
         self.metrics = Metrics()
@@ -60,7 +60,10 @@ class Topology:
             # Plot topology
             print("MULTIHOP")
         else:
-            join_process(self)
+            if not use_adr_on_join:
+                join_process(self)
+            else:
+                join_process_adr(self)
             # Plot topology
             print("LORAWAN ", num_gateways, "GWs")
 
@@ -130,7 +133,11 @@ if __name__ == "__main__":
     time = int(sys.argv[2])
     protocol = sys.argv[3]
     num_of_gw = int(sys.argv[4])
-    topology = Topology(num_of_gw, protocol == 'Multihop', load / 10, time)
+    try:
+        use_adr_on_join = sys.argv[5]
+    except:
+        use_adr_on_join = ""
+    topology = Topology(num_of_gw, protocol == 'Multihop', load / 10, time, use_adr_on_join == 'adr')
 
     """print("TYPE 0")
     for n in topology.nodes:
