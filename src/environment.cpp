@@ -3,7 +3,7 @@
 //
 
 #include "environment.h"
-#include "packet.h"
+//#include "packet.h"
 #include "iostream"
 
 
@@ -23,11 +23,11 @@ void Environment::add_packet(Packet packet, int channel, int sf, int transmissio
 
 }
 
-vector<radio_packet > Environment::getPackets() {
+vector<radio_packet> Environment::getPackets() {
     return packets;
 }
 
-void Environment::time_over_air_handling(){
+void Environment::time_over_air_handling(int time) {
     for (int index = packets.size() - 1; index >= 0; --index) {
         if (packets[index].packet.getSeqNum() > 0) {
             packets[index].packet.decrease_seq_num();
@@ -36,4 +36,29 @@ void Environment::time_over_air_handling(){
         }
     }
 
+    // In fact they will remain at least for 8 ms.
+    // But we handle that (simulate) with timer inside the node
+    // If node catch the first segments of wur its ok
+    for (int index = wake_up_radios.size() - 1; index >= 0; --index) {
+        if (wake_up_radios[index].timestamp == time-1) {
+            wake_up_radios.erase(wake_up_radios.begin() + index);
+        }
+    }
+
+}
+
+void Environment::add_wur_signal(int dst, int channel, int timestamp, coordinates location) {
+    static wake_up_radio inserted_radio;
+
+    inserted_radio.dst = dst;
+    inserted_radio.channel = channel;
+    inserted_radio.location = location;
+    inserted_radio.timestamp = timestamp;
+
+    wake_up_radios.push_back(inserted_radio);
+
+}
+
+vector<wake_up_radio> Environment::get_wurs() {
+    return wake_up_radios;
 }

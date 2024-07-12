@@ -1,17 +1,6 @@
-//
-// Created by gmavros-yoga-7 on 27/10/2023.
-//
-
 #include "traffic.h"
-#include "node.h"
-#include "gateway.h"
-#include "environment.h"
-#include "packet.h"
 #include "../external/json/include/nlohmann/json.hpp"
 #include <fstream>
-#include "iostream"
-#include "../external/tqdm.cpp/include/tqdm/tqdm.h"
-#include "utils.h"
 
 using json = nlohmann::json;
 
@@ -22,42 +11,56 @@ void Traffic::initialize() {
     i >> j;
 
     life_time = j["life_time"];
-    rate = j["load"];
+    double rate_norm = j["load"]; // Normalized [0.1 , 1]
     norm_load = j["load"];
     net_case = j["case"];
     level = j["level"];
     rate_prd = j["rate_prd"];
     max_sf = j["max_sf"];
-    rate = rate / ((toa(15, max_sf) * rate_prd) + duty_cycle((toa(15, max_sf) * rate_prd)));
+    // rate = rate / ((toa(15, max_sf) * rate_prd) + duty_cycle((toa(15, max_sf) * rate_prd)));
+    rate = rate_norm / (toa(15, 7) + duty_cycle(toa(15, 7)));
     protocol_used = j["prt"];
     auto nodes_info = j["nodes"];
     auto gateways_info = j["gateways"];
 
-    // Nodes Initialization
-    for (const auto &nd: nodes_info) {
-        int id = nd["id"];
-        int channel = nd["channel"];
-        int sf = nd["sf"];
-        int transmission_p = nd["transmission_p"];
-        int x = nd["x"];
-        int y = nd["y"];
-        int z = nd["z"];
-        int type = nd["type"];
-        int assigned_node = nd["assigned_node"];
-        int following = nd["following"];
+    // cout << rate << " " << rate_prd << endl;
 
-        if (protocol_used == "Multihop") {
-            if (type == level) {
-                Node *node;
-                node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
-                nodes.push_back(*node);
-            } else {
-                MultihopNode *middle_node;
-                middle_node = new MultihopNode(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following,
-                                               type);
-                middle_nodes.push_back(*middle_node);
-            }
-        } else {
+    if (protocol_used == "Multihop") {
+
+        // Multi-hop Nodes initialization
+        // Nodes Initialization
+        for (const auto &nd: nodes_info) {
+            int id = nd["id"];
+            int channel = nd["channel"];
+            int sf = nd["sf"];
+            int transmission_p = nd["transmission_p"];
+            int x = nd["x"];
+            int y = nd["y"];
+            int z = nd["z"];
+            int type = nd["type"];
+            int assigned_node = nd["assigned_node"];
+            int following = nd["following"];
+
+            Node_wur *node;
+            node = new Node_wur(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
+            nodes_wur.push_back(*node);
+        }
+    } else {
+
+        // Nodes Initialization
+        for (const auto &nd: nodes_info) {
+
+            int id = nd["id"];
+            int channel = nd["channel"];
+            int sf = nd["sf"];
+            int transmission_p = nd["transmission_p"];
+            int x = nd["x"];
+            int y = nd["y"];
+            int z = nd["z"];
+            int type = nd["type"];
+            int assigned_node = nd["assigned_node"];
+            int following = nd["following"];
+
             Node *node;
             node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
             nodes.push_back(*node);
@@ -71,45 +74,168 @@ void Traffic::initialize() {
         int y = gw["y"];
         int z = gw["z"];
 
-        // cout << "id" << id << "x" << x << "y" << y << "z" << z << endl;
-
         Gateway *gateway;
-        gateway = new Gateway(id, x, y, z);
+        id = -id;
+        gateway = new Gateway(id, x, y, z, -1, -1, 25, -1, -1, -1, -1);
         gateways.push_back(*gateway);
     }
 
+    //cout << endl;
+    //cout << "Nodes " << nodes.size() << endl;
+    //cout << "Nodes wur " << nodes_wur.size() << endl;
+    //cout << "Gateways " << gateways.size() << endl;
+    //cout << endl;
 }
 
-void Traffic::put_metrics_in_file() {
+void Traffic::run_Multihop() {
+    vector<Packet> packets;
 
-    int gen_packets = 0;
+    for (int time = 0; time < life_time; time++) {
+
+        // PACKETS ON AIR
+        auto packet_to_receive = environment.getPackets();
+        auto wake_up_radio_to_receive = environment.get_wurs();
+
+        // GET STATE FOR MULTI-HOP NODES ****************************
+        for (auto &node: nodes_wur){
+            node.clock(time);
+            string state = node.protocol();
+            //cout << "Node " << node.getId() << " " << state << " at " << time << endl;
+        }
+
+        // MULTI-HOP RECEIVING STUFF ****************************
+        for (auto &node: nodes_wur) {
+
+            if (node.get_state() == "RECEIVE") {
+                node.receive(packet_to_receive);
+                continue;
+            }
+
+            if (node.get_state() == "RECEIVE_WUR") {
+                continue;
+            }
+        }
+
+        // Receiving Current Packets on air - GATEWAYS
+        for (auto &gateway: gateways) {
+            gateway.clock(time);
+            gateway.receive(packet_to_receive);
+        }
+
+        // MULTI-HOP SENDING STUFF ****************************
+        for (auto &node: nodes_wur) {
+
+            if (node.get_state() == "SLEEP") {
+                node.receive_wur(wake_up_radio_to_receive);
+                continue;
+            }
+            if (node.get_state() == "TRANSMIT") {
+                Packet *transmitted_packet = node.transmit_packet();
+                if (transmitted_packet != nullptr) {
+                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
+                                           node.getTrasmissionPower(), node.getLocation());
+
+                    packet_to_receive = environment.getPackets();
+                }
+                continue;
+            }
+            if (node.get_state() == "SEND_WUR") {
+                wake_up_radio *transmitted_wur = node.send_wur();
+                if (transmitted_wur != nullptr) {
+                    environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel,
+                                                time,transmitted_wur->location);
+
+                    wake_up_radio_to_receive = environment.get_wurs();
+                }
+                continue;
+            }
+        }
+
+        // Decreasing time over air and remove timed out packets from radio
+        environment.time_over_air_handling(time);
+
+    }
+}
+
+void Traffic::run_LoRaWAN() {
+    vector<Packet> packets;
+
+    for (int time = 0; time < life_time; time++) {
+
+        // PACKETS ON AIR
+        auto packet_to_receive = environment.getPackets();
+        auto wake_up_radio_to_receive = environment.get_wurs();
+
+        // Transmitting - Sleeping - LoRaWAN NODES ****************************
+        for (auto &node: nodes) {
+            node.clock(time);
+            string state = node.LoRaWan();
+
+            if (state == "TRANSMIT") {
+                Packet *transmitted_packet = node.transmit_packet();
+                if (transmitted_packet != nullptr) {
+                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
+                                           node.getTrasmissionPower(), node.getLocation());
+                }
+            }
+        }
+        // Transmitting - Sleeping - LoRaWAN NODES ****************************
+
+
+
+        // Receiving Current Packets on air - GATEWAYS
+        for (auto &gateway: gateways) {
+            gateway.clock(time);
+            gateway.receive(packet_to_receive);
+        }
+
+        // Decreasing time over air and remove timed out packets from radio
+        environment.time_over_air_handling(time);
+
+    }
+}
+
+void Traffic::metrics() {
+    unsigned long generated_packets, decoded_packets_in_gateway, non_decoded_packets_in_gw_due_to_inference,
+    non_decoded_packet_in_retransmissions, received_packet_delays_in_gw, out_of_range_trans_to_gw, in_range_trans_to_gw;
+
+    // GENERATED PACKETS OF ALL NODES
+    generated_packets = 0;
     for (const Node &nd: nodes) {
-        gen_packets += nd.generated_packets;
+        generated_packets += nd.generated_packets;
+    }
+    for (const Node &nd: nodes_wur) {
+        generated_packets += nd.generated_packets;
     }
 
-    for (const Node &nd: middle_nodes) {
-        gen_packets += nd.generated_packets;
-    }
-
-    //cout << gen_packets << endl;
-
+    // DECODED PACKETS IN GWs
     std::set<std::string> allDecodedPackets;
     for (const Gateway &gateway: gateways) {
         for (auto packet: gateway.decoded_packets_statistics) {
             allDecodedPackets.insert(packet);
         }
     }
-    int num_decoded = allDecodedPackets.size();
+    decoded_packets_in_gateway = allDecodedPackets.size();
 
+    // INTERFERENCE IN GATEWAY
     std::set<std::string> allNonDecodedPackets;
     for (const Gateway &gateway: gateways) {
         for (auto packet: gateway.non_decoded_packets_statistics) {
             allNonDecodedPackets.insert(packet);
         }
     }
-    int num_non_decoded = allNonDecodedPackets.size();
+    non_decoded_packets_in_gw_due_to_inference = allNonDecodedPackets.size();
 
-    // Measure Delay
+    // INTERFERENCE IN RETRANSMISSIONS
+    std::set<std::string> allNonDecodedPackets_retrans;
+    for (const Node_wur &nd_wr: nodes_wur) {
+        for (auto packet: nd_wr.non_decoded_packets_statistics) {
+            allNonDecodedPackets_retrans.insert(packet);
+        }
+    }
+    non_decoded_packet_in_retransmissions = allNonDecodedPackets_retrans.size();
+
+    // DELAY OF RECEIVED PACKETS
     unordered_map<std::string, int> lowestDelays;
     for (const auto &gateway: gateways) {
         // Iterate over each packet delay in the gateway
@@ -130,122 +256,71 @@ void Traffic::put_metrics_in_file() {
             }
         }
     }
-    int totalDelay = 0;
+    received_packet_delays_in_gw = 0;
     for (const auto &pair: lowestDelays) {
-        totalDelay += pair.second;
+        received_packet_delays_in_gw += pair.second;
     }
 
+    // OUT OF RANGE TRANSMISSIONS IN GATEWAY
+    std::set<std::string> allOutOfRangePackets;
+    for (const Gateway &gateway: gateways) {
+        for (auto packet: gateway.out_of_range_to_gw) {
+            allOutOfRangePackets.insert(packet);
+        }
+    }
+    out_of_range_trans_to_gw = allOutOfRangePackets.size();
+
+    // IN RANGE TRANSMISSIONS TO GATEWAY
+    std::set<std::string> allINRangePackets;
+    for (const Gateway &gateway: gateways) {
+        for (auto packet: gateway.transmissions_to_gw) {
+            allINRangePackets.insert(packet);
+        }
+    }
+    in_range_trans_to_gw = allINRangePackets.size();
+
+    // CONSTANT METRICS
+    int maximum_trans = life_time / (toa(15, 7) + duty_cycle(toa(15, 7)));
+    int maximum_delay = toa(15, 7) * level;
+
+
+    // PRINT RESULT FOR TESTING
+    //cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
+    //cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
+    //cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
+    //cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
+    //cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
+    //cout << " OUT OF RANGE TRANSMISSION IN GW : " << out_of_range_trans_to_gw << endl;
 
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
 
-    double normalized_rate = norm_load;
-
-    double maximum_tr;
-    maximum_tr = life_time / (((toa(15, max_sf) * rate_prd) + duty_cycle((toa(15, max_sf) * rate_prd))));
-
-    int nodes_number;
-    nodes_number = nodes.size() + middle_nodes.size();
-
-    if (net_case == "Multihop 1 gateways") {
-
-        max_delay = 0;
-        for (Node &nd: nodes) {
-            max_delay += toa(15, 7);
-        }
-        for (Node &nd: middle_nodes) {
-            max_delay += toa(15, 7) * (nd.type + 1);
-        }
-        max_delay = max_delay / nodes_number;
-        max_delay = 492.428; // 345.173
-
-    } else { // LoRaWAN
-        max_delay = 0;
-        for (Node &nd: nodes) {
-            max_delay += toa(15, nd.getSf());
-        }
-        max_delay = max_delay / nodes_number;
-        max_delay = 492.428;
-    }
-
-    // cout << "max delay " << max_delay << endl;
-
-    outFile << net_case << "," << normalized_rate << "," << num_decoded << "," << num_non_decoded << "," << nodes_number
-            << "," << life_time << "," << maximum_tr << "," << gen_packets << "," << totalDelay << "," << max_delay
-            << "\n";
-
-    // Close the file
-    outFile.close();
-}
-
-
-void Traffic::run() {
-    vector<Packet> packets;
-
-    for (int time = 0; time < life_time; time++) {
-
-        // Receiving Current Packets on air - Gateways
-        auto packet_to_receive = environment.getPackets();
-        for (auto &gateway: gateways) {
-            gateway.clock(time);
-            gateway.receive(packet_to_receive);
-        }
-
-        // Receiving Sleeping Transmitting - Relay (Multi-hop Nodes)
-        for (auto &node: middle_nodes) {
-            node.clock(time);
-            string state = node.multiNode_driver();
-
-            if (state == "Packet Generation") {
-                node.generate_packet();
-            }
-            if (state == "Transmitting") {
-                Packet *transmitted_packet = node.transmit_packet();
-                if (transmitted_packet != nullptr) {
-                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
-                                           node.getTrasmissionPower(), node.getLocation());
-                }
-            }
-            // Wake up receivers, so it listen always
-            if (state == "Sleeping") {
-                node.receive_node(packet_to_receive);
-            }
-
-        }
-
-        // Transmitting - Sleeping - LoRaWAN nodes
-        for (auto &node: nodes) {
-            node.clock(time);
-            string state = node.node_driver();
-
-            if (state == "Packet Generation") {
-                node.generate_packet();
-            }
-            if (state == "Transmitting") {
-                Packet *transmitted_packet = node.transmit_packet();
-                if (transmitted_packet != nullptr) {
-                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
-                                           node.getTrasmissionPower(), node.getLocation());
-                }
-            }
-            if (state == "Sleeping") {
-            }
-        }
-
-        // Decreasing time over air and remove timed out packets from radio
-        environment.time_over_air_handling();
-
-    }
-
-    // Push metrics in file
-    put_metrics_in_file();
+    outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
+    << "," << nodes_wur.size() + nodes.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
+    << "," << received_packet_delays_in_gw << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
+    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw <<"\n";
 
 }
+
 
 int main() {
 
+    /*int sf = 9;
+    int distance = 9000;
+    int transmission_p = 20;
+    double receive_power = calculate_received_power(distance, transmission_p);
+    cout << "received power : " << receive_power << endl;
+    cout << "calculated snr :  " << calculate_snr(receive_power, -(130.0+2.5)) << endl;
+    cout << "snr Limit : " << snr_limit(sf) + 10 << endl;
+    cout << "If positive, could be decoded : " << calculate_snr(receive_power, -(130.0+2.5)) - (snr_limit(sf) + 10) << endl; */
     Traffic traffic;
     traffic.initialize();
-    traffic.run();
 
+    if (traffic.protocol_used == "Multihop"){
+        traffic.run_Multihop();
+    } else{
+        traffic.run_LoRaWAN();
+    }
+
+    traffic.metrics();
 }

@@ -1,36 +1,34 @@
 import matplotlib.pyplot as plt
+import pandas as pd
+from IPython.display import display
+pd.set_option('display.max_columns', None)
 
-plt.figure(figsize=(8, 6))
-cases = []
+results_df = pd.read_csv("metrics.txt")
+#display(results_df)
 
-# Read the text file and extract load and throughput values
-with open('metrics.txt', 'r') as file:
-    lines = file.readlines()
-    for line in lines[1:]: cases.append(line.split(",")[0])
-    cases = list(set(cases))
+# result_df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 
-    for case in cases:
-        # Initialize lists to store data
-        load_values = []
-        delay_values = []
-        for line in lines[1:]:  # Skip the first line with headers
-            if case == line.split(",")[0]:
-                load, decoded, non_decoded, nodes_number, life_time, max_trans, gen_packs, delay, max_delay = map(float,
-                                                                                                       line.split(",")[
-                                                                                                       1:])
-                load_values.append(load * 10)
-                load_values = [8, 9, 10, 11, 12]
-                delay_temp = (delay / decoded) / max_delay
-                delay_values.append(delay_temp)
+df = results_df.groupby(['case', 'nodes_number'], as_index=False).mean()
 
-        plt.plot(load_values, delay_values, marker='o', linestyle='-', label=case)
+df['normalized_delay'] = (df['delay'] / df['decoded']) # / df['max_delay']
 
-# Create a line graph
+# Create a line plot for each case
+cases = df['case'].unique()
+
+#plt.figure(figsize=(14, 8))
+
+for case in cases:
+    case_data = df[df['case'] == case]
+    plt.plot(case_data['nodes_number'], case_data['normalized_delay'], label=f"Delay - {case}")
+
+plt.xlabel('Rate')
+plt.ylabel('Delay (ms))')
+plt.title('Delay vs Number of nodes for Different Cases')
 plt.legend()
-plt.title('Load vs. Delay per Node per Transmission')
-plt.xlabel('max sf')
-plt.ylabel('Delay')
 plt.grid(True)
 
-# Display the plot or save it to a file
+
 plt.show()
+
+
+

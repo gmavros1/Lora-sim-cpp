@@ -1,69 +1,33 @@
-//
-// Created by gmavros-yoga-7 on 22/10/2023.
-//
-
 #ifndef LORA_SIM_CPP_NODE_H
 #define LORA_SIM_CPP_NODE_H
 
-#include "node.h"
-#include <string> // Include the string header
+#include "device.h"
 
-
-class Packet;  // Forward declaration
-std::string node_driver();
-
-struct coordinates {
-    int x;
-    int y;
-    int z;
-};
-
-class Node {
-public:
-    Node(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob, int assigned_node, int following, int type);
-
-    void generate_packet();
-
-    Packet* transmit_packet();
-
-    void clock(int time);
-
-    coordinates getLocation();
-
-    int getId();
-
-    std::string node_driver();
-
-    int getChannel();
-
-    int getSf();
-
-    int getTrasmissionPower();
-
-    int generated_packets;
-
-    void calculate_toa();
+class Node: public Device{
 
 protected:
-    int id;
-    int channel;
-    int sf;
-    int bandwidth;
-    int transmission_power;
-    int environment_time;
-    double duty_cycle_current;
-    double ready_for_transmission;
-    coordinates location{};
-    Packet *buffer;
-    double packet_gen_prob;
-    std::string state;
+    std::string states[20] = {"SLEEP", "RECEIVE", "TRANSMIT", "LISTEN"};
+    std::string previous_state;
+    std::string current_state;
+
+    // USED FOR TOA DC, RX1/2 PERIODS ECT.
+    // RX1 AND RX2 1 AND 2 SECONDS RESPECTIVELY
+    int dc_timer;
+    int toa_timer;
+
+    int receiver_timeout;
+
+    // IN ORDER TO IDENTIFY SUCCESSFUL TRANSMISSION
+    int num_of_decoded_packets_known_in_protocol;
+    // IN ORDER TO GO FROM LISTENING TO RECEIVING
+    int num_of_ongoing_packets_in_receiver;
 
 public:
-    int type;
-    int assigned_node;
-    int following;
+    Node(int id1, int x1, int y1, int z1, int sf, int channel, int transmissionPower, double packetGenProb,
+            int assignedNode, int following, int type);
 
+    std::string LoRaWan();
+    void identify_incoming_segments(vector<radio_packet> &packets_received);
 };
-
 
 #endif //LORA_SIM_CPP_NODE_H

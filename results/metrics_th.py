@@ -4,7 +4,7 @@ from IPython.display import display
 pd.set_option('display.max_columns', None)
 
 results_df = pd.read_csv("metrics.txt")
-display(results_df)
+#display(results_df)
 
 # result_df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 
@@ -22,9 +22,9 @@ for case in cases:
     plt.plot(case_data['rate'], case_data['throughput'], label=f"Throughput - {case}")
     #plt.plot(case_data['rate'], case_data['load'], label=f"Load - {case}", linestyle='--')
 
-plt.xlabel('Rate')
-plt.ylabel('Throughput / Load')
-plt.title('Throughput and Load vs Rate for Different Cases')
+plt.xlabel('Normalized Load')
+plt.ylabel('Normalized Throughout')
+plt.title('Throughput vs Load for each Network Topologies')
 plt.legend()
 plt.grid(True)
 

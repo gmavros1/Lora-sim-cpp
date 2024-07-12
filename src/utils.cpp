@@ -4,28 +4,16 @@
 
 #include "utils.h"
 
+using namespace std;
 
-double distanceNodes(coordinates node1, coordinates node2) {
-    double x1 = node1.x;
-    double y1 = node1.y;
-    double z1 = node1.z;
+double devicesDistance(coordinates device1, coordinates device2) {
+    double x1 = device1.x;
+    double y1 = device1.y;
+    double z1 = device1.z;
 
-    double x2 = node2.x;
-    double y2 = node2.y;
-    double z2 = node2.z;
-
-    double distance = std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
-    return distance;
-}
-
-double distanceGatewayNode(coordinates_gw gateway, coordinates node) {
-    double x1 = gateway.x;
-    double y1 = gateway.y;
-    double z1 = gateway.z;
-
-    double x2 = node.x;
-    double y2 = node.y;
-    double z2 = node.z;
+    double x2 = device2.x;
+    double y2 = device2.y;
+    double z2 = device2.z;
 
     double distance = std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1));
     return distance;
@@ -39,7 +27,8 @@ double toa(int payload_length, int sf, int crc, int header, int de, int n_preamb
     double Ts = std::pow(2, sf) / bw;
 
     double num_payload_symbols = 8.0 + std::max(static_cast<double>(std::ceil(
-            (8.0 * payload_length - 4.0 * sf + 28.0 + 16.0 * crc - 20.0 * header) / (4.0 * (sf - 2.0 * de))) * (cr + 4.0)), 0.0);
+            (8.0 * payload_length - 4.0 * sf + 28.0 + 16.0 * crc - 20.0 * header) / (4.0 * (sf - 2.0 * de))) *
+                                                                    (cr + 4.0)), 0.0);
 
     //cout << num_payload_symbols << endl;
     double T_payload = Ts * num_payload_symbols;
@@ -70,7 +59,6 @@ double calculate_received_power(double distance, double transmission_power, doub
 
     return Pr;
 }
-
 
 
 double duty_cycle(double toa) {
@@ -121,11 +109,15 @@ int adr(const std::vector<double> &last_packets, int sf) {
     }
 }
 
-/*
-int main() {
 
-    // cout << calculate_received_power(1000, 20);
-    cout << toa(15, 7);
+/*int main() {
 
-}
- */
+    int sf = 9;
+    int distance = 9000;
+    int transmission_p = 20;
+    double receive_power = calculate_received_power(distance, transmission_p);
+    cout << "received power : " << receive_power << endl;
+    cout << "calculated snr :  " << calculate_snr(receive_power, -(130.0+2.5)) << endl;
+    cout << "snr Limit : " << snr_limit(sf) + 10 << endl;
+    cout << "If positive, could be decoded : " << calculate_snr(receive_power, -(130.0+2.5)) - (snr_limit(sf) + 10) << endl;
+}*/

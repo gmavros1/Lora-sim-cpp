@@ -165,7 +165,7 @@ def place_out_node(center, pointi):
         theta = np.arctan2(vector[1])
 
     # Random distance
-    r_distance = np.random.uniform(800, 800)
+    r_distance = np.random.uniform(750, 790)
     down_limit = theta - (np.pi) / 2
     upper_limit = theta + (np.pi) / 2
     r_angle = np.random.uniform(down_limit, upper_limit)
@@ -179,7 +179,7 @@ def generate_nodes_random(center, num_nodes, start_radius):
     nodes = []
     max_node_distance = 0
 
-    in_range = int(0.1 * num_nodes)
+    in_range = int(0.2 * num_nodes)
     out_of_range = num_nodes - in_range
 
     # Place nodes in range

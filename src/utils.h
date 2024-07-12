@@ -6,12 +6,14 @@
 #include <cmath>
 #include <random>
 #include <algorithm>
-#include "node.h"
-#include "gateway.h"
 
-double distanceNodes(coordinates node1, coordinates node2);
+struct coordinates {
+    int x;
+    int y;
+    int z;
+};
 
-double distanceGatewayNode(coordinates_gw gateway, coordinates node);
+double devicesDistance(coordinates device1, coordinates device2);
 
 double toa(int payload_length, int sf, int crc = 1, int header = 0, int de = 0, int n_preamble = 8, int bw = 125, int cr = 1);
 
@@ -28,4 +30,3 @@ double snr_limit(int sf);
 int adr(const std::vector<double> &last_packets, int sf);
 
 #endif
-

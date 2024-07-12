@@ -25,8 +25,10 @@ add_executable(Lora_sim_cpp
         src/gateway.cpp
         src/gateway.h
         src/utils.cpp
-        src/multihopNode.cpp
-        src/multihopNode.h
+        src/device.cpp
+        src/device.h
+        src/node_wur.cpp
+        src/node_wur.h
 )
 
 # Link the external modules to your main target
