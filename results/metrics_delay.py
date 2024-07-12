@@ -8,7 +8,7 @@ results_df = pd.read_csv("metrics.txt")
 
 # result_df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 
-df = results_df.groupby(['case', 'rate'], as_index=False).mean()
+df = results_df.groupby(['case', 'nodes_number'], as_index=False).mean()
 
 df['normalized_delay'] = (df['delay'] / df['decoded']) # / df['max_delay']
 
