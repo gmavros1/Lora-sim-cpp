@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay" > results/metrics.txt
+echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge" > results/metrics.txt
 for r in {1..3}; do
   echo ""
   echo "ROUND $r"
@@ -12,6 +12,7 @@ for r in {1..3}; do
     echo "Running LoRaWAn Simulation with rate $i"
 
     # Load - Time - Protocol - num od gateways
+
     python3 ./network_init/network_init.py "$i" 500000 Multihop 1
     cd cmake-build-debug || return
     ./Lora_sim_cpp

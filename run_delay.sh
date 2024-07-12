@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay" > results/metrics.txt
+echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge" > results/metrics.txt
 for r in {1..10}; do
   echo ""
   echo "ROUND $r"

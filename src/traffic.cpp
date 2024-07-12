@@ -197,7 +197,7 @@ void Traffic::run_LoRaWAN() {
 
 void Traffic::metrics() {
     unsigned long generated_packets, decoded_packets_in_gateway, non_decoded_packets_in_gw_due_to_inference,
-    non_decoded_packet_in_retransmissions, received_packet_delays_in_gw;
+    non_decoded_packet_in_retransmissions, received_packet_delays_in_gw, out_of_range_trans_to_gw;
 
     // GENERATED PACKETS OF ALL NODES
     generated_packets = 0;
@@ -261,24 +261,35 @@ void Traffic::metrics() {
         received_packet_delays_in_gw += pair.second;
     }
 
+    // OUT OF RANGE TRANSMISSIONS IN GATEWAY
+    std::set<std::string> allOutOfRangePackets;
+    for (const Gateway &gateway: gateways) {
+        for (auto packet: gateway.out_of_range_to_gw) {
+            allOutOfRangePackets.insert(packet);
+        }
+    }
+    out_of_range_trans_to_gw = allOutOfRangePackets.size();
+
     // CONSTANT METRICS
     int maximum_trans = life_time / (toa(15, 7) + duty_cycle(toa(15, 7)));
     int maximum_delay = toa(15, 7) * level;
 
 
     // PRINT RESULT FOR TESTING
-    //cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
-    //cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
-    //cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
-    //cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
-    //cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
+    cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
+    cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
+    cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
+    cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
+    cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
+    cout << " OUT OF RANGE TRANSMISSION IN GW : " << out_of_range_trans_to_gw << endl;
 
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
 
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
     << "," << nodes_wur.size() + nodes.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
-    << "," << received_packet_delays_in_gw << "," << maximum_delay << "\n";
+    << "," << received_packet_delays_in_gw << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
+    << "," << out_of_range_trans_to_gw <<"\n";
 
 }
 

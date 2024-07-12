@@ -117,7 +117,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
     current_packets = packets_received;
 
     // Keep only sf and channel where device can tune to
-    if (this->sf != -1 && this->channel!=-1){
+    if (this->id >=0){
         for (int index = current_packets.size() - 1; index >= 0; index--){
             if (current_packets[index].sf != this->sf || current_packets[index].channel != this->channel){
                 current_packets.erase(current_packets.begin() + index);
@@ -134,6 +134,10 @@ void Device::receive(vector<radio_packet> &packets_received) {
             current_packets[index].receive_power = receive_power;
             //cout << "IN" << endl;
         } else {
+            // IF GATEWAY, CHECK FOR RECEPTIONS OF OUT OF RANGE SIGNALS
+            if (this->id < 0 && current_packets[index].packet.getDst() < 0){
+                this->out_of_range_to_gw.push_back(current_packets[index].packet.getPacketId());
+            }
             current_packets.erase(current_packets.begin() + index);
             //cout << "ABORT" << endl;
         }
