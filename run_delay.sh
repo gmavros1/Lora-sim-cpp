@@ -31,5 +31,5 @@ for r in {1..10}; do
 done
 
 cd ./results || return
-# python3 metrics_th.py & python3 metrics_inf.py
+# python3 metrics_th.py & python3 metrics_inf_gw.py
 python3 metrics_delay.py
