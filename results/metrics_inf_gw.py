@@ -25,6 +25,3 @@ plt.title('Packet loss vs Load')
 plt.legend()
 plt.grid(True)
 plt.show()
-
-
-
