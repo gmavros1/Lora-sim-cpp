@@ -174,6 +174,27 @@ def place_out_node(center, pointi):
 
     return pointj
 
+def place_out_node_range(center, pointi):
+    """if max_distance >= max_radius:
+        return"""
+
+    # Vector
+    vector = (pointi[0] - center[0], pointi[1], center[1])
+    # Angle
+    try:
+        theta = np.arctan2(vector[1], vector[0])
+    except:
+        theta = np.arctan2(vector[1])
+
+    # Random distance
+    r_distance = np.random.uniform(750, 790)
+    down_limit = theta - (np.pi) / 5
+    upper_limit = theta + (np.pi) / 5
+    r_angle = np.random.uniform(down_limit, upper_limit)
+
+    pointj = (pointi[0] + r_distance * np.cos(r_angle), pointi[1] + r_distance * np.sin(r_angle))
+
+    return pointj
 
 def generate_nodes_random(center, num_nodes, start_radius):
     nodes = []
@@ -218,7 +239,7 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
     nodes = []
     max_node_distance = 0
 
-    in_range = int(0.12 * num_nodes)
+    in_range = int(0.1 * num_nodes)
     out_of_range = num_nodes - in_range
 
     # Place nodes in range
@@ -237,7 +258,7 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
     for _ in range(out_of_range):
         random_r_node = random.randint(0, len(relay_nodes) - 1)
         relay_node_temp = relay_nodes[random_r_node]
-        new_node = place_out_node(center, relay_node_temp)
+        new_node = place_out_node_range(center, relay_node_temp)
 
         # Define range of network
         max_node_distance += distance_from_center(new_node, center)
@@ -245,8 +266,8 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
         nodes.append(new_node)
         relay_nodes.append(new_node)
 
-        if np.random.uniform(0, 1) < 0.5:
-            relay_nodes.pop(random_r_node)
+        #if np.random.uniform(0, 1) < 0.8:
+        relay_nodes.pop(random_r_node)
 
     # Add inside nodes
     nodes += in_nodes

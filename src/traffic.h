@@ -25,7 +25,7 @@ private:
     Environment environment;
     int level;
     int life_time;
-    float rate_prd;
+    float mean_sf;
     double rate;
     double norm_load;
     double max_sf;

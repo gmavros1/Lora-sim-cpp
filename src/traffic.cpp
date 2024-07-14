@@ -15,8 +15,11 @@ void Traffic::initialize() {
     norm_load = j["load"];
     net_case = j["case"];
     level = j["level"];
-    rate_prd = j["rate_prd"];
+    mean_sf = j["mean_sf"];
     max_sf = j["max_sf"];
+    cout << "Level : " << level << endl;
+    cout << "Mean sf : " << mean_sf << endl;
+    cout << "Max sf : " << max_sf << endl;
     // rate = rate / ((toa(15, max_sf) * rate_prd) + duty_cycle((toa(15, max_sf) * rate_prd)));
     rate = rate_norm / (toa(15, 7) + duty_cycle(toa(15, 7)));
     protocol_used = j["prt"];

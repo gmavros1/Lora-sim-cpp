@@ -113,12 +113,16 @@ class Topology:
 
         # Define metric related to load based to level of every node
         level_sum = 0
+        sf_sum = 0
         for nd in nodes:
             # nd
             level_sum += int(nd["type"]) + 1
+            sf_sum += float(nd["sf"])
+        self.general_level = level_sum / len(nodes)
+        mean_sf = sf_sum / len(nodes)
 
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
-                      "level": int(self.general_level), "prt": protocol_used, "rate_prd": float(self.general_level),
+                      "level": int(self.general_level), "prt": protocol_used, "mean_sf": float(mean_sf),
                       "max_sf": float(self.max_sf)}
 
         json_object = json.dumps(topologggy, indent=4)
