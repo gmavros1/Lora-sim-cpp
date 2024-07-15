@@ -28,7 +28,7 @@ private:
     float mean_sf;
     double rate;
     double norm_load;
-    double max_sf;
+    int max_sf;
     double max_delay;
 
 };

@@ -40,7 +40,7 @@ def join_process_adr(self):
         if temp_sf > self.max_sf:
             self.max_sf = temp_sf
 
-    self.max_sf = float(sum_sf / len(self.nodes))
+    #self.max_sf = float(sum_sf / len(self.nodes))
     ### TO ENABLE MULTIHOP ###
     # print(self.max_sf)
 

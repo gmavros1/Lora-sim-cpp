@@ -123,7 +123,7 @@ class Topology:
 
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
                       "level": int(self.general_level), "prt": protocol_used, "mean_sf": float(mean_sf),
-                      "max_sf": float(self.max_sf)}
+                      "max_sf": int(self.max_sf)}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -169,4 +169,4 @@ if __name__ == "__main__":
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 """
 
-    # plot_topology(topology)
+    #  plot_topology(topology)

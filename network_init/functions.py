@@ -239,7 +239,7 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
     nodes = []
     max_node_distance = 0
 
-    in_range = int(0.1 * num_nodes)
+    in_range = 18  # int(0.1 * num_nodes)
     out_of_range = num_nodes - in_range
 
     # Place nodes in range
@@ -266,8 +266,8 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
         nodes.append(new_node)
         relay_nodes.append(new_node)
 
-        #if np.random.uniform(0, 1) < 0.8:
-        relay_nodes.pop(random_r_node)
+        if np.random.uniform(0, 1) < 0.9:
+            relay_nodes.pop(random_r_node)
 
     # Add inside nodes
     nodes += in_nodes

@@ -301,7 +301,7 @@ void Traffic::metrics() {
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
     << "," << nodes_wur.size() + nodes.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
     << "," << received_packet_delays_in_gw << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
-    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw <<"\n";
+    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << int(max_sf) <<"\n";
 
 }
 
