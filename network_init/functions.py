@@ -148,6 +148,21 @@ def generate_random_coordinates(center_x, center_y, min_distance, max_distance):
     return x, y
 
 
+def generate_random_coordinates_range(center_x, center_y, min_distance, max_distance, angle):
+    # Generate a random Euclidean distance within the specified range
+    euclidean_distance = np.random.uniform(min_distance, max_distance)
+
+    # Generate a random angle (theta) between 0 and 2*pi
+    # theta = np.random.uniform(0, 2 * np.pi)
+    theta = angle
+
+    # Calculate x and y coordinates using polar coordinates
+    x = center_x + euclidean_distance * np.cos(theta)
+    y = center_y + euclidean_distance * np.sin(theta)
+
+    return x, y
+
+
 def distance_from_center(i, center):
     return np.sqrt((i[0] - center[0]) ** 2 + (i[1] - center[1]) ** 2)
 
@@ -174,6 +189,7 @@ def place_out_node(center, pointi):
 
     return pointj
 
+
 def place_out_node_range(center, pointi):
     """if max_distance >= max_radius:
         return"""
@@ -195,6 +211,7 @@ def place_out_node_range(center, pointi):
     pointj = (pointi[0] + r_distance * np.cos(r_angle), pointi[1] + r_distance * np.sin(r_angle))
 
     return pointj
+
 
 def generate_nodes_random(center, num_nodes, start_radius):
     nodes = []
@@ -235,6 +252,7 @@ def generate_nodes_random(center, num_nodes, start_radius):
 
     return nodes, (max_node_distance / num_nodes)
 
+
 def generate_nodes_random_more_range(center, num_nodes, start_radius):
     nodes = []
     max_node_distance = 0
@@ -245,7 +263,8 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
     # Place nodes in range
     in_nodes = []
     for i in range(in_range):
-        node_x, node_y = generate_random_coordinates(center[0], center[1], 5250, start_radius)
+        angle = ((2 * np.pi) / in_range) * i
+        node_x, node_y = generate_random_coordinates_range(center[0], center[1], 5250, start_radius, angle)
         in_nodes.append((node_x, node_y))
 
     # Find relay nodes
@@ -266,13 +285,14 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
         nodes.append(new_node)
         relay_nodes.append(new_node)
 
-        if np.random.uniform(0, 1) < 0.9:
-            relay_nodes.pop(random_r_node)
+        #if np.random.uniform(0, 1) < 0.9:
+        relay_nodes.pop(random_r_node)
 
     # Add inside nodes
     nodes += in_nodes
 
     return nodes, (max_node_distance / num_nodes)
+
 
 def get_gw_coordinates(num_of_gw, which_gw, rangeKm):
     if num_of_gw == 1:

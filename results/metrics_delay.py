@@ -8,7 +8,7 @@ results_df = pd.read_csv("metrics.txt")
 
 # result_df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 
-df = results_df.groupby(['case', 'max_sf'], as_index=False).mean()
+df = results_df.groupby(['case', 'nodes_number'], as_index=False).mean()
 
 df['normalized_delay'] = (df['delay'] / df['decoded']) / df['max_delay']
 
@@ -19,9 +19,9 @@ cases = df['case'].unique()
 
 for case in cases:
     case_data = df[df['case'] == case]
-    plt.plot(case_data['max_sf'], case_data['normalized_delay'], label=f"Delay - {case}")
+    plt.plot(case_data['nodes_number'], case_data['normalized_delay'], label=f"Delay - {case}")
 
-plt.xlabel('SF')
+plt.xlabel('nodes_number')
 plt.ylabel('Delay (ms))')
 plt.title('Delay vs Number of nodes for Different Cases')
 plt.legend()
