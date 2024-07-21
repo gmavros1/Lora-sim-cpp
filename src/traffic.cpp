@@ -103,7 +103,8 @@ void Traffic::run_Multihop() {
         for (auto &node: nodes_wur){
             node.clock(time);
             string state = node.protocol();
-            //cout << "Node " << node.getId() << " " << state << " at " << time << endl;
+            if (state!="SLEEP")
+            cout << "Node " << node.getId() << " " << state << " at " << time << endl;
         }
 
         // MULTI-HOP RECEIVING STUFF ****************************
