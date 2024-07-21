@@ -14,6 +14,7 @@ class Traffic{
 public:
     void initialize();
     void run_Multihop();
+    void run_Multihop_extended();
     void run_LoRaWAN();
     void metrics();
     string protocol_used;

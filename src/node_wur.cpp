@@ -198,6 +198,126 @@ std::string Node_wur::protocol() {
     return "BUG";
 }
 
+std::string Node_wur::protocol_extended() {
+
+    // IF NODE SLEEPS NOW
+    if (this->current_state == states[0]) { // SLEEP
+
+        // THE FIRST SEGMENT OF A WUR IN RECEIVER
+        // START COUNTING THE DELAY
+        // NOW THE STATE WILL BE RECEIVE_WUR
+        if (wur_received) {
+            return this->ctrl_receive_wur();
+        }
+
+        // NO WUR FOR THIS NODE
+        // DC COUNTER IS 0, SO NODE CAN GENERATE PACKET
+        if (dc_timer == 0) {
+            if ((rand() / double(RAND_MAX)) <= this->packet_gen_prob) {
+                generate_packet();
+
+                // IF IT GOES FOR GW, TRANSMIT
+                // SET COUNTERS AND RETURN THE STATE
+                //cout << "Generated packet from " << this->id << endl;
+                if (assigned_node < 0) { // MEANS SENDS TO GW
+                    return ctrl_send_packet();
+                } else {
+                    return ctrl_send_wur();
+                }
+            } else {
+                // NO PACKET GENERATION
+                // KEEP SLEEPING
+                return this->current_state;
+            }
+        } else {
+            // DUTY CYCLE HAS NOT FINISHED YET
+            // REDUCE THE TIMER
+            // KEEP SLEEPING
+            dc_timer--;
+            return this->current_state;
+        }
+    }
+
+    // IF NODE IS RECEIVING NOW
+    if (this->current_state == states[1]) {
+
+        // THE TRANSMISSION HAS COMPLETED SUCCESSFULLY
+        // THERE IS A PACKET IN BUFFER
+        if (this->buffer != nullptr) {
+            this->receiver_timeout = 0; // Zero timer
+
+            // TRANSMIT BECAUSE IT'S NEAR THE GATEWAY
+            if (assigned_node < 0) {
+                return ctrl_send_packet();
+            } else {
+                // SEND WUR BECAUSE IT IS A MULTI-HOP NODE
+                return ctrl_send_wur();
+            }
+
+            // IT MEANS THAT KEEP RECEIVING OR FAILED TO RECEIVE
+        } else {
+            // TIMED OUT -> RETURN TO SLEEP
+            if (receiver_timeout < 1) {
+                this->current_state = states[0];
+                return this->current_state;
+            } else {
+                // KEEP RECEIVING
+                receiver_timeout--;
+                this->current_state = states[1];
+                return this->current_state;
+            }
+        }
+    }
+
+    // IF NODE IS TRANSMITTING NOW
+    if (this->current_state == states[2]) {
+        // PACKET TRANSMISSION HAS NOT COMPLETED YET
+        if (this->toa_timer > 0) {
+            this->toa_timer--;
+            return this->current_state;
+        } else {
+            // TRANSMISSION COMPLETED
+            this->current_state = states[0];
+            return this->current_state;
+        }
+    }
+
+    // IF NODE IS LISTENING
+    if (this->current_state == states[3]) {
+        return this->current_state;
+    }
+
+    // IF NODE IS SENDING WUR NOW
+    if (this->current_state == states[4]) {
+        // WUR DELAY ONGOING
+        if (this->wur_timer > 0) {
+            this->wur_timer--;
+            return this->current_state;
+
+            // AFTER WUR GO FOR TRANSMISSION
+        } else {
+            return ctrl_send_packet();
+        }
+
+    }
+
+    // IF NODE IS RECEIVING WUR NOW
+    if (this->current_state == states[5]) {
+
+        // DONE
+        // GO FOR RECEPTION
+        if (this->wur_timer <= 1) {
+            return ctrl_receive_packet();
+            //KEEP GOING
+        } else {
+            this->wur_timer--;
+            return this->current_state;
+        }
+    }
+
+    return "BUG";
+}
+
 std::string Node_wur::ctrl_send_packet() {
     // IF IT GOES FOR GW, TRANSMIT
     // SET COUNTERS AND RETURN THE STATE
