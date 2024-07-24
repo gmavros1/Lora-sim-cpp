@@ -309,6 +309,7 @@ CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o: \
  /usr/include/c++/11/shared_mutex \
  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.h \
  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur.h \
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur_extended.h \
  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/environment.h \
  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/../external/json/include/nlohmann/json.hpp \
  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/nlohmann/adl_serializer.hpp \

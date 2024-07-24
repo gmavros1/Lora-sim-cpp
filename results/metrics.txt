@@ -1,3 +1,4 @@
 case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge,in_range_in_ge,max_sf
 Multihop 1 gateways,0.1,1,0,4,10000,2,1,158,1155,0,0,1,7
 Multihop 1 gateways,0.1,1,0,4,10000,2,1,158,1155,0,0,1,7
+Multihop 1 gateways,0.1,1,0,4,10000,2,1,158,1155,0,0,1,7
