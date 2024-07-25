@@ -9,19 +9,20 @@
 #include "node.h"
 #include "gateway.h"
 #include "node_wur.h"
+#include "node_wur_extended.h"
 
 using namespace std;
 
 class Environment {
 private:
     vector<radio_packet> packets;
-    vector<wake_up_radio> wake_up_radios;
+    vector<Node_wur_extended::wake_up_radio> wake_up_radios;
 public:
     Environment();
     void add_packet(Packet packet, int channel, int sf, int transmission_power, coordinates location);
     void add_wur_signal(int dst, int channel, int timestamp, coordinates location);
     vector<radio_packet> getPackets();
-    vector<wake_up_radio> get_wurs();
+    vector<Node_wur_extended::wake_up_radio> get_wurs();
     void time_over_air_handling(int time);
 
 };

@@ -48,7 +48,7 @@ void Environment::time_over_air_handling(int time) {
 }
 
 void Environment::add_wur_signal(int dst, int channel, int timestamp, coordinates location) {
-    static wake_up_radio inserted_radio;
+    static Node_wur_extended::wake_up_radio inserted_radio;
 
     inserted_radio.dst = dst;
     inserted_radio.channel = channel;
@@ -59,6 +59,6 @@ void Environment::add_wur_signal(int dst, int channel, int timestamp, coordinate
 
 }
 
-vector<wake_up_radio> Environment::get_wurs() {
+vector<Node_wur_extended::wake_up_radio> Environment::get_wurs() {
     return wake_up_radios;
 }

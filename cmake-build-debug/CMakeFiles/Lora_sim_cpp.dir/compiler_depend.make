@@ -397,6 +397,7 @@ CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o: /home/gmavros-yoga-7/CLionPro
   /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.h \
   /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node.h \
   /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur.h \
+  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur_extended.h \
   /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.h \
   /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/utils.h \
   /usr/include/alloca.h \
@@ -3215,11 +3216,11 @@ CMakeFiles/Lora_sim_cpp.dir/src/utils.cpp.o: /home/gmavros-yoga-7/CLionProjects/
 
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/packet.cpp:
 
-/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur_extended.h:
-
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur_extended.cpp:
 
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur.cpp:
+
+/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur_extended.h:
 
 /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur.h:
 

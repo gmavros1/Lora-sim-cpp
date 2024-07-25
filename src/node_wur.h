@@ -7,16 +7,17 @@
 
 #include "node.h"
 
-struct wake_up_radio{
-    int dst = 0;
-    int channel = 0;
-    int timestamp = 0;
-    coordinates location{};
-    };
-
 class Node_wur: public Node {
 
 public:
+
+    struct wake_up_radio{
+        int dst = 0;
+        int channel = 0;
+        int timestamp = 0;
+        coordinates location{};
+    };
+
     Node_wur(int id, int x, int y, int z, int sf, int channel, int transmissionPower, double packetGenProb,
          int assignedNode, int following, int type);
 

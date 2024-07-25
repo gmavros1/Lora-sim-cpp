@@ -28,9 +28,11 @@ Node_wur_extended::Node_wur_extended(int id, int x, int y, int z, int sf, int ch
     this->dc_timer = 0;
     this->toa_timer = 0;
 
-    //New states due to wake up transceivers
+    //New states due to wake up transceivers for extended multi-hop
     this->states[4] = "SEND_WUR";
     this->states[5] = "RECEIVE_WUR";
+    this->states[6] = "WAITING_TRANSMITTING_PACKET";
+    this->states[7] = "WAITING_RECEIVING_PACKET";
 
     this->wur_timer = 0;
 

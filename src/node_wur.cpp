@@ -37,7 +37,7 @@ Node_wur::Node_wur(int id, int x, int y, int z, int sf, int channel, int transmi
 }
 
 // After generation of data, send.
-wake_up_radio *Node_wur::send_wur() {
+Node_wur::wake_up_radio *Node_wur::send_wur() {
 
     int dst = this->buffer->getDst();
     int ch = this->channel;

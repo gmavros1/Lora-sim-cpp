@@ -44,9 +44,9 @@ void Traffic::initialize() {
             int assigned_node = nd["assigned_node"];
             int following = nd["following"];
 
-            Node_wur *node;
-            node = new Node_wur(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
-            nodes_wur.push_back(*node);
+            Node_wur_extended *node;
+            node = new Node_wur_extended(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
+            nodes_wur_extended.push_back(*node);
         }
     } else {
 
@@ -90,7 +90,7 @@ void Traffic::initialize() {
     //cout << endl;
 }
 
-void Traffic::run_Multihop() {
+/*void Traffic::run_Multihop() {
     vector<Packet> packets;
 
     for (int time = 0; time < life_time; time++) {
@@ -144,10 +144,81 @@ void Traffic::run_Multihop() {
                 continue;
             }
             if (node.get_state() == "SEND_WUR") {
-                wake_up_radio *transmitted_wur = node.send_wur();
+                Node_wur::wake_up_radio *transmitted_wur = node.send_wur();
                 if (transmitted_wur != nullptr) {
                     environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel,
                                                 time,transmitted_wur->location);
+
+                    wake_up_radio_to_receive = environment.get_wurs();
+                }
+                continue;
+            }
+        }
+
+        // Decreasing time over air and remove timed out packets from radio
+        environment.time_over_air_handling(time);
+
+    }
+}*/
+
+void Traffic::run_Multihop_extended() {
+    vector<Packet> packets;
+
+    for (int time = 0; time < life_time; time++) {
+
+        // PACKETS ON AIR
+        auto packet_to_receive = environment.getPackets();
+        auto wake_up_radio_to_receive = environment.get_wurs();
+
+        // GET STATE FOR MULTI-HOP NODES ****************************
+        for (auto &node: nodes_wur_extended){
+            node.clock(time);
+            string state = node.protocol();
+            //if (state!="SLEEP")
+                cout << "Node " << node.getId() << " " << state << " at " << time << endl;
+        }
+
+        // MULTI-HOP RECEIVING STUFF ****************************
+        for (auto &node: nodes_wur_extended) {
+
+            if (node.get_state() == "RECEIVE") {
+                node.receive(packet_to_receive);
+                continue;
+            }
+
+            if (node.get_state() == "RECEIVE_WUR") {
+                continue;
+            }
+        }
+
+        // Receiving Current Packets on air - GATEWAYS
+        for (auto &gateway: gateways) {
+            gateway.clock(time);
+            gateway.receive(packet_to_receive);
+        }
+
+        // MULTI-HOP SENDING STUFF ****************************
+        for (auto &node: nodes_wur_extended) {
+
+            if (node.get_state() == "SLEEP") {
+                node.receive_wur(wake_up_radio_to_receive);
+                continue;
+            }
+            if (node.get_state() == "TRANSMIT") {
+                Packet *transmitted_packet = node.transmit_packet();
+                if (transmitted_packet != nullptr) {
+                    environment.add_packet(*transmitted_packet, node.getChannel(), node.getSf(),
+                                           node.getTrasmissionPower(), node.getLocation());
+
+                    packet_to_receive = environment.getPackets();
+                }
+                continue;
+            }
+            if (node.get_state() == "SEND_WUR") {
+                Node_wur_extended::wake_up_radio *transmitted_wur = node.send_wur();
+                if (transmitted_wur != nullptr) {
+                    environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel,
+                                               time,transmitted_wur->location);
 
                     wake_up_radio_to_receive = environment.get_wurs();
                 }
@@ -214,6 +285,10 @@ void Traffic::metrics() {
         generated_packets += nd.generated_packets;
     }
 
+    for (const Node &nd: nodes_wur_extended) {
+        generated_packets += nd.generated_packets;
+    }
+
     // DECODED PACKETS IN GWs
     std::set<std::string> allDecodedPackets;
     for (const Gateway &gateway: gateways) {
@@ -239,6 +314,12 @@ void Traffic::metrics() {
             allNonDecodedPackets_retrans.insert(packet);
         }
     }
+    for (const Node_wur_extended &nd_wr: nodes_wur_extended) {
+        for (auto packet: nd_wr.non_decoded_packets_statistics) {
+            allNonDecodedPackets_retrans.insert(packet);
+        }
+    }
+
     non_decoded_packet_in_retransmissions = allNonDecodedPackets_retrans.size();
 
     // DELAY OF RECEIVED PACKETS
@@ -302,7 +383,7 @@ void Traffic::metrics() {
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
 
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
-    << "," << nodes_wur.size() + nodes.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
+    << "," << nodes_wur.size() + nodes.size() + nodes_wur_extended.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
     << "," << received_packet_delays_in_gw << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
     << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << int(max_sf) <<"\n";
 
@@ -315,7 +396,7 @@ int main() {
     traffic.initialize();
 
     if (traffic.protocol_used == "Multihop"){
-        traffic.run_Multihop();
+        traffic.run_Multihop_extended();
     } else{
         traffic.run_LoRaWAN();
     }
