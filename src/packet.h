@@ -19,10 +19,11 @@ private:
     int header;
     int seq_num_reversed;
     int number_of_segments;
+    int src_level;
 
 public:
 
-    Packet(int src, int dst, int timestamp, int payload_bytes = 15, int crc = 1, int header = 1);
+    Packet(int src, int dst, int timestamp, int src_level ,int payload_bytes = 15, int crc = 1, int header = 1);
 
     ~Packet() = default;
 
@@ -46,6 +47,8 @@ public:
 
     int getSeqNum() const;
 
+    int getSrcLevel();
+
     int getNumberOfSegments() const;
 
     void setSeqNumReversed(int toa_remained);
@@ -53,6 +56,8 @@ public:
     void decrease_seq_num();
 
     string calculateUniqueId() const;
+
+
 
 
 };
