@@ -197,6 +197,18 @@ std::string Node_wur_extended::protocol() {
         }
     }
 
+    // IF NODE IS IN BLOCKED STATE IN ORDER TO FORWARD PACKET
+    if (this->current_state == states[6]) {
+
+
+    }
+
+    // IF NODE IS IN BLOCKED STATE IN ORDER TO RECEIVE PACKET AND FORWARD IT
+    if (this->current_state == states[7]) {
+
+
+    }
+
     return "BUG";
 }
 
@@ -241,5 +253,20 @@ std::string Node_wur_extended::ctrl_receive_wur() {
 }
 
 std::string Node_wur_extended::get_state() {
+    return this->current_state;
+}
+
+
+// SLEEP DURING WAITING TO TRANSMIT IN LORA EXTENDED
+std::string Node_wur_extended::ctrl_block_transmit() {
+    // IN ORDER TO TRANSMIT
+    this->wur_timer_block_transmit = (this->buffer->getSrcLevel() -  this->type - 1 ) * (toa(this->buffer->getPayload_bytes(), this->sf) - 8) ;
+    this->current_state = states[6];
+    return this->current_state;
+}
+
+// SLEEP DURING WAITING TO RECEIVE IN LORA EXTENDED
+std::string Node_wur_extended::ctrl_block_receive() {
+    this->current_state = states[7];
     return this->current_state;
 }
