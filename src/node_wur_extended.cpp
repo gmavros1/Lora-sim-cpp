@@ -178,7 +178,7 @@ std::string Node_wur_extended::protocol() {
 
             // AFTER WUR GO FOR TRANSMISSION
         } else {
-            return ctrl_send_packet();
+            return ctrl_block_transmit();
         }
 
     }
@@ -189,7 +189,7 @@ std::string Node_wur_extended::protocol() {
         // DONE
         // GO FOR RECEPTION
         if (this->wur_timer <= 1) {
-            return ctrl_receive_packet();
+            return ctrl_block_receive();
             //KEEP GOING
         } else {
             this->wur_timer--;
@@ -200,13 +200,35 @@ std::string Node_wur_extended::protocol() {
     // IF NODE IS IN BLOCKED STATE IN ORDER TO FORWARD PACKET
     if (this->current_state == states[6]) {
 
+        // DONE
+        // GO FOR RECEPTION
+        if (this->wur_timer_block_transmit <= 1) {
+            return ctrl_send_packet();
+            //KEEP GOING
+        } else {
+            this->wur_timer_block_transmit--;
+            return this->current_state;
+        }
 
     }
 
     // IF NODE IS IN BLOCKED STATE IN ORDER TO RECEIVE PACKET AND FORWARD IT
     if (this->current_state == states[7]) {
-
-
+        // TIMED OUT -> RETURN TO SLEEP
+        if (wur_timer_block_receive < 1) {
+            this->current_state = states[0];
+            return this->current_state;
+        }
+        else if (this->receiving_buffer.size() > 0){
+            return ctrl_receive_packet();
+        }
+        else {
+            // CHECK IF THERE IS A SEGMENT OF PACKET IN BUFFER
+            // IF YES GO FOR TRANSMISSIONS
+            wur_timer_block_receive--;
+            this->current_state = states[7];
+            return this->current_state;
+        }
     }
 
     return "BUG";
@@ -267,6 +289,7 @@ std::string Node_wur_extended::ctrl_block_transmit() {
 
 // SLEEP DURING WAITING TO RECEIVE IN LORA EXTENDED
 std::string Node_wur_extended::ctrl_block_receive() {
+    this->wur_timer_block_receive = 1000;
     this->current_state = states[7];
     return this->current_state;
 }

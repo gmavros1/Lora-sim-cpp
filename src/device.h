@@ -79,7 +79,7 @@ public:
     int assigned_node;
     int following;
 
-private:
+public:
     map<string, packets_receiving> receiving_buffer;
 
 };

@@ -166,6 +166,10 @@ void Traffic::run_Multihop_extended() {
 
     for (int time = 0; time < life_time; time++) {
 
+        if (time >= 8884) {
+            cout << endl;
+        }
+
         // PACKETS ON AIR
         auto packet_to_receive = environment.getPackets();
         auto wake_up_radio_to_receive = environment.get_wurs();
@@ -174,14 +178,21 @@ void Traffic::run_Multihop_extended() {
         for (auto &node: nodes_wur_extended){
             node.clock(time);
             string state = node.protocol();
-            //if (state!="SLEEP")
-                cout << "Node " << node.getId() << " " << state << " at " << time << endl;
+            if (time >= 8884) {
+                cout << "Node " << node.getId() << " " << state << " at " << time << " HAS "
+                     << node.receiving_buffer.size() << " SEGMENTS" << endl;
+            }
         }
 
         // MULTI-HOP RECEIVING STUFF ****************************
         for (auto &node: nodes_wur_extended) {
 
             if (node.get_state() == "RECEIVE") {
+                node.receive(packet_to_receive);
+                continue;
+            }
+
+            if (node.get_state() == "WAITING_RECEIVING_PACKET") {
                 node.receive(packet_to_receive);
                 continue;
             }
@@ -224,6 +235,11 @@ void Traffic::run_Multihop_extended() {
                 }
                 continue;
             }
+
+            if (node.get_state() == "WAITING_TRANSMITTING_PACKET") {
+                continue;
+            }
+
         }
 
         // Decreasing time over air and remove timed out packets from radio
