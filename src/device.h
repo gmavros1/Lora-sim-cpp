@@ -18,7 +18,7 @@ struct rec_powers{
 
 struct packets_receiving{
     string id;
-    Packet packet = *new Packet(-1, -1, -1, -1, -1, -1);
+    Packet packet = *new Packet(-1, -1, -1, -1, -1, -1, -1);
     int sf;
     int channel;
     vector<rec_powers> segments_received;
@@ -31,7 +31,7 @@ struct radio_packet{
         int sf = 0;
         int channel = 0;
         coordinates location;
-        Packet packet = *new Packet(-1, -1, -1, -1, -1, -1);
+        Packet packet = *new Packet(-1, -1, -1, -1, -1, -1, -1);
 };
 
 class Device {
@@ -79,7 +79,7 @@ public:
     int assigned_node;
     int following;
 
-private:
+public:
     map<string, packets_receiving> receiving_buffer;
 
 };

@@ -307,4 +307,5 @@ CMakeFiles/Lora_sim_cpp.dir/src/environment.cpp.o: \
  /usr/include/c++/11/bits/unordered_set.h \
  /usr/include/c++/11/shared_mutex \
  /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/gateway.h \
- /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur.h
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur.h \
+ /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/src/node_wur_extended.h

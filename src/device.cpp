@@ -45,7 +45,7 @@ Device::Device(int id, int x, int y, int z, int sf, int channel, int transmissio
 }
 
 void Device::generate_packet() {
-    this->buffer = new Packet(this->id, this->assigned_node, this->environment_time);
+    this->buffer = new Packet(this->id, this->assigned_node, this->environment_time, this->type);
     this->generated_packets ++; // Metrics
     //cout << "Node " << this->id << " generated packet" << endl;
     //this->calculate_toa();
@@ -74,7 +74,7 @@ int Device::calculate_toa() {
 // Returns the pointer of a new generated packet or null pointer
 Packet* Device::transmit_packet() {
     if (this->buffer != nullptr) {
-        static Packet transmitted_packet = *new Packet( id, assigned_node, environment_time);
+        static Packet transmitted_packet = *new Packet( id, assigned_node, environment_time, this->buffer->getSrcLevel());
         transmitted_packet = *this->buffer;
         this->buffer = nullptr;
 
@@ -224,7 +224,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
             if (this->sf != -1 && this->channel!=-1){
                 Packet temp_pack = it->second.packet;
                 this->buffer = new Packet(temp_pack.getSrc(), this->assigned_node,
-                                          temp_pack.getTimestamp_start());
+                                          temp_pack.getTimestamp_start(), temp_pack.getSrc());
             }
 
             // THIS IS FOR GATEWAYS
