@@ -33,6 +33,7 @@ Node_wur_extended::Node_wur_extended(int id, int x, int y, int z, int sf, int ch
     this->states[5] = "RECEIVE_WUR";
     this->states[6] = "WAITING_TRANSMITTING_PACKET";
     this->states[7] = "WAITING_RECEIVING_PACKET";
+    this->states[8] = "RECEIVING_PACKET_AND_TRANSMITTING_WUR";
 
     this->wur_timer = 0;
 
@@ -41,7 +42,7 @@ Node_wur_extended::Node_wur_extended(int id, int x, int y, int z, int sf, int ch
 // After generation of data, send.
 Node_wur_extended::wake_up_radio *Node_wur_extended::send_wur() {
 
-    int dst = this->buffer->getDst();
+    int dst = this->assigned_node;
     int ch = this->channel;
     coordinates pos = this->location;
 
@@ -189,7 +190,12 @@ std::string Node_wur_extended::protocol() {
         // DONE
         // GO FOR RECEPTION
         if (this->wur_timer <= 1) {
-            return ctrl_block_receive();
+            if (this->assigned_node < 0){
+                ctrl_block_receive();
+            }
+            else {
+                return ctrl_receive_packet_and_wur();
+            }
             //KEEP GOING
         } else {
             this->wur_timer--;
@@ -225,8 +231,26 @@ std::string Node_wur_extended::protocol() {
         else {
             // CHECK IF THERE IS A SEGMENT OF PACKET IN BUFFER
             // IF YES GO FOR TRANSMISSIONS
-            wur_timer_block_receive--;
+            wur_timer_block_receive--;// AFTER WUR GO FOR TRANSMISSION
             this->current_state = states[7];
+            return this->current_state;
+        }
+    }
+
+    if (this->current_state == states[8]){
+
+        // SENDING WUR STILL IN PROGRESS
+        if (this->wur_timer > 0) {
+            this->wur_timer--;
+
+            // KEEP RECEIVING
+            receiver_timeout--;
+            return this->current_state;
+
+        }
+        else{
+            receiver_timeout--;
+            this->current_state = states[1];
             return this->current_state;
         }
     }
@@ -257,7 +281,7 @@ std::string Node_wur_extended::ctrl_send_packet() {
 std::string Node_wur_extended::ctrl_receive_packet() {
     this->current_state = states[1];
     this->wur_received = false;
-    this->receiver_timeout = 50;
+    this->receiver_timeout = 100;
     return this->current_state;
 }
 
@@ -291,5 +315,17 @@ std::string Node_wur_extended::ctrl_block_transmit() {
 std::string Node_wur_extended::ctrl_block_receive() {
     this->wur_timer_block_receive = 1000;
     this->current_state = states[7];
+    return this->current_state;
+}
+
+std::string Node_wur_extended::ctrl_receive_packet_and_wur() {
+    // RECEIVE PACKET PART
+    this->current_state = states[8];
+    this->wur_received = false;
+    this->receiver_timeout = 100;
+
+    // SEND WUR PART
+    this->wur_timer = 8; // Lets assume 8 ms delay
+
     return this->current_state;
 }

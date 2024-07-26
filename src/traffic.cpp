@@ -192,8 +192,17 @@ void Traffic::run_Multihop_extended() {
                 continue;
             }
 
-            if (node.get_state() == "WAITING_RECEIVING_PACKET") {
+            if (node.get_state() == "RECEIVING_PACKET_AND_TRANSMITTING_WUR") {
                 node.receive(packet_to_receive);
+
+                Node_wur_extended::wake_up_radio *transmitted_wur = node.send_wur();
+                if (transmitted_wur != nullptr) {
+                    environment.add_wur_signal(transmitted_wur->dst, transmitted_wur->channel,
+                                               time,transmitted_wur->location);
+
+                    wake_up_radio_to_receive = environment.get_wurs();
+                }
+
                 continue;
             }
 
@@ -215,6 +224,7 @@ void Traffic::run_Multihop_extended() {
                 node.receive_wur(wake_up_radio_to_receive);
                 continue;
             }
+
             if (node.get_state() == "TRANSMIT") {
                 Packet *transmitted_packet = node.transmit_packet();
                 if (transmitted_packet != nullptr) {
@@ -225,6 +235,7 @@ void Traffic::run_Multihop_extended() {
                 }
                 continue;
             }
+
             if (node.get_state() == "SEND_WUR") {
                 Node_wur_extended::wake_up_radio *transmitted_wur = node.send_wur();
                 if (transmitted_wur != nullptr) {

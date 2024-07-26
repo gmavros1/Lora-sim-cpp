@@ -40,6 +40,7 @@ private:
     std::string ctrl_receive_wur();
     std::string ctrl_block_transmit();
     std::string ctrl_block_receive();
+    std::string ctrl_receive_packet_and_wur();
 
 };
 
