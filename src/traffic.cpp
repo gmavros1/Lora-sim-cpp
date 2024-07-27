@@ -192,7 +192,7 @@ void Traffic::run_Multihop_extended() {
                 continue;
             }
 
-            if (node.get_state() == "RECEIVING_PACKET_AND_TRANSMITTING_WUR") {
+            if (node.get_state() == "RECEIVING_PACKET_AND_TRANSMITTING_WUR" || node.get_state() == "WAITING_RECEIVING_PACKET") {
                 node.receive(packet_to_receive);
 
                 Node_wur_extended::wake_up_radio *transmitted_wur = node.send_wur();
@@ -205,6 +205,8 @@ void Traffic::run_Multihop_extended() {
 
                 continue;
             }
+
+
 
             if (node.get_state() == "RECEIVE_WUR") {
                 continue;

@@ -29,6 +29,7 @@ public:
 
 private:
     bool wur_received = false;
+    bool wur_transmitted = false;
     int wur_timer;
 
     int wur_timer_block_receive;

@@ -55,6 +55,9 @@ Node_wur_extended::wake_up_radio *Node_wur_extended::send_wur() {
     if (this->wur_timer < 8){
         return nullptr;
     }
+
+    this->wur_transmitted = true;
+
     return &wur_signal;
 }
 
@@ -130,7 +133,7 @@ std::string Node_wur_extended::protocol() {
             this->receiver_timeout = 0; // Zero timer
 
             // TRANSMIT BECAUSE IT'S NEAR THE GATEWAY
-            if (assigned_node < 0) {
+            if (assigned_node < 0 || this->wur_transmitted) {
                 return ctrl_send_packet();
             } else {
                 // SEND WUR BECAUSE IT IS A MULTI-HOP NODE
@@ -272,6 +275,8 @@ std::string Node_wur_extended::ctrl_send_packet() {
         this->dc_timer = 0;
     }
 
+    this->wur_transmitted = false; // For retransmission in extended protocol
+
     this->toa_timer = toa; // -1 Because the next ms should be in the air
     this->current_state = states[2]; // OTHERWISE SEND WUR
     // TO WAKE UP THE NEXT NODE
@@ -314,6 +319,7 @@ std::string Node_wur_extended::ctrl_block_transmit() {
 // SLEEP DURING WAITING TO RECEIVE IN LORA EXTENDED
 std::string Node_wur_extended::ctrl_block_receive() {
     this->wur_timer_block_receive = 1000;
+    this->wur_received = false;
     this->current_state = states[7];
     return this->current_state;
 }
