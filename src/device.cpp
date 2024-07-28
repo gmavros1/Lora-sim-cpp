@@ -125,6 +125,15 @@ void Device::receive(vector<radio_packet> &packets_received) {
         }
     }
 
+    // APPLY UNICAST TRANSMISSIONS
+    for (int index = current_packets.size() - 1; index >= 0; index--){
+        if (current_packets[index].packet.getDst() == this->id || current_packets[index].packet.getDst() < 0){
+            continue;
+        } else{
+            current_packets.erase(current_packets.begin() + index);
+        }
+    }
+
     // Abort packet due to range issues
     for (int index = current_packets.size() - 1; index >= 0; index--) {
         double receive_power = calculate_received_power(devicesDistance(this->location,
@@ -225,8 +234,13 @@ void Device::receive(vector<radio_packet> &packets_received) {
                 Packet temp_pack = it->second.packet;
                 this->buffer = new Packet(temp_pack.getSrc(), this->assigned_node,
                                           temp_pack.getTimestamp_start(), temp_pack.getSrc());
+            } else{
+                //cout << "DECODED PACKET FROM " <<  it->second.packet.getSrc() << " TO " << it->second.packet.getDst() << endl;
             }
 
+            //cout << endl;
+            //cout << "DECODED PACKET FROM " <<  it->second.packet.getSrc() << " TO " << it->second.packet.getDst() << endl;
+            //cout << endl;
             // THIS IS FOR GATEWAYS
             decoded_packets_statistics.push_back(it->first);
             packetDelays[it->first] = (environment_time - it->second.packet.getTimestamp_start()); // Delay stuff

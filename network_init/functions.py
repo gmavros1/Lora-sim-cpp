@@ -217,7 +217,7 @@ def generate_nodes_random(center, num_nodes, start_radius):
     nodes = []
     max_node_distance = 0
 
-    in_range = 1 #int(0.2 * num_nodes)
+    in_range = int(0.2 * num_nodes)
     out_of_range = num_nodes - in_range
 
     # Place nodes in range

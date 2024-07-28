@@ -44,6 +44,8 @@ void Traffic::initialize() {
             int assigned_node = nd["assigned_node"];
             int following = nd["following"];
 
+            //cout << "Id : " << id << " | level : " << type << endl;
+
             Node_wur_extended *node;
             node = new Node_wur_extended(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
             nodes_wur_extended.push_back(*node);
@@ -166,9 +168,7 @@ void Traffic::run_Multihop_extended() {
 
     for (int time = 0; time < life_time; time++) {
 
-        if (time >= 8884) {
-            cout << endl;
-        }
+        //cout << endl;
 
         // PACKETS ON AIR
         auto packet_to_receive = environment.getPackets();
@@ -178,10 +178,8 @@ void Traffic::run_Multihop_extended() {
         for (auto &node: nodes_wur_extended){
             node.clock(time);
             string state = node.protocol();
-            if (time >= 8884) {
-                cout << "Node " << node.getId() << " " << state << " at " << time << " HAS "
-                     << node.receiving_buffer.size() << " SEGMENTS" << endl;
-            }
+            //cout << "Node " << node.getId() << " " << state << " at " << time << " HAS "
+            //     << node.receiving_buffer.size() << " SEGMENTS" << endl;
         }
 
         // MULTI-HOP RECEIVING STUFF ****************************
@@ -343,8 +341,8 @@ void Traffic::metrics() {
             allNonDecodedPackets_retrans.insert(packet);
         }
     }
-    for (const Node_wur_extended &nd_wr: nodes_wur_extended) {
-        for (auto packet: nd_wr.non_decoded_packets_statistics) {
+    for (const Node_wur_extended &nd_wr_extended: nodes_wur_extended) {
+        for (auto packet: nd_wr_extended.non_decoded_packets_statistics) {
             allNonDecodedPackets_retrans.insert(packet);
         }
     }
