@@ -30,10 +30,9 @@ public:
 private:
     bool wur_received = false;
     bool wur_transmitted = false;
-    int wur_timer;
 
     int wur_timer_block_receive;
-    int wur_timer_block_transmit;
+
 
     std::string ctrl_send_packet();
     std::string ctrl_receive_packet();
@@ -42,6 +41,10 @@ private:
     std::string ctrl_block_transmit();
     std::string ctrl_block_receive();
     std::string ctrl_receive_packet_and_wur();
+
+public:
+    int wur_timer_block_transmit;
+    int wur_timer;
 
 };
 

@@ -44,7 +44,7 @@ void Traffic::initialize() {
             int assigned_node = nd["assigned_node"];
             int following = nd["following"];
 
-            //cout << "Id : " << id << " | level : " << type << endl;
+           //  cout << "Id : " << id << " | level : " << type << endl;
 
             Node_wur_extended *node;
             node = new Node_wur_extended(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
@@ -252,6 +252,16 @@ void Traffic::run_Multihop_extended() {
             }
 
             if (node.get_state() == "WAITING_TRANSMITTING_PACKET") {
+
+                // DEBUGGING
+//                if (node.wur_timer_block_transmit <= 1){
+//                    if (nodes_wur_extended[node.assigned_node].get_state() != "WAITING_RECEIVING_PACKET" && nodes_wur_extended[node.assigned_node].get_state() != "RECEIVING" && nodes_wur_extended[node.assigned_node].get_state() != "RECEIVING_PACKET_AND_TRANSMITTING_WUR"){
+//                        cout << "BLOCKED : " << nodes_wur_extended[node.assigned_node].get_state() << endl;
+//                        cout << nodes_wur_extended[node.assigned_node].wur_timer << endl;
+//                        this->other_reasons ++;
+//                    }
+//                }
+
                 continue;
             }
 
@@ -401,6 +411,8 @@ void Traffic::metrics() {
     int maximum_trans = life_time / (toa(15, 7) + duty_cycle(toa(15, 7)));
     int maximum_delay = toa(15, 12);
 
+    // NUMBER OF PACKETS DROPPED FROM OTHER REASONS
+    int other_reasons = generated_packets - decoded_packets_in_gateway - non_decoded_packets_in_gw_due_to_inference - non_decoded_packet_in_retransmissions;
 
     // PRINT RESULT FOR TESTING
     cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
@@ -409,6 +421,7 @@ void Traffic::metrics() {
     cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
     //cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
     cout << " OUT OF RANGE TRANSMISSION IN GW : " << out_of_range_trans_to_gw << endl;
+    cout << " OTHER REASONS : " << other_reasons << endl;
 
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);

@@ -8,12 +8,12 @@ for r in {1..1}; do
   # Num nodes
   python3 ./network_init/place_nodes.py 80
 
-  for i in {1..1}; do
+  for i in {1..10}; do
     echo "Running LoRaWAn Simulation with rate $i"
 
     # Load - Time - Protocol - num of gateways - using adr in join process
 
-    python3 ./network_init/network_init.py "$i" 1000000 Multihop 1
+    python3 ./network_init/network_init.py "$i" 100000 Multihop 1
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..

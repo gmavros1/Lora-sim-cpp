@@ -34,6 +34,9 @@ private:
     int max_sf;
     double max_delay;
 
+    // STATISTICS
+    //int other_reasons = 0;
+
 };
 
 #endif //LORA_SIM_CPP_TRAFFIC_H
