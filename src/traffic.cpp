@@ -47,7 +47,7 @@ void Traffic::initialize() {
            //  cout << "Id : " << id << " | level : " << type << endl;
 
             Node_wur_extended *node;
-            node = new Node_wur_extended(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
+            node = new Node_wur_extended(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type, level);
             nodes_wur_extended.push_back(*node);
         }
     } else {
@@ -67,7 +67,7 @@ void Traffic::initialize() {
             int following = nd["following"];
 
             Node *node;
-            node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type);
+            node = new Node(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type, level);
             nodes.push_back(*node);
         }
     }
@@ -81,7 +81,7 @@ void Traffic::initialize() {
 
         Gateway *gateway;
         id = -id;
-        gateway = new Gateway(id, x, y, z, -1, -1, 25, -1, -1, -1, -1);
+        gateway = new Gateway(id, x, y, z, -1, -1, 25, -1, -1, -1, -1, -1);
         gateways.push_back(*gateway);
     }
 
@@ -413,6 +413,9 @@ void Traffic::metrics() {
 
     // NUMBER OF PACKETS DROPPED FROM OTHER REASONS
     int other_reasons = generated_packets - decoded_packets_in_gateway - non_decoded_packets_in_gw_due_to_inference - non_decoded_packet_in_retransmissions;
+    if (other_reasons  < 0){
+        other_reasons = 0;
+    }
 
     // PRINT RESULT FOR TESTING
     cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
@@ -429,7 +432,7 @@ void Traffic::metrics() {
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
     << "," << nodes_wur.size() + nodes.size() + nodes_wur_extended.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
     << "," << received_packet_delays_in_gw << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
-    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << int(max_sf) <<"\n";
+    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << int(max_sf) << "," << other_reasons <<"\n";
 
 }
 

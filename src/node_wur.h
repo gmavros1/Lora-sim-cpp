@@ -19,7 +19,7 @@ public:
     };
 
     Node_wur(int id, int x, int y, int z, int sf, int channel, int transmissionPower, double packetGenProb,
-         int assignedNode, int following, int type);
+         int assignedNode, int following, int type, int max_type);
 
     wake_up_radio* send_wur();
     void receive_wur(vector<wake_up_radio> &interrupt);

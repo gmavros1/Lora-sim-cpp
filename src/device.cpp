@@ -20,7 +20,7 @@
 
 
 
-Device::Device(int id, int x, int y, int z, int sf, int channel, int transmission_power,double packet_gen_prob, int assigned_node, int following, int type) {
+Device::Device(int id, int x, int y, int z, int sf, int channel, int transmission_power,double packet_gen_prob, int assigned_node, int following, int type, int max_type) {
     this->id = id;
     this->location.x = x;
     this->location.y = y;
@@ -39,6 +39,7 @@ Device::Device(int id, int x, int y, int z, int sf, int channel, int transmissio
     this->assigned_node = assigned_node;
     this->following = following;
     this->type = type;
+    this->max_type = max_type;
 
     this->generated_packets = 0;
     this->received_packets = 0;

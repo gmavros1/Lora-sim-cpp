@@ -37,7 +37,7 @@ struct radio_packet{
 class Device {
 
 public:
-    Device(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob, int assigned_node, int following, int type);
+    Device(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob, int assigned_node, int following, int type, int max_type);
 
     void generate_packet();
     Packet* transmit_packet();
@@ -76,6 +76,7 @@ protected:
 
 public:
     int type;
+    int max_type;
     int assigned_node;
     int following;
 

@@ -19,7 +19,7 @@ df = df.groupby(['case', 'rate'], as_index=False).mean()
 df['interference_in_gw'] = df['non_decoded'] / df['gen_packets']
 df['interference_in_nd'] = df['interference_in_node'] / df['gen_packets']
 df['out_of_range'] = df['out_of_range_in_ge'] / df['gen_packets']
-df['other_reasons'] = (df['gen_packets'] - df['decoded'] - df['non_decoded'] - df['interference_in_node'] - df['out_of_range_in_ge']) / df['gen_packets']
+df['other_reasons'] = df['other_reasons'] / df['gen_packets']
 
 # Plot the data
 """plt.figure(figsize=(14, 8))
