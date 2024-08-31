@@ -59,6 +59,11 @@ Node_wur_extended::wake_up_radio *Node_wur_extended::send_wur() {
 
     this->wur_transmitted = true;
 
+    if (environment_time >= 600){
+        cout << "TIME " << this->environment_time << ". NODE " << this->id << " |SENDS WUR| "
+             << " . || ASSIGNED NODE:  " << this->assigned_node << endl;
+    }
+
     return &wur_signal;
 }
 
@@ -75,6 +80,9 @@ void Node_wur_extended::receive_wur(vector<wake_up_radio> &interrupt) {
         wake_up_radio received_wur;
 
         received_wur.dst = current_wurs[index].dst;
+        if (this->id == 4){
+            cout << received_wur.dst << " at " << environment_time <<endl;
+        }
         received_wur.channel = current_wurs[index].channel;
         received_wur.location = current_wurs[index].location;
 
@@ -146,7 +154,15 @@ std::string Node_wur_extended::protocol() {
             // TIMED OUT -> RETURN TO SLEEP
             if (receiver_timeout < 1) {
                 //cout << "TIMEOUT RECEIVING NODE:" << this->id << endl;
+
+                cout << "TIME " << this->environment_time << ". NODE " << this->id << " |TIME OUT| "
+                     << " WHILE RECEIVING. || ASSIGNED NODE:  " << this->assigned_node << endl;
+
                 this->current_state = states[0];
+
+                // REMOVE REMAINED PACKETS IN BUFFER
+                this->receiving_buffer.clear();
+
                 return this->current_state;
             } else {
                 // KEEP RECEIVING
@@ -227,10 +243,16 @@ std::string Node_wur_extended::protocol() {
     if (this->current_state == states[7]) {
         // TIMED OUT -> RETURN TO SLEEP
         if (wur_timer_block_receive < 1) {
+
+            cout << "TIME " << this->environment_time << ". NODE " << this->id << " |TIME OUT| "
+                 << " WHILE BLOCKED FOR RECEIVING. || ASSIGNED NODE:  " << this->assigned_node << endl;
+
+
             this->current_state = states[0];
             return this->current_state;
         }
         else if (this->receiving_buffer.size() > 0){
+
             return ctrl_receive_packet();
         }
         else {
@@ -242,6 +264,7 @@ std::string Node_wur_extended::protocol() {
         }
     }
 
+    // RECEIVING AND SENDING WUR
     if (this->current_state == states[8]){
 
         // SENDING WUR STILL IN PROGRESS
@@ -288,7 +311,7 @@ std::string Node_wur_extended::ctrl_send_packet() {
 std::string Node_wur_extended::ctrl_receive_packet() {
     this->current_state = states[1];
     this->wur_received = false;
-    this->receiver_timeout = 250;
+    this->receiver_timeout = 48;
     return this->current_state;
 }
 
@@ -320,7 +343,7 @@ std::string Node_wur_extended::ctrl_block_transmit() {
 
 // SLEEP DURING WAITING TO RECEIVE IN LORA EXTENDED
 std::string Node_wur_extended::ctrl_block_receive() {
-    this->wur_timer_block_receive = (this->max_type - this->type) * 60;
+    this->wur_timer_block_receive = (this->max_type - this->type) * 48 - (this->max_type - this->type) * 8 ;
     this->wur_received = false;
     this->current_state = states[7];
     return this->current_state;
@@ -330,7 +353,7 @@ std::string Node_wur_extended::ctrl_receive_packet_and_wur() {
     // RECEIVE PACKET PART
     this->current_state = states[8];
     this->wur_received = false;
-    this->receiver_timeout = 250;
+    this->receiver_timeout = 48;
 
     // SEND WUR PART
     this->wur_timer = 8; // Lets assume 8 ms delay

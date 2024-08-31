@@ -44,7 +44,7 @@ void Traffic::initialize() {
             int assigned_node = nd["assigned_node"];
             int following = nd["following"];
 
-           //  cout << "Id : " << id << " | level : " << type << endl;
+           cout << "Id : " << id << " | level : " << type << endl;
 
             Node_wur_extended *node;
             node = new Node_wur_extended(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type, level);
@@ -178,8 +178,12 @@ void Traffic::run_Multihop_extended() {
         for (auto &node: nodes_wur_extended){
             node.clock(time);
             string state = node.protocol();
-            //cout << "Node " << node.getId() << " " << state << " at " << time << " HAS "
-            //     << node.receiving_buffer.size() << " SEGMENTS" << endl;
+
+            if (node.getId() == 4 && time <= 1000){
+                cout << "Node " << node.getId() << " " << state << " at " << time << " HAS "
+                     << node.receiving_buffer.size() << " SEGMENTS" << endl;
+            }
+
         }
 
         // MULTI-HOP RECEIVING STUFF ****************************
@@ -225,6 +229,11 @@ void Traffic::run_Multihop_extended() {
         for (auto &node: nodes_wur_extended) {
 
             if (node.get_state() == "SLEEP") {
+
+                if (node.getId() == 4 && time == 745 ) {
+                    cout << "in" << endl;
+                }
+
                 node.receive_wur(wake_up_radio_to_receive);
                 continue;
             }
@@ -315,7 +324,8 @@ void Traffic::run_LoRaWAN() {
 
 void Traffic::metrics() {
     unsigned long generated_packets, decoded_packets_in_gateway, non_decoded_packets_in_gw_due_to_inference,
-    non_decoded_packet_in_retransmissions, received_packet_delays_in_gw, out_of_range_trans_to_gw, in_range_trans_to_gw;
+    non_decoded_packet_in_retransmissions, received_packet_delays_in_gw, out_of_range_trans_to_gw, in_range_trans_to_gw,
+    out_of_range_trans_to_nd;
 
     // GENERATED PACKETS OF ALL NODES
     generated_packets = 0;
@@ -398,6 +408,15 @@ void Traffic::metrics() {
     }
     out_of_range_trans_to_gw = allOutOfRangePackets.size();
 
+    // OUT OF RANGE TRANSMISSIONS IN NODES
+    std::set<std::string> allOutOfRangePackets_nd;
+    for (const Node_wur_extended &nd_wr_extended: nodes_wur_extended) {
+        for (auto packet: nd_wr_extended.out_of_range_to_nd) {
+            allOutOfRangePackets_nd.insert(packet);
+        }
+    }
+    out_of_range_trans_to_nd = allOutOfRangePackets_nd.size();
+
     // IN RANGE TRANSMISSIONS TO GATEWAY
     std::set<std::string> allINRangePackets;
     for (const Gateway &gateway: gateways) {
@@ -412,10 +431,10 @@ void Traffic::metrics() {
     int maximum_delay = toa(15, 12);
 
     // NUMBER OF PACKETS DROPPED FROM OTHER REASONS
-    int other_reasons = generated_packets - decoded_packets_in_gateway - non_decoded_packets_in_gw_due_to_inference - non_decoded_packet_in_retransmissions;
-    if (other_reasons  < 0){
-        other_reasons = 0;
-    }
+    int other_reasons = generated_packets - decoded_packets_in_gateway - non_decoded_packets_in_gw_due_to_inference - non_decoded_packet_in_retransmissions - out_of_range_trans_to_nd - out_of_range_trans_to_gw;
+    //    if (other_reasons  < 0){
+    //        other_reasons = 0;
+    //    }
 
     // PRINT RESULT FOR TESTING
     cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
@@ -424,6 +443,7 @@ void Traffic::metrics() {
     cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
     //cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
     cout << " OUT OF RANGE TRANSMISSION IN GW : " << out_of_range_trans_to_gw << endl;
+    cout << " OUT OF RANGE TRANSMISSION IN ND : " << out_of_range_trans_to_nd << endl;
     cout << " OTHER REASONS : " << other_reasons << endl;
 
     // Create a file to write the combined strings

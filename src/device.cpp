@@ -79,6 +79,14 @@ Packet* Device::transmit_packet() {
         transmitted_packet = *this->buffer;
         this->buffer = nullptr;
 
+
+        if (environment_time>= 700) {
+            cout << "TIME " << this->environment_time << ". NODE " << this->id
+                 << " |TRANSMITTING| " << " || ASSIGN NODE " << this->assigned_node
+                 << " || PACKET: " << transmitted_packet.getPacketId() << endl;
+        }
+
+
         return &transmitted_packet;
     } else{
         return nullptr;
@@ -150,6 +158,12 @@ void Device::receive(vector<radio_packet> &packets_received) {
             // IF GATEWAY, CHECK FOR RECEPTIONS OF OUT OF RANGE SIGNALS
             if (this->id < 0 && current_packets[index].packet.getDst() < 0){
                 this->out_of_range_to_gw.push_back(current_packets[index].packet.getPacketId());
+            } else{ // IF NODE, CHECK FOR RECEPTIONS OF OUT OF RANGE SIGNALS || ASSUMING UNICAST TRANSMISSIONS
+                this->out_of_range_to_nd.push_back(current_packets[index].packet.getPacketId());
+
+                cout << "TIME " << this->environment_time << ". NODE " << this->id
+                     << " |OUT OF RANGE| DURING RECEPTION " << " || FOLLOWING NODE " << this->following << endl;
+
             }
             current_packets.erase(current_packets.begin() + index);
 
@@ -215,10 +229,23 @@ void Device::receive(vector<radio_packet> &packets_received) {
                     //cout << "Gateway received packet " << receiving_buffer[packet_id].id <<" at " <<  this->environment_time << endl << endl;
                     //cout << " RECEIVED " << num_of_sccs_decod_packets << endl;
                     //cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
+
+
+                    if (environment_time>= 700){
+                        cout << "TIME " << this->environment_time << ". NODE " << this->id
+                             << " |SUCCESS| DURING RECEPTION " << " || ASSIGN NODE " << this->assigned_node
+                             << " || PACKET: " << packet_id << endl;
+                    }
+
                 } else {
                     receiving_buffer[packet_id].decoded_or_not = "Non_decoded";
-                    //cout << " RECEIVED " << num_of_sccs_decod_packets << endl;
-                    //cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
+                    // cout << " RECEIVED " << num_of_sccs_decod_packets << endl;
+                    // cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
+
+                    cout << "TIME " << this->environment_time << ". NODE " << this->id
+                         << " |COLLISION| DURING RECEPTION " << " || ASSIGN NODE " << this->assigned_node
+                         << " || PACKET: " << packet_id << endl;
+                    // cout << endl;
                 }
 
             }
