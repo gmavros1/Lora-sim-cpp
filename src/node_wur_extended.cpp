@@ -349,11 +349,12 @@ std::string Node_wur_extended::ctrl_block_receive() {
     return this->current_state;
 }
 
+// RECEIVING PACKET WHILE TRANSMITTING A WUR SIGNAL
 std::string Node_wur_extended::ctrl_receive_packet_and_wur() {
     // RECEIVE PACKET PART
     this->current_state = states[8];
     this->wur_received = false;
-    this->receiver_timeout = 48;
+    this->receiver_timeout = (this->max_type - this->type) * 48 - (this->max_type - this->type) * 8;
 
     // SEND WUR PART
     this->wur_timer = 8; // Lets assume 8 ms delay
