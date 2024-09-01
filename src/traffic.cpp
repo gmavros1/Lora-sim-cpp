@@ -44,7 +44,7 @@ void Traffic::initialize() {
             int assigned_node = nd["assigned_node"];
             int following = nd["following"];
 
-           cout << "Id : " << id << " | level : " << type << endl;
+           cout << "Id : " << id << " | level : " << type << " | Assign node: " << assigned_node << endl;
 
             Node_wur_extended *node;
             node = new Node_wur_extended(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type, level);
@@ -179,10 +179,10 @@ void Traffic::run_Multihop_extended() {
             node.clock(time);
             string state = node.protocol();
 
-            if (node.getId() == 4 && time <= 1000){
-                cout << "Node " << node.getId() << " " << state << " at " << time << " HAS "
-                     << node.receiving_buffer.size() << " SEGMENTS" << endl;
-            }
+//            if (node.getId() == 4 && time <= 1000){
+//                cout << "Node " << node.getId() << " " << state << " at " << time << " HAS "
+//                     << node.receiving_buffer.size() << " SEGMENTS" << endl;
+//            }
 
         }
 
@@ -229,10 +229,6 @@ void Traffic::run_Multihop_extended() {
         for (auto &node: nodes_wur_extended) {
 
             if (node.get_state() == "SLEEP") {
-
-                if (node.getId() == 4 && time == 745 ) {
-                    cout << "in" << endl;
-                }
 
                 node.receive_wur(wake_up_radio_to_receive);
                 continue;
@@ -373,6 +369,7 @@ void Traffic::metrics() {
 
     non_decoded_packet_in_retransmissions = allNonDecodedPackets_retrans.size();
 
+
     // DELAY OF RECEIVED PACKETS
     unordered_map<std::string, int> lowestDelays;
     for (const auto &gateway: gateways) {
@@ -435,6 +432,16 @@ void Traffic::metrics() {
     //    if (other_reasons  < 0){
     //        other_reasons = 0;
     //    }
+
+    // DEBUG NEGATIVE NUMBER OF OTHER DROPPED PACKETS
+    set<std::string> result;
+    set_intersection(allNonDecodedPackets_retrans.begin(), allNonDecodedPackets_retrans.end(), allNonDecodedPackets.begin(),
+                     allNonDecodedPackets.end(),
+                     inserter(result, result.begin()));
+
+    cout << endl << "INTERSECTION of two sets: " << endl;
+    for (std::string i : result)
+        cout << i << endl;
 
     // PRINT RESULT FOR TESTING
     cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;

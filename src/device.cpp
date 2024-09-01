@@ -80,11 +80,11 @@ Packet* Device::transmit_packet() {
         this->buffer = nullptr;
 
 
-        if (environment_time>= 700) {
-            cout << "TIME " << this->environment_time << ". NODE " << this->id
-                 << " |TRANSMITTING| " << " || ASSIGN NODE " << this->assigned_node
-                 << " || PACKET: " << transmitted_packet.getPacketId() << endl;
-        }
+//        if (environment_time>= 700) {
+//            cout << "TIME " << this->environment_time << ". NODE " << this->id
+//                 << " |TRANSMITTING| " << " || ASSIGN NODE " << this->assigned_node
+//                 << " || PACKET: " << transmitted_packet.getPacketId() << endl;
+//        }
 
 
         return &transmitted_packet;
@@ -134,21 +134,26 @@ void Device::receive(vector<radio_packet> &packets_received) {
         }
     }
 
+
     // APPLY UNICAST TRANSMISSIONS
-    for (int index = current_packets.size() - 1; index >= 0; index--){
-        if (current_packets[index].packet.getDst() == this->id || current_packets[index].packet.getDst() < 0){
-            continue;
-        } else{
-            current_packets.erase(current_packets.begin() + index);
+    if (this->getId()>=0) { // UNICAST ONLY TO NODES
+        for (int index = current_packets.size() - 1; index >= 0; index--) {
+            if (current_packets[index].packet.getDst() == this->id) {
+                continue;
+            } else {
+                current_packets.erase(current_packets.begin() + index);
+            }
         }
     }
 
     // Abort packet due to range issues
     for (int index = current_packets.size() - 1; index >= 0; index--) {
+
         double receive_power = calculate_received_power(devicesDistance(this->location,
                                                                             current_packets[index].location),
                                                         current_packets[index].transmission_power);
         if (calculate_snr(receive_power, -(130.0+2.5)) >= snr_limit(current_packets[index].sf) + 10 ) { // receive_power >= -130
+
             current_packets[index].receive_power = receive_power;
             // IF GATEWAY, CHECK FOR RECEPTIONS OF IN RANGE SIGNALS
             if (this->id < 0 && current_packets[index].packet.getDst() < 0){
@@ -161,8 +166,8 @@ void Device::receive(vector<radio_packet> &packets_received) {
             } else{ // IF NODE, CHECK FOR RECEPTIONS OF OUT OF RANGE SIGNALS || ASSUMING UNICAST TRANSMISSIONS
                 this->out_of_range_to_nd.push_back(current_packets[index].packet.getPacketId());
 
-                cout << "TIME " << this->environment_time << ". NODE " << this->id
-                     << " |OUT OF RANGE| DURING RECEPTION " << " || FOLLOWING NODE " << this->following << endl;
+//                cout << "TIME " << this->environment_time << ". NODE " << this->id
+//                     << " |OUT OF RANGE| DURING RECEPTION " << " || FOLLOWING NODE " << this->following << endl;
 
             }
             current_packets.erase(current_packets.begin() + index);
@@ -231,20 +236,20 @@ void Device::receive(vector<radio_packet> &packets_received) {
                     //cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
 
 
-                    if (environment_time>= 700){
-                        cout << "TIME " << this->environment_time << ". NODE " << this->id
-                             << " |SUCCESS| DURING RECEPTION " << " || ASSIGN NODE " << this->assigned_node
-                             << " || PACKET: " << packet_id << endl;
-                    }
+//                    if (environment_time>= 700){
+//                        cout << "TIME " << this->environment_time << ". NODE " << this->id
+//                             << " |SUCCESS| DURING RECEPTION " << " || ASSIGN NODE " << this->assigned_node
+//                             << " || PACKET: " << packet_id << endl;
+//                    }
 
                 } else {
                     receiving_buffer[packet_id].decoded_or_not = "Non_decoded";
                     // cout << " RECEIVED " << num_of_sccs_decod_packets << endl;
                     // cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
 
-                    cout << "TIME " << this->environment_time << ". NODE " << this->id
-                         << " |COLLISION| DURING RECEPTION " << " || ASSIGN NODE " << this->assigned_node
-                         << " || PACKET: " << packet_id << endl;
+//                    cout << "TIME " << this->environment_time << ". NODE " << this->id
+//                         << " |COLLISION| DURING RECEPTION " << " || ASSIGN NODE " << this->assigned_node
+//                         << " || PACKET: " << packet_id << endl;
                     // cout << endl;
                 }
 
