@@ -59,10 +59,10 @@ Node_wur_extended::wake_up_radio *Node_wur_extended::send_wur() {
 
     this->wur_transmitted = true;
 
-    if (environment_time >= 1200 && environment_time <= 2000){
-        cout << "TIME " << this->environment_time << ". NODE " << this->id << " |SENDS WUR| "
-             << " . || ASSIGNED NODE:  " << this->assigned_node << endl;
-    }
+//    if (environment_time >= 1200 && environment_time <= 2000){
+//        cout << "TIME " << this->environment_time << ". NODE " << this->id << " |SENDS WUR| "
+//             << " . || ASSIGNED NODE:  " << this->assigned_node << endl;
+//    }
 
     return &wur_signal;
 }

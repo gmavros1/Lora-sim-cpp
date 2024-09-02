@@ -250,7 +250,7 @@ void Device::receive(vector<radio_packet> &packets_received) {
 //                    cout << "TIME " << this->environment_time << ". NODE " << this->id
 //                         << " |COLLISION| DURING RECEPTION " << " || ASSIGN NODE " << this->assigned_node
 //                         << " || PACKET: " << packet_id << endl;
-                    // cout << endl;
+//                     cout << endl;
                 }
 
             }

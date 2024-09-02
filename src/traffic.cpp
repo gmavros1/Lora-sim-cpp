@@ -179,7 +179,7 @@ void Traffic::run_Multihop_extended() {
             node.clock(time);
             string state = node.protocol();
 
-//            if (node.getId() == 4 && time <= 1000){
+//            if (node.getId() == 4 && time >= 33800 && time <= 34200){
 //                cout << "Node " << node.getId() << " " << state << " at " << time << " HAS "
 //                     << node.receiving_buffer.size() << " SEGMENTS" << endl;
 //            }
@@ -241,7 +241,17 @@ void Traffic::run_Multihop_extended() {
                                            node.getTrasmissionPower(), node.getLocation());
 
                     packet_to_receive = environment.getPackets();
+
+                    // SEE IF WHILE TRANSMITTING THE DST DEVICE IS TRANSMITTING TOO
+                    for (auto &node_TEST: nodes_wur_extended){
+                        Packet tr_p = *transmitted_packet;
+                        if (node_TEST.getId() == tr_p.getDst() && (node_TEST.get_state()=="TRANSMIT" || node_TEST.get_state()=="SLEEP") ){
+                            cout << "MALAKIA "  << tr_p.getPacketId() << endl;
+                        }
+                    }
+
                 }
+
                 continue;
             }
 
