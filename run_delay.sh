@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge,in_range_in_ge,max_sf,other_reasons" > results/metrics.txt
+echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge,in_range_in_ge,max_sf,time_out,drop_p_async" > results/metrics.txt
 for r in {1..18}; do
   echo ""
   nodes_num=$((18 * r))

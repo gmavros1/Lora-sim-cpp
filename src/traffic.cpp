@@ -44,7 +44,7 @@ void Traffic::initialize() {
             int assigned_node = nd["assigned_node"];
             int following = nd["following"];
 
-           cout << "Id : " << id << " | level : " << type << " | Assign node: " << assigned_node << endl;
+//           cout << "Id : " << id << " | level : " << type << " | Assign node: " << assigned_node << endl;
 
             Node_wur_extended *node;
             node = new Node_wur_extended(id, x, y, z, sf, channel, transmission_p, rate, assigned_node, following, type, level);
@@ -242,11 +242,13 @@ void Traffic::run_Multihop_extended() {
 
                     packet_to_receive = environment.getPackets();
 
-                    // SEE IF WHILE TRANSMITTING THE DST DEVICE IS TRANSMITTING TOO
+                    // SEE IF WHILE TRANSMITTING THE DST DEVICE IS TRANSMITTING TOO -- METRICS ********************
                     for (auto &node_TEST: nodes_wur_extended){
                         Packet tr_p = *transmitted_packet;
-                        if (node_TEST.getId() == tr_p.getDst() && (node_TEST.get_state()=="TRANSMIT" || node_TEST.get_state()=="SLEEP") ){
-                            cout << "MALAKIA "  << tr_p.getPacketId() << endl;
+                        if (node_TEST.getId() == tr_p.getDst() && (node_TEST.get_state()=="TRANSMIT" || node_TEST.get_state()=="SLEEP" ||
+                            node_TEST.get_state()=="RECEIVE_WUR" || node_TEST.get_state()=="WAITING_TRANSMITTING_PACKET") ){
+                            //cout << "MALAKIA "  << tr_p.getPacketId() << endl;
+                            this->packet_drop_receiver_transmitOrSleep ++;
                         }
                     }
 
@@ -433,15 +435,13 @@ void Traffic::metrics() {
     }
     in_range_trans_to_gw = allINRangePackets.size();
 
+    int async_of_nodes_packet_drop = this->packet_drop_receiver_transmitOrSleep;
+
+    int time_out_packets = generated_packets - decoded_packets_in_gateway - non_decoded_packets_in_gw_due_to_inference - non_decoded_packet_in_retransmissions - out_of_range_trans_to_nd - out_of_range_trans_to_gw - async_of_nodes_packet_drop;
+
     // CONSTANT METRICS
     int maximum_trans = life_time / (toa(15, 7) + duty_cycle(toa(15, 7)));
     int maximum_delay = toa(15, 12);
-
-    // NUMBER OF PACKETS DROPPED FROM OTHER REASONS
-    int other_reasons = generated_packets - decoded_packets_in_gateway - non_decoded_packets_in_gw_due_to_inference - non_decoded_packet_in_retransmissions - out_of_range_trans_to_nd - out_of_range_trans_to_gw;
-    //    if (other_reasons  < 0){
-    //        other_reasons = 0;
-    //    }
 
     // DEBUG NEGATIVE NUMBER OF OTHER DROPPED PACKETS
     set<std::string> result;
@@ -461,7 +461,8 @@ void Traffic::metrics() {
     //cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
     cout << " OUT OF RANGE TRANSMISSION IN GW : " << out_of_range_trans_to_gw << endl;
     cout << " OUT OF RANGE TRANSMISSION IN ND : " << out_of_range_trans_to_nd << endl;
-    cout << " OTHER REASONS : " << other_reasons << endl;
+    cout << " RECEIVER NOT IN RECEIVING STATE : " << async_of_nodes_packet_drop << endl;
+    cout << " TIME OUT IN RECEIVING : " << time_out_packets << endl;
 
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
@@ -469,7 +470,7 @@ void Traffic::metrics() {
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
     << "," << nodes_wur.size() + nodes.size() + nodes_wur_extended.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
     << "," << received_packet_delays_in_gw << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
-    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << int(max_sf) << "," << other_reasons <<"\n";
+    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << int(max_sf) << "," << time_out_packets << "," << async_of_nodes_packet_drop <<"\n";
 
 }
 

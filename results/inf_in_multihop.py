@@ -19,7 +19,8 @@ df = df.groupby(['case', 'rate'], as_index=False).mean()
 df['interference_in_gw'] = df['non_decoded'] / df['gen_packets']
 df['interference_in_nd'] = df['interference_in_node'] / df['gen_packets']
 df['out_of_range'] = df['out_of_range_in_ge'] / df['gen_packets']
-df['other_reasons'] = df['other_reasons'] / df['gen_packets']
+df['receiver_not_rec_state'] = df['drop_p_async'] / df['gen_packets']
+df['time_outs'] = df['time_out'] / df['gen_packets']
 
 # Plot the data
 """plt.figure(figsize=(14, 8))
@@ -45,7 +46,8 @@ plt.figure(figsize=(14, 8))
 plt.bar(r, df['interference_in_gw'], color='red', edgecolor='white', width=bar_width, label='Interference in GW')
 plt.bar(r, df['interference_in_nd'], bottom=df['interference_in_gw'], color='blue', edgecolor='white', width=bar_width, label='Interference in Node')
 plt.bar(r, df['out_of_range'], bottom=df['interference_in_gw'] + df['interference_in_nd'], color='green', edgecolor='white', width=bar_width, label='Out of Range')
-plt.bar(r, df['other_reasons'], bottom=df['interference_in_gw'] + df['interference_in_nd'] + df['out_of_range'], color='orange', edgecolor='white', width=bar_width, label='Other Reasons')
+plt.bar(r, df['receiver_not_rec_state'], bottom=df['interference_in_gw'] + df['interference_in_nd'] + df['out_of_range'], color='orange', edgecolor='white', width=bar_width, label='Receiver not in receiving state')
+plt.bar(r, df['time_outs'], bottom=df['interference_in_gw'] + df['interference_in_nd'] + df['out_of_range'] + df['receiver_not_rec_state'], color='purple', edgecolor='white', width=bar_width, label='Time out')
 
 plt.xlabel('Load')
 plt.ylabel('Portion of Missing Packets')

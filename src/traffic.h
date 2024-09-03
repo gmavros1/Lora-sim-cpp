@@ -35,7 +35,7 @@ private:
     double max_delay;
 
     // STATISTICS
-    //int other_reasons = 0;
+    int packet_drop_receiver_transmitOrSleep = 0;
 
 };
 

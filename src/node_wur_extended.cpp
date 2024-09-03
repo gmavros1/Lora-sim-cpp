@@ -152,8 +152,8 @@ std::string Node_wur_extended::protocol() {
             if (receiver_timeout < 1) {
                 //cout << "TIMEOUT RECEIVING NODE:" << this->id << endl;
 
-                cout << "TIME " << this->environment_time << ". NODE " << this->id << " |TIME OUT| "
-                     << " WHILE RECEIVING. || ASSIGNED NODE:  " << this->assigned_node << endl;
+//                cout << "TIME " << this->environment_time << ". NODE " << this->id << " |TIME OUT| "
+//                     << " WHILE RECEIVING. || ASSIGNED NODE:  " << this->assigned_node << endl;
 
                 this->current_state = states[0];
 
@@ -241,8 +241,8 @@ std::string Node_wur_extended::protocol() {
         // TIMED OUT -> RETURN TO SLEEP
         if (wur_timer_block_receive < 1) {
 
-            cout << "TIME " << this->environment_time << ". NODE " << this->id << " |TIME OUT| "
-                 << " WHILE BLOCKED FOR RECEIVING. || ASSIGNED NODE:  " << this->assigned_node << endl;
+//            cout << "TIME " << this->environment_time << ". NODE " << this->id << " |TIME OUT| "
+//                 << " WHILE BLOCKED FOR RECEIVING. || ASSIGNED NODE:  " << this->assigned_node << endl;
 
 
             this->current_state = states[0];
