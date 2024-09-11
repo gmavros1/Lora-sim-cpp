@@ -6,7 +6,7 @@ for r in {1..10}; do
   echo "ROUND $r"
 
   # Num nodes
-  python3 ./network_init/place_nodes.py 80
+  python3 ./network_init/place_nodes.py 200
 
     for i in {1..10}; do
       echo "Running LoRaWAn Simulation with rate $i"
