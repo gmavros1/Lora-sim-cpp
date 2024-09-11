@@ -13,22 +13,22 @@ for r in {1..10}; do
 
     # Load - Time - Protocol - num of gateways - using adr in join process
 
-    python3 ./network_init/network_init.py "$i" 2000000 Multihop 1
+    python3 ./network_init/network_init.py "$i" 1000000 Multihop 1
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$i" 2000000 LoRaWAn 1
+    python3 ./network_init/network_init.py "$i" 1000000 LoRaWAn 1
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$i" 2000000 LoRaWAn 2
+    python3 ./network_init/network_init.py "$i" 1000000 LoRaWAn 2
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$i" 2000000 LoRaWAn 3
+    python3 ./network_init/network_init.py "$i" 1000000 LoRaWAn 3
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..

@@ -41,7 +41,7 @@ plt.show()"""
 bar_width = 0.09
 r = df['rate']
 
-plt.figure(figsize=(14, 8))
+# plt.figure(figsize=(14, 8))
 
 plt.bar(r, df['interference_in_gw'], color='red', edgecolor='white', width=bar_width, label='Interference in GW')
 plt.bar(r, df['interference_in_nd'], bottom=df['interference_in_gw'], color='blue', edgecolor='white', width=bar_width, label='Interference in Node')

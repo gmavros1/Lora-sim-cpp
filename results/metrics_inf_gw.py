@@ -8,12 +8,12 @@ results_df = pd.read_csv("metrics.txt")
 
 df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 
-df['inference'] = (df['non_decoded']) / (df['in_range_in_ge'])  # / df['gen_packets'] IT SHOULD BE / TRANSMISSIONS REACHED THE GW
+df['inference'] = (df['non_decoded']) / (df['gen_packets'])  # / df['gen_packets'] IT SHOULD BE / TRANSMISSIONS REACHED THE GW
 
 # Create a line plot for each case
 cases = df['case'].unique()
 
-plt.figure(figsize=(14, 8))
+# plt.figure(figsize=(14, 8))
 
 for case in cases:
     case_data = df[df['case'] == case]
