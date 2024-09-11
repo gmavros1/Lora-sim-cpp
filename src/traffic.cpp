@@ -17,9 +17,9 @@ void Traffic::initialize() {
     level = j["level"];
     mean_sf = j["mean_sf"];
     max_sf = j["max_sf"];
-    cout << "Level : " << level << endl;
-    cout << "Mean sf : " << mean_sf << endl;
-    cout << "Max sf : " << max_sf << endl;
+//    cout << "Level : " << level << endl;
+//    cout << "Mean sf : " << mean_sf << endl;
+//    cout << "Max sf : " << max_sf << endl;
     // rate = rate / ((toa(15, max_sf) * rate_prd) + duty_cycle((toa(15, max_sf) * rate_prd)));
     rate = rate_norm / (toa(15, 7) + duty_cycle(toa(15, 7)));
     protocol_used = j["prt"];
@@ -449,20 +449,20 @@ void Traffic::metrics() {
                      allNonDecodedPackets.end(),
                      inserter(result, result.begin()));
 
-    cout << endl << "INTERSECTION of two sets: " << endl;
-    for (std::string i : result)
-        cout << i << endl;
-
-    // PRINT RESULT FOR TESTING
-    cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
-    cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
-    cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
-    cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
-    //cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
-    cout << " OUT OF RANGE TRANSMISSION IN GW : " << out_of_range_trans_to_gw << endl;
-    cout << " OUT OF RANGE TRANSMISSION IN ND : " << out_of_range_trans_to_nd << endl;
-    cout << " RECEIVER NOT IN RECEIVING STATE : " << async_of_nodes_packet_drop << endl;
-    cout << " TIME OUT IN RECEIVING : " << time_out_packets << endl;
+//    cout << endl << "INTERSECTION of two sets: " << endl;
+//    for (std::string i : result)
+//        cout << i << endl;
+//
+//    // PRINT RESULT FOR TESTING
+//    cout << " GENERATED PACKETS OF ALL NODES : " << generated_packets << endl;
+//    cout << " DECODED PACKETS IN GWs : " << decoded_packets_in_gateway << endl;
+//    cout << " INTERFERENCE IN GATEWAY : " << non_decoded_packets_in_gw_due_to_inference << endl;
+//    cout << " INTERFERENCE IN RETRANSMISSIONS : " << non_decoded_packet_in_retransmissions << endl;
+//    //cout << " DELAY OF RECEIVED PACKETS : " << received_packet_delays_in_gw << endl;
+//    cout << " OUT OF RANGE TRANSMISSION IN GW : " << out_of_range_trans_to_gw << endl;
+//    cout << " OUT OF RANGE TRANSMISSION IN ND : " << out_of_range_trans_to_nd << endl;
+//    cout << " RECEIVER NOT IN RECEIVING STATE : " << async_of_nodes_packet_drop << endl;
+//    cout << " TIME OUT IN RECEIVING : " << time_out_packets << endl;
 
     // Create a file to write the combined strings
     std::ofstream outFile("../results/metrics.txt", std::ios::app);
