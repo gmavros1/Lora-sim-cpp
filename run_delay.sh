@@ -11,7 +11,7 @@ for r in {1..18}; do
 
   for i in {1..7}; do
 
-    rate=1
+    rate=2
 
     echo "Running LoRaWAn Simulation with rate $rate and $nodes_num Nodes"
 
