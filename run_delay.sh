@@ -17,12 +17,12 @@ for r in {1..18}; do
 
     # Load - Time - Protocol - num of gateways - using adr in join process
 
-    python3 ./network_init/network_init.py "$rate" 1000000 Multihop 1 "adr"
+    python3 ./network_init/network_init.py "$rate" 500000 Multihop 1 "adr"
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$rate" 1000000 LoRaWAn 1 "adr"
+    python3 ./network_init/network_init.py "$rate" 500000 LoRaWAn 1 "adr"
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..

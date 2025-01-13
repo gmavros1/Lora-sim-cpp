@@ -3,7 +3,11 @@ import json
 from node import Node
 import sys
 
-
+"""
+:param num_nodes: number of nodes of the topology
+:param range_boost: if not none, spread the nodes in a way that are more far from the center
+:return: list of tuples with coordinates, maximum range of nodes
+"""
 def place_nodes(num_nodes, range_boost):
     center_x, center_y = 0, 0
     if range_boost:

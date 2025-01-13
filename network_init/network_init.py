@@ -87,7 +87,7 @@ class Topology:
                 "z": int(n.height),
                 "type": n.type,
                 "assigned_node": null_to_minus_1(n.assigned_node),
-                "following": null_to_minus_1(n.node_following)
+                "following": null_to_minus_1(n.node_following) # receives from following node
             }
             nodes.append(dictionary)
 
