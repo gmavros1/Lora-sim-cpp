@@ -43,7 +43,7 @@ int Packet::getSeqNum() const {
 
 string Packet::calculateUniqueId() const {
     string result;
-    result = "node" + to_string(this->src) + "to" + to_string(this->dst) + "at" + to_string(this->timestamp_start);
+    result = "node_" + to_string(this->src) + "_to_" + to_string(this->dst) + "_at_" + to_string(this->timestamp_start);
     return result;
 }
 

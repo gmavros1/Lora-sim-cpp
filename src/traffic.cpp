@@ -357,6 +357,47 @@ void Traffic::metrics() {
     }
     decoded_packets_in_gateway = allDecodedPackets.size();
 
+    // DEFINE DECODED PACKETS PER LEVEL --- FOR FAIRNESS -------------------------
+    // Find maximum type
+    int maxType = 0;
+    for (const Node &nd: nodes_wur_extended){
+        if  (maxType < nd.type)
+            maxType = nd.type;
+    }
+    // construct dict with key as type and initialize to zero
+    map<int, int> receivedPerType;
+    map<int, int> generatedPerType;
+    for (int i = 0; i < maxType; ++i) {
+        receivedPerType[i] = 0;
+        generatedPerType[i] = 0;
+    }
+    // +1 in receivedPerType - id is the index of the string - iterate all received packets
+    regex del("_");
+    for (auto p: allDecodedPackets) {
+        sregex_token_iterator it(p.begin(), p.end(), del, -1);
+        int node_id = stoi(*(++it)); // id
+        int type_of_node = nodes_wur_extended[node_id].type;
+        receivedPerType[type_of_node] += 1;
+    }
+    // now iterate nodes to take all generated packets per type
+    for (auto n: nodes_wur_extended) {
+        generatedPerType[n.type] += n.generated_packets;
+    }
+    // ratio (received/generated) per type
+    float ratioPerType[maxType+1];
+    for (int i = 0; i <= maxType; ++i) {
+        ratioPerType[i] = static_cast<float>(receivedPerType[i])/static_cast<float>(generatedPerType[i]);
+    }
+    // Calculate Fairness
+    float sum_of_value_squared = 0;
+    float sum_of_squared_value = 0;
+    for (int i = 0; i <= maxType; ++i) {
+        sum_of_value_squared += ratioPerType[i];
+        sum_of_squared_value += (ratioPerType[i] * ratioPerType[i]);
+    }
+    sum_of_value_squared *= sum_of_value_squared;
+    double fairness = (sum_of_value_squared)/(static_cast<float>(maxType)*sum_of_squared_value);
+
     // INTERFERENCE IN GATEWAY
     std::set<std::string> allNonDecodedPackets;
     for (const Gateway &gateway: gateways) {
