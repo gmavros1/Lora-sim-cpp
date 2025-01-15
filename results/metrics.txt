@@ -1,8 +1,2 @@
-case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge,in_range_in_ge,max_sf,time_out,drop_p_async
-Multihop 1 gateways,0.1,140,4,80,100000,21,144,14950,1155,0,0,144,7,0,0
-Multihop 1 gateways,0.1,140,4,80,100000,21,144,14950,1155,0,0,144,7,0,0
-Multihop 1 gateways,0.1,140,4,80,100000,21,144,14950,1155,0,0,144,7,0,0
-Multihop 1 gateways,0.1,140,4,80,100000,21,144,14950,1155,0,0,144,7,0,0
-Multihop 1 gateways,0.1,140,4,80,100000,21,144,14950,1155,0,0,144,7,0,0
-Multihop 1 gateways,0.1,140,4,80,100000,21,144,14950,1155,0,0,144,7,0,0
-Multihop 1 gateways,0.1,140,4,80,100000,21,144,14950,1155,0,0,144,7,0,0
+case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge,in_range_in_ge,max_sf,time_out,drop_p_async,fairness
+Multihop 1 gateways,0.5,570,42,80,100000,21,638,79716,1155,0,0,612,7,1,25,0.976387

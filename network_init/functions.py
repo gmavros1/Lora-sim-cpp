@@ -1,3 +1,4 @@
+import json
 import math
 import random
 import matplotlib.pyplot as plt
@@ -350,3 +351,13 @@ def plot_topology(self):
         plt.show()
 
     plot_nodes_and_gateways(self.nodes, self.gateways)
+
+
+def save_node_type_of_previous_topology(nodes):
+    dict_n_t = {}
+    for node in nodes:
+        dict_n_t[node.id] = node.type
+
+    json_object = json.dumps(dict_n_t, indent=4)
+    with open("topology/node_type.json", "w") as outfile:
+        outfile.write(json_object)

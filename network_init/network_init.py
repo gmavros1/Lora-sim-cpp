@@ -107,6 +107,10 @@ class Topology:
         if use_multihop:
             net_case = f"Multihop {num_gateways} gateways"
             protocol_used = "Multihop"
+
+            # NOTE NODE-TYPE
+            # APPLIES TO NEXT LORA SIMS
+            save_node_type_of_previous_topology(self.nodes)
         else:
             net_case = f"LoraWAN {num_gateways} gateways"
             protocol_used = "Aloha"
