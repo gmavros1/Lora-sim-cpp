@@ -11,7 +11,7 @@ from join_functions import multihop_join_process_inf, join_process, join_process
 # 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
 class Topology:
 
-    def __init__(self, num_gateways, use_multihop, load, life_time, use_adr_on_join) -> None:
+    def __init__(self, num_gateways, use_multihop, load, life_time, use_adr_on_join, experiment_name) -> None:
 
         self.server = Server()
         self.metrics = Metrics()
@@ -132,7 +132,7 @@ class Topology:
 
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
                       "level": int(max_level), "prt": protocol_used, "mean_sf": float(mean_sf),
-                      "max_sf": int(self.max_sf)}
+                      "max_sf": int(self.max_sf), "experiment_name": experiment_name}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -146,11 +146,13 @@ if __name__ == "__main__":
     time = int(sys.argv[2])
     protocol = sys.argv[3]
     num_of_gw = int(sys.argv[4])
+    experiment_name = sys.argv[6]
+
     try:
         use_adr_on_join = sys.argv[5]
     except:
         use_adr_on_join = ""
-    topology = Topology(num_of_gw, protocol == 'Multihop', load / 10, time, use_adr_on_join == 'adr')
+    topology = Topology(num_of_gw, protocol == 'Multihop', load / 10, time, use_adr_on_join == 'adr', experiment_name)
 
     """print("TYPE 0")
     for n in topology.nodes:

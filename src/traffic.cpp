@@ -17,6 +17,7 @@ void Traffic::initialize() {
     level = j["level"];
     mean_sf = j["mean_sf"];
     max_sf = j["max_sf"];
+    experiment_name = j["experiment_name"];
 //    cout << "Level : " << level << endl;
 //    cout << "Mean sf : " << mean_sf << endl;
 //    cout << "Max sf : " << max_sf << endl;
@@ -509,7 +510,8 @@ void Traffic::metrics() {
 //    cout << " TIME OUT IN RECEIVING : " << time_out_packets << endl;
 
     // Create a file to write the combined strings
-    std::ofstream outFile("../results/metrics.txt", std::ios::app);
+    string metrics_path = "../results/metrics/" + experiment_name +".txt";
+    std::ofstream outFile(metrics_path, std::ios::app);
 
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
     << "," << nodes_wur.size() + nodes.size() + nodes_wur_extended.size() << "," << life_time << "," << maximum_trans << "," << generated_packets

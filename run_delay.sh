@@ -32,4 +32,4 @@ done
 
 cd ./results || return
 # python3 metrics_th.py & python3 metrics_inf_gw.py
-python3 metrics_delay.py & python3 fairness_node.py
+# python3 metrics_delay.py & python3 fairness_node.py

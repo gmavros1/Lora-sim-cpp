@@ -33,6 +33,7 @@ private:
     double norm_load;
     int max_sf;
     double max_delay;
+    string experiment_name;
 
     // STATISTICS
     int packet_drop_receiver_transmitOrSleep = 0;
