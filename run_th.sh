@@ -17,22 +17,22 @@ do
 
     # Load Time_slots Protocol num_of_gateways using_adr_in_join_process number_of_gateways name_of_experiment
 
-    python3 ./network_init/network_init.py "$i" "$3" Multihop 1 no_adr  "${2}_${rounds}_${3}_moving_load"
+    python3 ./network_init/network_init.py "$i" "$3" Multihop 1 no_adr  "$name_of_experiment"
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$i" "$3" LoRaWAn 1 no_adr  "${2}_${rounds}_${3}_moving_load"
+    python3 ./network_init/network_init.py "$i" "$3" LoRaWAn 1 no_adr  "$name_of_experiment"
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$i" "$3" LoRaWAn 2 no_adr  "${2}_${rounds}_${3}_moving_load"
+    python3 ./network_init/network_init.py "$i" "$3" LoRaWAn 2 no_adr  "$name_of_experiment"
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$i" "$3" LoRaWAn 3 no_adr "${2}_${rounds}_${3}_moving_load"
+    python3 ./network_init/network_init.py "$i" "$3" LoRaWAn 3 no_adr "$name_of_experiment"
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..

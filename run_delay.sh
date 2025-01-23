@@ -1,28 +1,33 @@
 #!/bin/bash
 
-echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge,in_range_in_ge,max_sf,time_out,drop_p_async,fairness" > results/metrics.txt
-for r in {1..10}; do
+rounds="$1"
+name_of_experiment="${2}_${rounds}_${3}_moving_number_of_nodes"
+echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge,in_range_in_ge,max_sf,time_out,drop_p_async,fairness" > results/metrics/"${name_of_experiment}".txt
+for r in {1..10};
+do
   echo ""
-  nodes_num=$((20 * r))
+  nodes_num=$((${2} * r))
   echo "Nodes number $nodes_num"
 
-  for i in {1..7}; do
+  for ((i=1; i <= rounds; i++))
+  do
 
     # Num nodes - If we want more range
     python3 ./network_init/place_nodes.py "$nodes_num" range
 
-    rate=5
+    rate="$4"
 
+    echo "round $i"
     echo "Running LoRaWAn Simulation with rate $rate and $nodes_num Nodes"
 
     # Load - Time - Protocol - num of gateways - using adr in join process
 
-    python3 ./network_init/network_init.py "$rate" 1000000 Multihop 1 "adr"
+    python3 ./network_init/network_init.py "$rate" "$3" Multihop 1 adr "$name_of_experiment"
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
 
-    python3 ./network_init/network_init.py "$rate" 1000000 LoRaWAn 1 "adr"
+    python3 ./network_init/network_init.py "$rate" "$3" LoRaWAn 1 adr "$name_of_experiment"
     cd cmake-build-debug || return
     ./Lora_sim_cpp
     cd ..
