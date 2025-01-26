@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rounds="$1"
-name_of_experiment="${2}_${rounds}_${3}_moving_number_of_nodes"
+name_of_experiment="${2}_${rounds}_${3}_moving_number_of_nodes_${4}"
 echo "case,rate,decoded,non_decoded,nodes_number,life_time,maximum_trans,gen_packets,delay,max_delay,interference_in_node,out_of_range_in_ge,in_range_in_ge,max_sf,time_out,drop_p_async,fairness" > results/metrics/"${name_of_experiment}".txt
 for r in {1..10};
 do
