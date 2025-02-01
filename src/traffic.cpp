@@ -358,6 +358,7 @@ void Traffic::metrics() {
     }
     decoded_packets_in_gateway = allDecodedPackets.size();
 
+    // FAIRNESS
     // DEFINE DECODED PACKETS PER LEVEL --- FOR FAIRNESS -------------------------
     double fairness = 0.0;
     if (!nodes_wur_extended.empty()) // Means it is multihop
@@ -453,6 +454,51 @@ void Traffic::metrics() {
         received_packet_delays_in_gw += pair.second;
     }
 
+    // DELAY GROUPED BY TYPE
+    std::ifstream nt("../topology/node_type.json");
+    json j;
+    nt >> j; // nd[node] = type
+
+    // Find max Type
+    int maxType = 0;
+    for (int i = 0; i < nodes.size() + nodes_wur_extended.size(); ++i) {
+        if (maxType < j[std::to_string(i)])
+            maxType = j[std::to_string(i)];
+    }
+
+    map<int, double> DelayType;
+    map<int, int> CountPacketPerType;
+    for (int i = 0; i < maxType+1; ++i) {
+        DelayType[i] = 0.0;
+        CountPacketPerType[i] = 0;
+    }
+    regex del("_");
+    for (const auto &pair: lowestDelays) {
+        sregex_token_iterator it(pair.first.begin(), pair.first.end(), del, -1);
+        int node_id = stoi(*(++it)); // id
+        int node_type = j[std::to_string(node_id)];
+        DelayType[node_type] += (pair.second * 1.0);
+        CountPacketPerType[node_type] += 1;
+    }
+
+    // The mean for every type
+    double mean_delays_per_type[maxType];
+    for (int i = 0; i < maxType+1; ++i) {
+        if (DelayType[i] != 0) {
+            mean_delays_per_type[i] = DelayType[i] / (1.0 * CountPacketPerType[i]);
+        } else{
+            maxType --; // To not consider this to the last calculation
+        }
+    }
+
+    // Delay calculation
+    double mean_delay = 0.0;
+    for (double d: mean_delays_per_type) {
+        mean_delay += d;
+    }
+    mean_delay /= ((maxType+1) * 1.0);
+//    cout << mean_delay << endl;
+
     // OUT OF RANGE TRANSMISSIONS IN GATEWAY
     std::set<std::string> allOutOfRangePackets;
     for (const Gateway &gateway: gateways) {
@@ -513,10 +559,21 @@ void Traffic::metrics() {
     string metrics_path = "../results/metrics/" + experiment_name +".txt";
     std::ofstream outFile(metrics_path, std::ios::app);
 
+    // KEEP MAX SF WHEN USING MULTIHOP
+    std::ifstream sf("../topology/node_sf.json");
+    json jsf;
+    sf >> jsf;
+
+    int max_sf_previous = 0;
+    for (int i = 0; i < nodes_wur_extended.size() + nodes.size(); ++i) {
+        if (jsf[std::to_string(i)] > max_sf_previous)
+            max_sf_previous = jsf[std::to_string(i)];
+    }
+
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
     << "," << nodes_wur.size() + nodes.size() + nodes_wur_extended.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
-    << "," << received_packet_delays_in_gw << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
-    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << int(max_sf) << "," << time_out_packets << "," << async_of_nodes_packet_drop << "," << fairness <<"\n";
+    << "," << mean_delay << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
+    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << max_sf_previous << "," << time_out_packets << "," << async_of_nodes_packet_drop << "," << fairness <<"\n";
 
 }
 

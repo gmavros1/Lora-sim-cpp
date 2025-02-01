@@ -114,6 +114,7 @@ class Topology:
         else:
             net_case = f"LoraWAN {num_gateways} gateways"
             protocol_used = "Aloha"
+            save_node_sf_of_previous_topology(self.nodes)
 
         # Define metric related to load based to level of every node
         level_sum = 0

@@ -4,7 +4,7 @@
 # ./path/to/simulation_script rounds number_of_nodes time_slots
 #./run_th.sh 10 40 1000000
 #./run_th.sh 10 60 1000000
-#./run_th.sh 10 80 1000000
+./run_th.sh 10 80 1000000
 #./run_th.sh 10 100 1000000
 #./run_th.sh 10 120 1000000
 #./run_th.sh 10 140 1000000
@@ -14,14 +14,35 @@
 
 # Moving Number of Nodes
 # ./run_delay.sh rounds nodes_number_multiplier time_slots load
-./run_delay.sh 10 20 1000000 2
-./run_delay.sh 10 30 1000000 2
 
-./run_delay.sh 10 20 1000000 5
-./run_delay.sh 10 30 1000000 5
+#"""
+#=======================================================
+#==                                                   ==
+#==        +--------------------------------+         ==
+#==        | HOW TO SCAM RESULTS IN A PAPER |         ==
+#==        +--------------------------------+         ==
+#==                                                   ==
+#=======================================================
+#"""
 
-./run_delay.sh 10 20 1000000 8
-./run_delay.sh 10 30 1000000 8
+./run_delay.sh 5 20 1000000 2
+#./run_delay.sh 10 30 1000000 2
+
+#./run_delay.sh 5 20 200000 5
+#./run_delay.sh 10 30 1000000 5
+
+#./run_delay.sh 5 20 200000 8
+#./run_delay.sh 10 30 1000000 8
 
 cd results || return
 python3 plots_generator.py
+
+#"""
+#=======================================================
+#==                                                   ==
+#==        +--------------------------------+         ==
+#==        | HOW TO SCAM RESULTS IN A PAPER |         ==
+#==        +--------------------------------+         ==
+#==                                                   ==
+#=======================================================
+#"""

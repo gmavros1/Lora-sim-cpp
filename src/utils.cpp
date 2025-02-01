@@ -41,7 +41,7 @@ double calculate_received_power(double distance, double transmission_power, doub
     // Constants - sensors-22-03518-v3.pdf - reference
     double PLd0 = 37;  // Reference path loss at the reference distance (d0)
     double d0 = 1.0;     // Reference distance (1 meter)
-    double alpha = 2.85; // Path loss exponent - (2-4) - urban environments ~ 3
+    double alpha = 3.0; // Path loss exponent - (2-4) - urban environments ~ 3
 
     // Calculate the path loss without shadowing
     double PL = PLd0 + 10 * alpha * log10(distance / d0);
@@ -50,7 +50,7 @@ double calculate_received_power(double distance, double transmission_power, doub
     std::default_random_engine generator;
     std::normal_distribution<double> distribution(0, shadowing_std_dev);
     //double shadowing = distribution(generator);
-    double shadowing = 5.34;
+    double shadowing = 6.0;
 
     // Calculate the total path loss with shadowing
     PL += shadowing;
@@ -110,14 +110,19 @@ int adr(const std::vector<double> &last_packets, int sf) {
 }
 
 
-/*int main() {
-
-    int sf = 9;
-    int distance = 9000;
-    int transmission_p = 20;
-    double receive_power = calculate_received_power(distance, transmission_p);
-    cout << "received power : " << receive_power << endl;
-    cout << "calculated snr :  " << calculate_snr(receive_power, -(130.0+2.5)) << endl;
-    cout << "snr Limit : " << snr_limit(sf) + 10 << endl;
-    cout << "If positive, could be decoded : " << calculate_snr(receive_power, -(130.0+2.5)) - (snr_limit(sf) + 10) << endl;
-}*/
+//int main() {
+//
+//    int sf = 7;
+//    int distance = 2511; // - for sf 7
+////    int distance = 3043; // - for sf 8
+////    int distance = 3686; // - for sf 9
+////    int distance = 4466; // - for sf 10
+////    int distance = 5411; // - for sf 11
+////    int distance = 6555; // - for sf 12
+//    int transmission_p = 15;
+//    double receive_power = calculate_received_power(distance, transmission_p);
+//    cout << "received power : " << receive_power << endl;
+//    cout << "calculated snr :  " << calculate_snr(receive_power, -(130.0+2.5)) << endl;
+//    cout << "snr Limit : " << snr_limit(sf) + 10 << endl;
+//    cout << "If positive, could be decoded : " << calculate_snr(receive_power, -(130.0+2.5)) - (snr_limit(sf) + 10) << endl;
+//}

@@ -11,9 +11,9 @@ import sys
 def place_nodes(num_nodes, range_boost):
     center_x, center_y = 0, 0
     if range_boost:
-        nodes_cords, rangeKm = generate_nodes_random_more_range((center_x, center_y), num_nodes, 5700)
+        nodes_cords, rangeKm = generate_nodes_random_more_range((center_x, center_y), num_nodes, 2511)
     else:
-        nodes_cords, rangeKm = generate_nodes_random((center_x, center_y), num_nodes, 5700)
+        nodes_cords, rangeKm = generate_nodes_random((center_x, center_y), num_nodes, 2511)
 
     nodes = {"node_cords": nodes_cords, "rangeKm": rangeKm}
 

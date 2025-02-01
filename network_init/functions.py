@@ -39,11 +39,11 @@ def toa(payload_length, sf, crc=1, header=0, de=0, n_preamble=8, bw=125, cr=1):
 
 # Function to calculate the received signal power at a given distance
 # Call it from node receive
-def calculate_received_power(distance, transmission_power, shadowing_std_dev=5.34):
+def calculate_received_power(distance, transmission_power, shadowing_std_dev=6.0):
     # Constants - sensors-22-03518-v3.pdf - reference
     PLd0 = 37  # Reference path loss at the reference distance (d0)
     d0 = 1.0  # Reference distance (1 meter)
-    alpha = 2.85  # Path loss exponent - (2-4) - urban enviroments ~ 3
+    alpha = 3.0  # Path loss exponent - (2-4) - urban enviroments ~ 3
 
     # Calculate the path loss without shadowing
     PL = PLd0 + 10 * alpha * math.log10(distance / d0)
@@ -128,8 +128,8 @@ def generate_nodes(center, num_nodes, start_radius, level):
         for i in range(num_nodes):
             angle = i * angle_increment
 
-            x = center[0] + (start_radius + 900 * l) * math.cos(angle)
-            y = center[1] + (start_radius + 900 * l) * math.sin(angle)
+            x = center[0] + (start_radius + 600 * l) * math.cos(angle)
+            y = center[1] + (start_radius + 600 * l) * math.sin(angle)
             nodes.append((x, y))
 
     return nodes
@@ -181,7 +181,7 @@ def place_out_node(center, pointi):
         theta = np.arctan2(vector[1])
 
     # Random distance
-    r_distance = np.random.uniform(750, 790)
+    r_distance = np.random.uniform(400, 600)
     down_limit = theta - (np.pi) / 2
     upper_limit = theta + (np.pi) / 2
     r_angle = np.random.uniform(down_limit, upper_limit)
@@ -204,7 +204,7 @@ def place_out_node_range(center, pointi):
         theta = np.arctan2(vector[1])
 
     # Random distance
-    r_distance = np.random.uniform(750, 790)
+    r_distance = np.random.uniform(400, 600)
     down_limit = theta - (np.pi) / 5
     upper_limit = theta + (np.pi) / 5
     r_angle = np.random.uniform(down_limit, upper_limit)
@@ -214,6 +214,7 @@ def place_out_node_range(center, pointi):
     return pointj
 
 
+# Percentage of in-range nodes # Topology stuff
 def generate_nodes_random(center, num_nodes, start_radius):
     nodes = []
     max_node_distance = 0
@@ -224,14 +225,14 @@ def generate_nodes_random(center, num_nodes, start_radius):
     # Place nodes in range
     in_nodes = []
     for i in range(in_range):
-        node_x, node_y = generate_random_coordinates(center[0], center[1], 5250, start_radius)
+        node_x, node_y = generate_random_coordinates(center[0], center[1], 2000, start_radius)
         in_nodes.append((node_x, node_y))
 
     # Find relay nodes
     relay_nodes = []
     for i in in_nodes:
         distance_temp = distance_from_center(i, center)
-        if distance_temp >= 5250:
+        if distance_temp >= 2000:
             relay_nodes.append(i)
 
     for _ in range(out_of_range):
@@ -265,14 +266,14 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
     in_nodes = []
     for i in range(in_range):
         angle = ((2 * np.pi) / in_range) * i
-        node_x, node_y = generate_random_coordinates_range(center[0], center[1], 5250, start_radius, angle)
+        node_x, node_y = generate_random_coordinates_range(center[0], center[1], 2000, start_radius, angle)
         in_nodes.append((node_x, node_y))
 
     # Find relay nodes
     relay_nodes = []
     for i in in_nodes:
         distance_temp = distance_from_center(i, center)
-        if distance_temp >= 5250:
+        if distance_temp >= 2000:
             relay_nodes.append(i)
 
     for _ in range(out_of_range):
@@ -361,3 +362,22 @@ def save_node_type_of_previous_topology(nodes):
     json_object = json.dumps(dict_n_t, indent=4)
     with open("topology/node_type.json", "w") as outfile:
         outfile.write(json_object)
+
+
+def save_node_sf_of_previous_topology(nodes):
+    dict_n_sf = {}
+    for node in nodes:
+        dict_n_sf[node.id] = node.sf
+
+    json_object = json.dumps(dict_n_sf, indent=4)
+    with open("topology/node_sf.json", "w") as outfile:
+        outfile.write(json_object)
+
+
+# sf = 7
+# distance = 600
+# transmission_p = 15
+# received_power = calculate_received_power(distance, transmission_p)
+# print(received_power)
+# print(calculate_snr(received_power, -(109.0+2.5)))
+# print(calculate_snr(received_power, -(109.0+2.5)) - (snr_limit(sf) + 10))

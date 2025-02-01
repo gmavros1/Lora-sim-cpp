@@ -73,7 +73,7 @@ void Node_wur::receive_wur(vector<wake_up_radio> &interrupt) {
         received_wur.location = current_wurs[index].location;
 
         double distance = devicesDistance(received_wur.location, current_wurs[index].location);
-        if (this->id == received_wur.dst && distance <= 900.0) {
+        if (this->id == received_wur.dst && distance <= 2511.0) {
             this->wur_received = true;
         }
     }

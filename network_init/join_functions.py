@@ -93,7 +93,7 @@ def multihop_join_process_inf(self):
                 # print(distance)
                 rec_power = calculate_received_power(distance, node.transmission_power)
 
-                if calculate_snr(rec_power, - (109 + 2.5)) >= snr_limit(node.sf) + 10:  # rec_power >= -109:
+                if calculate_snr(rec_power, - (109 + 2.5)) >= 0: #snr_limit(node.sf) + 10:  # rec_power >= -109:
                     count_new_entries += 1  # To stop when we have no other nodes
                     rec_powers.append(rec_power)
                     rec_ids.append(r_node.id)
@@ -177,7 +177,7 @@ def build_clusters(self, type0_nodes, type1_nodes):  # Type 1 relay nodes
         m_i = m[i].copy()
         m_i.sort()
         m_sorted.append(m_i)
-        m_sorted[-1] = [x for x in m_sorted[-1] if x > -109]
+        m_sorted[-1] = [x for x in m_sorted[-1] if x > -(109 + 2.5)]
 
     f_m = []
     for i in range(len(m_sorted)):

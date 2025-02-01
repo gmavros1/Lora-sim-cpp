@@ -7,10 +7,14 @@ pd.set_option('display.max_columns', None)
 #display(results_df)
 
 # result_df = results_df.groupby(['case', 'rate'], as_index=False).mean()
-def plot_delay_nodes(results_df, experiment_name):
-    df = results_df.groupby(['case', 'nodes_number'], as_index=False).mean()
 
-    df['normalized_delay'] = (df['delay'] / df['decoded']) / df['max_delay']
+
+### It could be converted to Delay - max sf or max type
+def plot_delay_nodes(results_df, experiment_name):
+    df = results_df.groupby(['case', 'max_sf'], as_index=False).mean()
+
+    # df['normalized_delay'] = (df['delay'] / df['decoded']) / df['max_delay']
+    df['normalized_delay'] = df['delay'] / df['max_delay']
 
     # Create a line plot for each case
     cases = df['case'].unique()
@@ -19,9 +23,9 @@ def plot_delay_nodes(results_df, experiment_name):
 
     for case in cases:
         case_data = df[df['case'] == case]
-        plt.plot(case_data['nodes_number'], case_data['normalized_delay'], label=f"Delay - {case}")
+        plt.plot(case_data['max_sf'], case_data['normalized_delay'], label=f"Delay - {case}")
 
-    plt.xlabel('nodes_number')
+    plt.xlabel('max_sf')
     plt.ylabel('Delay (ms))')
     plt.title('Delay vs Number of nodes for Different Cases')
     plt.legend()
