@@ -14,7 +14,7 @@ def plot_delay_nodes(results_df, experiment_name):
     df = results_df.groupby(['case', 'max_sf'], as_index=False).mean()
 
     # df['normalized_delay'] = (df['delay'] / df['decoded']) / df['max_delay']
-    df['normalized_delay'] = df['delay'] / df['max_delay']
+    df['normalized_delay'] = df['delay'] # / df['max_delay']
 
     # Create a line plot for each case
     cases = df['case'].unique()

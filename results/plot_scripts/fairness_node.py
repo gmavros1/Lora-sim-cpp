@@ -10,7 +10,7 @@ def plot_fairness_nodes(results_df, experiment_name):
     # result_df = results_df.groupby(['case', 'rate'], as_index=False).mean()
     df = results_df[results_df['case'] == 'Multihop 1 gateways']
 
-    df = df.groupby(['case', 'nodes_number'], as_index=False).mean()
+    df = df.groupby(['case', 'max_sf'], as_index=False).mean()
 
     # df['fairness'] = (df['decoded'] / df['nodes_number']) / df['maximum_trans']
 
@@ -21,13 +21,13 @@ def plot_fairness_nodes(results_df, experiment_name):
 
     for case in cases:
         case_data = df[df['case'] == case]
-        plt.plot(case_data['nodes_number'], case_data['fairness'], label=f"Fairness - {case}")
+        plt.plot(case_data['max_sf'], case_data['fairness'], label=f"Fairness - {case}")
         #plt.plot(case_data['rate'], case_data['load'], label=f"Load - {case}", linestyle='--')
 
-    plt.xlabel('Nodes Number')
+    plt.xlabel('Mac SF')
     plt.ylabel('Jain\'s Fairness index')
     plt.legend()
-    plt.title('Fairness vs Nodes\' number ')
+    plt.title('Fairness vs Max\' SF ')
     plt.legend()
     plt.grid(True)
 

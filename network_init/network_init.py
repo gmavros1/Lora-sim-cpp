@@ -131,6 +131,9 @@ class Topology:
         self.general_level = level_sum / len(nodes)
         mean_sf = sf_sum / len(nodes)
 
+        # print(max_level)
+        # print(self.max_sf)
+
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
                       "level": int(max_level), "prt": protocol_used, "mean_sf": float(mean_sf),
                       "max_sf": int(self.max_sf), "experiment_name": experiment_name}

@@ -4,7 +4,7 @@
 # ./path/to/simulation_script rounds number_of_nodes time_slots
 #./run_th.sh 10 40 1000000
 #./run_th.sh 10 60 1000000
-./run_th.sh 10 120 1000000
+./run_th.sh 7 160 100000
 #./run_th.sh 10 100 1000000
 #./run_th.sh 10 120 1000000
 #./run_th.sh 10 140 1000000
@@ -25,7 +25,7 @@
 #=======================================================
 #"""
 
-./run_delay.sh 5 20 1000000 2
+./run_delay.sh 7 20 100000 2
 #./run_delay.sh 10 30 1000000 2
 
 #./run_delay.sh 5 20 200000 5

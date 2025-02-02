@@ -182,8 +182,8 @@ def place_out_node(center, pointi):
 
     # Random distance
     r_distance = np.random.uniform(400, 600)
-    down_limit = theta - (np.pi) / 2
-    upper_limit = theta + (np.pi) / 2
+    down_limit = theta - (np.pi) / 3
+    upper_limit = theta + (np.pi) / 3
     r_angle = np.random.uniform(down_limit, upper_limit)
 
     pointj = (pointi[0] + r_distance * np.cos(r_angle), pointi[1] + r_distance * np.sin(r_angle))
@@ -219,7 +219,7 @@ def generate_nodes_random(center, num_nodes, start_radius):
     nodes = []
     max_node_distance = 0
 
-    in_range = int(0.15 * num_nodes)
+    in_range = 15 #  int(0.3 * num_nodes)
     out_of_range = num_nodes - in_range
 
     # Place nodes in range
@@ -246,7 +246,7 @@ def generate_nodes_random(center, num_nodes, start_radius):
         nodes.append(new_node)
         relay_nodes.append(new_node)
 
-        if np.random.uniform(0, 1) < 0.4:
+        if np.random.uniform(0, 1) < 0.9:
             relay_nodes.pop(random_r_node)
 
     # Add inside nodes
@@ -259,7 +259,7 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
     nodes = []
     max_node_distance = 0
 
-    in_range = 18  # int(0.1 * num_nodes)
+    in_range =  10 # int(0.2 * num_nodes)
     out_of_range = num_nodes - in_range
 
     # Place nodes in range
@@ -276,9 +276,13 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
         if distance_temp >= 2000:
             relay_nodes.append(i)
 
-    for _ in range(out_of_range):
-        random_r_node = random.randint(0, len(relay_nodes) - 1)
-        relay_node_temp = relay_nodes[random_r_node]
+    # hits = {k: 0 for k in range(num_nodes)}
+    # print(hits)
+
+    for _ in range(out_of_range//2):
+        # random_r_node = random.randint(0, len(relay_nodes) - 1)
+        # relay_node_temp = relay_nodes[random_r_node]
+        relay_node_temp = min(relay_nodes, key=lambda rn: distance_from_center(rn, center))
         new_node = place_out_node_range(center, relay_node_temp)
 
         # Define range of network
@@ -288,10 +292,27 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
         relay_nodes.append(new_node)
 
         #if np.random.uniform(0, 1) < 0.9:
-        relay_nodes.pop(random_r_node)
+        relay_nodes.pop(relay_nodes.index(relay_node_temp))
+
+    relay_nodes = nodes + in_nodes
+    for _ in range(out_of_range//2):
+        # random_r_node = random.randint(0, len(relay_nodes) - 1)
+        # relay_node_temp = relay_nodes[random_r_node]
+        relay_node_temp = min(relay_nodes, key=lambda rn: distance_from_center(rn, center))
+        new_node = place_out_node_range(center, relay_node_temp)
+
+        # Define range of network
+        max_node_distance += distance_from_center(new_node, center)
+
+        nodes.append(new_node)
+        relay_nodes.append(new_node)
+
+        #if np.random.uniform(0, 1) < 0.9:
+        relay_nodes.pop(relay_nodes.index(relay_node_temp))
 
     # Add inside nodes
     nodes += in_nodes
+    print(len(nodes))
 
     return nodes, (max_node_distance / num_nodes)
 
@@ -313,9 +334,105 @@ def get_gw_coordinates(num_of_gw, which_gw, rangeKm):
             return rangeKm * np.cos(6 * ((2 * np.pi) / 8)), rangeKm * np.sin(6 * ((2 * np.pi) / 8))
 
 
+# def plot_topology(self):
+#     def get_node_color(channel):
+#         # Define a dictionary to map channels to colors
+#         channel_colors = {
+#             "0": "red",
+#             "1": "blue",
+#             "2": "green",
+#             "3": "purple",
+#             "4": "orange",
+#             "5": "cyan",
+#             "6": "magenta",
+#             "7": "lime",
+#             "8": "pink",
+#         }
+#
+#         # Default to black if channel not found
+#         return channel_colors.get(channel, "black")
+#
+#     def plot_nodes_and_gateways(nodes, gateways):
+#         fig = plt.figure()
+#         ax = fig.add_subplot()
+#         ax.set_aspect('equal', adjustable='box')
+#
+#         # Plot gateways
+#         for gateway in gateways:
+#             ax.scatter(gateway.x, gateway.y,
+#                        color='black', marker='^', s=100)
+#
+#         # Plot nodes
+#         for node in nodes:
+#             ax.scatter(node.x, node.y,
+#                        color=get_node_color(node.channel))
+#
+#         # Set labels
+#         ax.set_xlabel('X')
+#         ax.set_ylabel('Y')
+#         plt.show()
+#
+#     plot_nodes_and_gateways(self.nodes, self.gateways)
+
+
+# def plot_topology(self):
+#     def get_node_color(channel):
+#         # Define a dictionary to map channels to colors
+#         channel_colors = {
+#             "0": "red",
+#             "1": "blue",
+#             "2": "green",
+#             "3": "purple",
+#             "4": "orange",
+#             "5": "cyan",
+#             "6": "magenta",
+#             "7": "lime",
+#             "8": "pink",
+#         }
+#         # Default to black if channel not found
+#         return channel_colors.get(channel, "black")
+#
+#     def plot_nodes_and_gateways(nodes, gateways):
+#         fig = plt.figure()
+#         ax = fig.add_subplot()
+#         ax.set_aspect('equal', adjustable='box')
+#
+#         # Plot gateways
+#         for gateway in gateways:
+#             ax.scatter(gateway.x, gateway.y,
+#                        color='black', marker='^', s=100)
+#
+#         # Plot nodes
+#         for node in nodes:
+#             ax.scatter(node.x, node.y,
+#                        color=get_node_color(node.channel))
+#
+#         # Create a dictionary mapping from node id to node object
+#         node_dict = {node.id: node for node in nodes}
+#
+#         # Draw edges between nodes and their assigned nodes
+#         for node in nodes:
+#             # Check if the node has a valid assigned_node id
+#             if node.assigned_node != -1 and node.assigned_node in node_dict:
+#                 assigned_node = node_dict[node.assigned_node]
+#                 # Draw a line between the node and its assigned node
+#                 ax.plot([node.x, assigned_node.x],
+#                         [node.y, assigned_node.y],
+#                         color='gray', linestyle='-', linewidth=1)
+#
+#         # Set labels
+#         ax.set_xlabel('X')
+#         ax.set_ylabel('Y')
+#         plt.show()
+#
+#     plot_nodes_and_gateways(self.nodes, self.gateways)
+
 def plot_topology(self):
+    import matplotlib.pyplot as plt
+    from collections import defaultdict
+
     def get_node_color(channel):
-        # Define a dictionary to map channels to colors
+        # Define a dictionary to map channels to colors.
         channel_colors = {
             "0": "red",
             "1": "blue",
@@ -327,28 +444,62 @@ def plot_topology(self):
             "7": "lime",
             "8": "pink",
         }
-
-        # Default to black if channel not found
+        # Default to black if channel not found.
         return channel_colors.get(channel, "black")
+
+    # Predefined list of marker shapes. (This list will be cycled through if there are more types than markers.)
+    marker_shapes = ['o', 's', 'D', '^', 'v', 'p', 'h', '8', 'x', '*', 'H']
+
+    def get_marker_for_type(ntype):
+        # Returns a marker shape based on the node type.
+        # Uses modulo in case ntype >= len(marker_shapes).
+        return marker_shapes[ntype % len(marker_shapes)]
+
+    def get_marker_size(ntype):
+        # Compute marker size such that nodes with a higher type appear larger.
+        # Here we use a simple linear formula: base size plus an increment per type.
+        base_size = 50
+        size_increment = 10
+        return base_size + size_increment * ntype
 
     def plot_nodes_and_gateways(nodes, gateways):
         fig = plt.figure()
-        ax = fig.add_subplot()
+        ax = fig.add_subplot(111)
         ax.set_aspect('equal', adjustable='box')
 
-        # Plot gateways
+        # Plot gateways (using a fixed marker and color).
         for gateway in gateways:
             ax.scatter(gateway.x, gateway.y,
-                       color='black', marker='^', s=100)
+                       color='black', marker='^', s=100, label='Gateway')
 
-        # Plot nodes
+        # Group nodes by their type.
+        nodes_by_type = defaultdict(list)
         for node in nodes:
-            ax.scatter(node.x, node.y,
-                       color=get_node_color(node.channel))
+            nodes_by_type[node.type].append(node)
 
-        # Set labels
+        # Plot nodes for each type.
+        for ntype, nodelist in nodes_by_type.items():
+            xs = [node.x for node in nodelist]
+            ys = [node.y for node in nodelist]
+            # Use the existing channel-to-color mapping for node colors.
+            colors = [get_node_color(node.channel) for node in nodelist]
+            marker = get_marker_for_type(ntype)
+            size = get_marker_size(ntype)
+            ax.scatter(xs, ys, color=colors, marker=marker, s=size, label=f"Type {ntype}")
+
+        # Build a lookup dictionary for nodes by their id.
+        node_dict = {node.id: node for node in nodes}
+        # Draw edges between nodes and their assigned nodes (if assigned_node is not -1).
+        for node in nodes:
+            if node.assigned_node != -1 and node.assigned_node in node_dict:
+                assigned_node = node_dict[node.assigned_node]
+                ax.plot([node.x, assigned_node.x],
+                        [node.y, assigned_node.y],
+                        color='gray', linestyle='-', linewidth=1)
+
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
+        ax.legend()
         plt.show()
 
     plot_nodes_and_gateways(self.nodes, self.gateways)
