@@ -570,9 +570,16 @@ void Traffic::metrics() {
             max_sf_previous = jsf[std::to_string(i)];
     }
 
+
+
+    // CALCULATE MEAN POWER CONSUMPTION for every node
+    double mean_power_consumption_per_node = 0l;
     for (Node_wur_extended &nd: nodes_wur_extended) {
-        cout << "mW sumed: " << nd.energy_consumed << " || type: " << nd.type << endl;
+        mean_power_consumption_per_node += nd.energy_consumed;
     }
+    mean_power_consumption_per_node /= nodes_wur_extended.size();
+    mean_power_consumption_per_node *= pow(10, -6); // Joules
+    cout << "ec: " << mean_power_consumption_per_node  << endl;
 
 
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
