@@ -102,3 +102,18 @@ void Node::identify_incoming_segments(vector<radio_packet> &packets_received) {
 
     this->num_of_ongoing_packets_in_receiver = current_packets.size();
 }
+
+void Node::clock(int time) {
+    Device::clock(time);
+    if (this->current_state=="SLEEP")
+        this->energy_consumed += 0l; // mW
+
+    if (this->current_state=="RECEIVE")
+        this->energy_consumed += 40l; // mW
+
+    if (this->current_state=="TRANSMIT")
+        this->energy_consumed += 264l; // mW
+
+    if (this->current_state=="LISTEN")
+        this->energy_consumed += 40l; // mW
+}

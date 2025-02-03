@@ -28,6 +28,8 @@ public:
 
     std::string LoRaWan();
     void identify_incoming_segments(vector<radio_packet> &packets_received);
+
+    void clock(int time);
 };
 
 #endif //LORA_SIM_CPP_NODE_H

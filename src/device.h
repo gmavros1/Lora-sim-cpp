@@ -63,6 +63,8 @@ public:
 
     int calculate_toa();
 
+    double energy_consumed;
+
 protected:
     int id;
     int channel; // -1 if gateway

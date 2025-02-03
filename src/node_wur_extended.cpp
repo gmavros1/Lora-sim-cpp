@@ -358,3 +358,23 @@ std::string Node_wur_extended::ctrl_receive_packet_and_wur() {
 
     return this->current_state;
 }
+
+
+void Node_wur_extended::clock(int time) {
+    Node::clock(time);
+
+    if (this->current_state=="SEND_WUR")
+        this->energy_consumed += 17l; // mW
+
+    if (this->current_state=="RECEIVE_WUR")
+        this->energy_consumed += 7l; // mW
+
+    if (this->current_state=="WAITING_TRANSMITTING_PACKET")
+        this->energy_consumed += 7l; // mW
+
+    if (this->current_state=="WAITING_RECEIVING_PACKET")
+        this->energy_consumed += 7l; // mW
+
+    if (this->current_state=="RECEIVING_PACKET_AND_TRANSMITTING_WUR")
+        this->energy_consumed += 40l + 17; // mW
+}

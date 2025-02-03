@@ -27,6 +27,8 @@ public:
     std::string protocol();
     std::string get_state();
 
+    void clock(int time);
+
 private:
     bool wur_received = false;
     bool wur_transmitted = false;

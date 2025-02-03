@@ -43,6 +43,8 @@ Device::Device(int id, int x, int y, int z, int sf, int channel, int transmissio
 
     this->generated_packets = 0;
     this->received_packets = 0;
+
+    this->energy_consumed = 0;
 }
 
 void Device::generate_packet() {
