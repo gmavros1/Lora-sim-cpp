@@ -28,6 +28,10 @@ def plot_fairness_nodes(results_df, experiment_name):
     plt.ylabel('Jain\'s Fairness index')
     plt.legend()
     plt.title('Fairness vs Max\' SF ')
+    plt.ylim(ymin=0)
+    plt.xlim(xmin=0)
+    plt.ylim(ymax=1.2)
+    plt.xlim(xmax=1.2)
     plt.legend()
     plt.grid(True)
 

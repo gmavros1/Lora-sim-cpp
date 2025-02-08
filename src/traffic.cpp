@@ -577,7 +577,11 @@ void Traffic::metrics() {
     for (Node_wur_extended &nd: nodes_wur_extended) {
         mean_power_consumption_per_node += nd.energy_consumed;
     }
-    mean_power_consumption_per_node /= nodes_wur_extended.size();
+    for (Node &nd: nodes) {
+        mean_power_consumption_per_node += nd.energy_consumed;
+    }
+
+    mean_power_consumption_per_node /= (nodes_wur_extended.size() + nodes.size()) ;
     mean_power_consumption_per_node *= pow(10, -6); // Joules
     cout << "ec: " << mean_power_consumption_per_node  << endl;
 

@@ -215,44 +215,44 @@ def place_out_node_range(center, pointi):
 
 
 # Percentage of in-range nodes # Topology stuff
-def generate_nodes_random(center, num_nodes, start_radius):
-    nodes = []
-    max_node_distance = 0
-
-    in_range = 15 #  int(0.3 * num_nodes)
-    out_of_range = num_nodes - in_range
-
-    # Place nodes in range
-    in_nodes = []
-    for i in range(in_range):
-        node_x, node_y = generate_random_coordinates(center[0], center[1], 2000, start_radius)
-        in_nodes.append((node_x, node_y))
-
-    # Find relay nodes
-    relay_nodes = []
-    for i in in_nodes:
-        distance_temp = distance_from_center(i, center)
-        if distance_temp >= 2000:
-            relay_nodes.append(i)
-
-    for _ in range(out_of_range):
-        random_r_node = random.randint(0, len(relay_nodes) - 1)
-        relay_node_temp = relay_nodes[random_r_node]
-        new_node = place_out_node(center, relay_node_temp)
-
-        # Define range of network
-        max_node_distance += distance_from_center(new_node, center)
-
-        nodes.append(new_node)
-        relay_nodes.append(new_node)
-
-        if np.random.uniform(0, 1) < 0.9:
-            relay_nodes.pop(random_r_node)
-
-    # Add inside nodes
-    nodes += in_nodes
-
-    return nodes, (max_node_distance / num_nodes)
+# def generate_nodes_random(center, num_nodes, start_radius):
+#     nodes = []
+#     max_node_distance = 0
+#
+#     in_range = 15 #  int(0.3 * num_nodes)
+#     out_of_range = num_nodes - in_range
+#
+#     # Place nodes in range
+#     in_nodes = []
+#     for i in range(in_range):
+#         node_x, node_y = generate_random_coordinates(center[0], center[1], 2000, start_radius)
+#         in_nodes.append((node_x, node_y))
+#
+#     # Find relay nodes
+#     relay_nodes = []
+#     for i in in_nodes:
+#         distance_temp = distance_from_center(i, center)
+#         if distance_temp >= 2000:
+#             relay_nodes.append(i)
+#
+#     for _ in range(out_of_range):
+#         random_r_node = random.randint(0, len(relay_nodes) - 1)
+#         relay_node_temp = relay_nodes[random_r_node]
+#         new_node = place_out_node(center, relay_node_temp)
+#
+#         # Define range of network
+#         max_node_distance += distance_from_center(new_node, center)
+#
+#         nodes.append(new_node)
+#         relay_nodes.append(new_node)
+#
+#         if np.random.uniform(0, 1) < 0.9:
+#             relay_nodes.pop(random_r_node)
+#
+#     # Add inside nodes
+#     nodes += in_nodes
+#
+#     return nodes, (max_node_distance / num_nodes)
 
 
 def generate_nodes_random_more_range(center, num_nodes, start_radius):
@@ -279,7 +279,7 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
     # hits = {k: 0 for k in range(num_nodes)}
     # print(hits)
 
-    for _ in range(out_of_range//2):
+    for _ in range(out_of_range//3):
         # random_r_node = random.randint(0, len(relay_nodes) - 1)
         # relay_node_temp = relay_nodes[random_r_node]
         relay_node_temp = min(relay_nodes, key=lambda rn: distance_from_center(rn, center))
@@ -295,10 +295,27 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
         relay_nodes.pop(relay_nodes.index(relay_node_temp))
 
     relay_nodes = nodes + in_nodes
-    for _ in range(out_of_range//2):
-        # random_r_node = random.randint(0, len(relay_nodes) - 1)
-        # relay_node_temp = relay_nodes[random_r_node]
-        relay_node_temp = min(relay_nodes, key=lambda rn: distance_from_center(rn, center))
+    for _ in range(out_of_range//3):
+        random_r_node = random.randint(0, len(relay_nodes) - 1)
+        relay_node_temp = relay_nodes[random_r_node]
+        # relay_node_temp = min(relay_nodes, key=lambda rn: distance_from_center(rn, center))
+        new_node = place_out_node_range(center, relay_node_temp)
+
+        # Define range of network
+        max_node_distance += distance_from_center(new_node, center)
+
+        nodes.append(new_node)
+        relay_nodes.append(new_node)
+
+        #if np.random.uniform(0, 1) < 0.9:
+        relay_nodes.pop(relay_nodes.index(relay_node_temp))
+
+
+    relay_nodes = nodes + in_nodes
+    for _ in range(out_of_range//3):
+        random_r_node = random.randint(0, len(relay_nodes) - 1)
+        relay_node_temp = relay_nodes[random_r_node]
+        # relay_node_temp = min(relay_nodes, key=lambda rn: distance_from_center(rn, center))
         new_node = place_out_node_range(center, relay_node_temp)
 
         # Define range of network

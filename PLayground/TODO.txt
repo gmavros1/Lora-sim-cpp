@@ -1,0 +1,8 @@
+@TODO:
+
+###
+Inference in Gateway, Not a realistic approach on comparing packet collisions.
+During Multi-hop, collisions_in_gateway/generated packets is not stable, as other reasons for collisions take place
+simultaneously.
+###
+

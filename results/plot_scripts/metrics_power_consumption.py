@@ -11,7 +11,7 @@ pd.set_option('display.max_columns', None)
 
 ### It could be converted to Delay - max sf or max type
 def plot_power_nodes(results_df, experiment_name):
-    df = results_df.groupby(['case', 'max_sf'], as_index=False).mean()
+    df = results_df.groupby(['case', 'rate'], as_index=False).mean()
 
     # df['normalized_delay'] = (df['delay'] / df['decoded']) / df['max_delay']
     df['power_consumption'] = df['power_consumption'] # / df['max_delay']
@@ -23,15 +23,15 @@ def plot_power_nodes(results_df, experiment_name):
 
     for case in cases:
         case_data = df[df['case'] == case]
-        plt.plot(case_data['max_sf'], case_data['power_consumption'], label=f"power_consumption - {case}")
+        plt.plot(case_data['rate'], case_data['power_consumption'], label=f"power_consumption - {case}")
 
-    plt.xlabel('max_sf')
+    plt.xlabel('rate')
     plt.ylabel('power_consumption (ms))')
     plt.title('power_consumption vs Number of nodes for Different Cases')
     plt.legend()
     plt.grid(True)
 
-    plt.savefig(f"./plots/power_consumption_nodes/{experiment_name}.png")
+    plt.savefig(f"./plots/power_consumption_rate/{experiment_name}.png")
     plt.clf()
 
 # plt.show()
