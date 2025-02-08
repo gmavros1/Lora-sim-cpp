@@ -6,6 +6,7 @@ from plot_scripts.fairness_rate import plot_load_fairness
 from plot_scripts.inf_in_multihop import plot_inference_reasons_load
 from plot_scripts.metrics_delay import plot_delay_nodes
 from plot_scripts.metrics_inf_gw import plot_inf_gateway
+from plot_scripts.metrics_power_consumption import plot_power_nodes
 
 ### Listing all files of metrics ###
 def contains(word, file):
@@ -43,3 +44,6 @@ for diff in different_nodes:
 for diff in different_nodes:
     plot_fairness_nodes(pd.read_csv("./metrics/"+diff), diff)
 
+# Power Cosnumption per node
+for diff in different_nodes:
+    plot_power_nodes(pd.read_csv("./metrics/"+diff), diff)

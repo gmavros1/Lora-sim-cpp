@@ -585,7 +585,7 @@ void Traffic::metrics() {
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
     << "," << nodes_wur.size() + nodes.size() + nodes_wur_extended.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
     << "," << mean_delay << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
-    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << max_sf_previous << "," << time_out_packets << "," << async_of_nodes_packet_drop << "," << fairness <<"\n";
+    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << max_sf_previous << "," << time_out_packets << "," << async_of_nodes_packet_drop << "," << fairness << "," << mean_power_consumption_per_node <<"\n";
 
 }
 
