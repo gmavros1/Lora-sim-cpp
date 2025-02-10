@@ -279,7 +279,7 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
     # hits = {k: 0 for k in range(num_nodes)}
     # print(hits)
 
-    for _ in range(out_of_range//3):
+    for _ in range((out_of_range*2)//(3*3)):
         # random_r_node = random.randint(0, len(relay_nodes) - 1)
         # relay_node_temp = relay_nodes[random_r_node]
         relay_node_temp = min(relay_nodes, key=lambda rn: distance_from_center(rn, center))
@@ -295,7 +295,7 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
         relay_nodes.pop(relay_nodes.index(relay_node_temp))
 
     relay_nodes = nodes + in_nodes
-    for _ in range(out_of_range//3):
+    for _ in range((out_of_range*3)//(3*3)):
         random_r_node = random.randint(0, len(relay_nodes) - 1)
         relay_node_temp = relay_nodes[random_r_node]
         # relay_node_temp = min(relay_nodes, key=lambda rn: distance_from_center(rn, center))
@@ -312,7 +312,7 @@ def generate_nodes_random_more_range(center, num_nodes, start_radius):
 
 
     relay_nodes = nodes + in_nodes
-    for _ in range(out_of_range//3):
+    for _ in range((out_of_range*4)//(3*3)):
         random_r_node = random.randint(0, len(relay_nodes) - 1)
         relay_node_temp = relay_nodes[random_r_node]
         # relay_node_temp = min(relay_nodes, key=lambda rn: distance_from_center(rn, center))

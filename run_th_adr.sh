@@ -16,6 +16,7 @@ do
     echo "Running LoRaWAn Simulation with rate $i"
 
     # Load Time_slots Protocol num_of_gateways using_adr_in_join_process number_of_gateways name_of_experiment
+    python3 ./network_init/network_init.py "$i" "$3" LoRaWAn 1 adr  "$name_of_experiment"
 
     python3 ./network_init/network_init.py "$i" "$3" Multihop 1 no_adr  "$name_of_experiment"
     cd cmake-build-debug || return

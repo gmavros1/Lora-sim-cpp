@@ -573,23 +573,56 @@ void Traffic::metrics() {
 
 
     // CALCULATE MEAN POWER CONSUMPTION for every node
-    double mean_power_consumption_per_node = 0l;
-    for (Node_wur_extended &nd: nodes_wur_extended) {
-        mean_power_consumption_per_node += nd.energy_consumed;
-    }
-    for (Node &nd: nodes) {
-        mean_power_consumption_per_node += nd.energy_consumed;
+//    double mean_power_consumption_per_node = 0l;
+//    for (Node_wur_extended &nd: nodes_wur_extended) {
+//        mean_power_consumption_per_node += nd.energy_consumed;
+//    }
+//    for (Node &nd: nodes) {
+//        mean_power_consumption_per_node += nd.energy_consumed;
+//    }
+//
+//    mean_power_consumption_per_node /= (nodes_wur_extended.size() + nodes.size()) ;
+//    mean_power_consumption_per_node *= pow(10, -6); // Joules
+//    cout << "ec: " << mean_power_consumption_per_node  << endl;
+
+    map<int, double> PowerConsumptionType;
+    int numberOfNodesPerSF[6];
+    for (int i = 7; i < max_sf+1; ++i) {
+        PowerConsumptionType[i] = 0.0;
+        numberOfNodesPerSF[i-7] = 0;
     }
 
-    mean_power_consumption_per_node /= (nodes_wur_extended.size() + nodes.size()) ;
-    mean_power_consumption_per_node *= pow(10, -6); // Joules
-    cout << "ec: " << mean_power_consumption_per_node  << endl;
+    for (Node nd: nodes) {
+        PowerConsumptionType[jsf[std::to_string(nd.getId())]] += nd.energy_consumed;
+        int temp_sf = jsf[std::to_string(nd.getId())];
+        numberOfNodesPerSF[temp_sf-7] += 1;
+
+    }
+    for (Node_wur_extended nd: nodes_wur_extended) {
+        PowerConsumptionType[jsf[std::to_string(nd.getId())]] += nd.energy_consumed;
+        int temp_sf = jsf[std::to_string(nd.getId())];
+        numberOfNodesPerSF[temp_sf-7] += 1;
+    }
+
+    // Delay calculation
+
+    double mean_power_consumption = 0.0;
+    auto it_p = PowerConsumptionType.begin();
+//    auto it_n = numberOfNodesPerSF.begin();
+    for (int i = 0; i < 6; i++) {
+//        std::advance(it_n, i+2);
+        std::advance(it_p, i);
+        mean_power_consumption += (it_p->second/numberOfNodesPerSF[i]);
+    }
+    mean_power_consumption /= 6;
+    mean_power_consumption *= pow(10, -6);
+    cout << "ec: " << mean_power_consumption  << endl;
 
 
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
     << "," << nodes_wur.size() + nodes.size() + nodes_wur_extended.size() << "," << life_time << "," << maximum_trans << "," << generated_packets
     << "," << mean_delay << "," << maximum_delay << "," << non_decoded_packet_in_retransmissions
-    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << max_sf_previous << "," << time_out_packets << "," << async_of_nodes_packet_drop << "," << fairness << "," << mean_power_consumption_per_node <<"\n";
+    << "," << out_of_range_trans_to_gw << "," << in_range_trans_to_gw << "," << max_sf_previous << "," << time_out_packets << "," << async_of_nodes_packet_drop << "," << fairness << "," << mean_power_consumption <<"\n";
 
 }
 

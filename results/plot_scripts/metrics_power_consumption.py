@@ -28,6 +28,8 @@ def plot_power_nodes(results_df, experiment_name):
     plt.xlabel('rate')
     plt.ylabel('power_consumption (ms))')
     plt.title('power_consumption vs Number of nodes for Different Cases')
+    plt.ylim(ymin=0)
+    plt.xlim(xmin=0)
     plt.legend()
     plt.grid(True)
 

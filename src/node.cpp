@@ -106,7 +106,7 @@ void Node::identify_incoming_segments(vector<radio_packet> &packets_received) {
 void Node::clock(int time) {
     Device::clock(time);
     if (this->current_state=="SLEEP")
-        this->energy_consumed += 0l; // mW
+        this->energy_consumed += 4.5l; // mW
 
     if (this->current_state=="RECEIVE")
         this->energy_consumed += 40l; // mW
