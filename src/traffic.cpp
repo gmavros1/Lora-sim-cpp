@@ -586,37 +586,62 @@ void Traffic::metrics() {
 //    cout << "ec: " << mean_power_consumption_per_node  << endl;
 
     map<int, double> PowerConsumptionType;
-    int numberOfNodesPerSF[6];
-    for (int i = 7; i < max_sf+1; ++i) {
-        PowerConsumptionType[i] = 0.0;
-        numberOfNodesPerSF[i-7] = 0;
-    }
-
-    for (Node nd: nodes) {
-        PowerConsumptionType[jsf[std::to_string(nd.getId())]] += nd.energy_consumed;
-        int temp_sf = jsf[std::to_string(nd.getId())];
-        numberOfNodesPerSF[temp_sf-7] += 1;
-
-    }
-    for (Node_wur_extended nd: nodes_wur_extended) {
-        PowerConsumptionType[jsf[std::to_string(nd.getId())]] += nd.energy_consumed;
-        int temp_sf = jsf[std::to_string(nd.getId())];
-        numberOfNodesPerSF[temp_sf-7] += 1;
-    }
-
-    // Delay calculation
-
     double mean_power_consumption = 0.0;
-    auto it_p = PowerConsumptionType.begin();
-//    auto it_n = numberOfNodesPerSF.begin();
-    for (int i = 0; i < 6; i++) {
-//        std::advance(it_n, i+2);
-        std::advance(it_p, i);
-        mean_power_consumption += (it_p->second/numberOfNodesPerSF[i]);
+
+//    if (protocol_used != "Multihop") {
+    if (false) {
+        int numberOfNodesPerSF[6];
+        for (int i = 7; i < max_sf + 1; ++i) {
+            PowerConsumptionType[i] = 0.0;
+            numberOfNodesPerSF[i - 7] = 0;
+        }
+
+        for (Node nd: nodes) {
+            PowerConsumptionType[jsf[std::to_string(nd.getId())]] += nd.energy_consumed;
+            int temp_sf = jsf[std::to_string(nd.getId())];
+            numberOfNodesPerSF[temp_sf - 7] += 1;
+
+        }
+
+        auto it_p = PowerConsumptionType.begin();
+        for (int i = 0; i < PowerConsumptionType.size(); i++) {
+            std::advance(it_p, i);
+            cout << "SF : " << i+7 << " | Power Consumption : " << it_p->second / numberOfNodesPerSF[i] << endl;
+            mean_power_consumption += (it_p->second / numberOfNodesPerSF[i]);
+        }
+        mean_power_consumption /= PowerConsumptionType.size();;
+
+    }else{
+        int numberOfNodesPerType[maxType+1];
+        for (int i = 0; i < maxType+1; ++i) {
+            PowerConsumptionType[i] = 0.0;
+            numberOfNodesPerType[i] = 0;
+        }
+
+        for (Node_wur_extended nd: nodes_wur_extended) {
+            PowerConsumptionType[j[std::to_string(nd.getId())]] += nd.energy_consumed;
+            int temp_type = j[std::to_string(nd.getId())];
+            numberOfNodesPerType[temp_type] += 1;
+        }
+
+        for (Node nd: nodes) {
+            PowerConsumptionType[j[std::to_string(nd.getId())]] += nd.energy_consumed;
+            int temp_type = j[std::to_string(nd.getId())];
+            numberOfNodesPerType[temp_type] += 1;
+        }
+
+        auto it_p = PowerConsumptionType.begin();
+        for (int i = 0; i < PowerConsumptionType.size(); i++) {
+            std::advance(it_p, i);
+            cout << "Type : " << i << " | Power Consumption : " << it_p->second / numberOfNodesPerType[i] << endl;
+            mean_power_consumption += (it_p->second / numberOfNodesPerType[i]);
+        }
+        mean_power_consumption /= PowerConsumptionType.size();
+
     }
-    mean_power_consumption /= 6;
+
     mean_power_consumption *= pow(10, -6);
-    cout << "ec: " << mean_power_consumption  << endl;
+//    cout << "ec: " << mean_power_consumption  << endl;
 
 
     outFile << net_case << "," << norm_load << "," << decoded_packets_in_gateway << "," << non_decoded_packets_in_gw_due_to_inference
