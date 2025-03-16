@@ -516,7 +516,7 @@ def plot_topology(self):
 
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
-        ax.legend()
+        # ax.legend()
         plt.show()
 
     plot_nodes_and_gateways(self.nodes, self.gateways)

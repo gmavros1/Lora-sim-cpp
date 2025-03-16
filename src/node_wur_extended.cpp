@@ -83,8 +83,11 @@ void Node_wur_extended::receive_wur(vector<wake_up_radio> &interrupt) {
         received_wur.channel = current_wurs[index].channel;
         received_wur.location = current_wurs[index].location;
 
-        double distance = devicesDistance(received_wur.location, current_wurs[index].location);
-        if (this->id == received_wur.dst && distance <= 2511.0) {
+//        double distance = devicesDistance(received_wur.location, current_wurs[index].location);
+        double distance = devicesDistance(received_wur.location, this->location);
+
+        // Only checking dst is enough as we ensure coverage from network initialization
+        if (this->id == received_wur.dst && distance <= 700.0) { // (this->id == received_wur.dst && distance <= 2511.0)
             this->wur_received = true;
         }
     }
@@ -370,10 +373,10 @@ void Node_wur_extended::clock(int time) {
         this->energy_consumed += 7l; // mW
 
     if (this->current_state=="WAITING_TRANSMITTING_PACKET")
-        this->energy_consumed += 7l; // mW
+        this->energy_consumed += 0l; // mW
 
     if (this->current_state=="WAITING_RECEIVING_PACKET")
-        this->energy_consumed += 7l; // mW
+        this->energy_consumed += 4.5l; // mW
 
     if (this->current_state=="RECEIVING_PACKET_AND_TRANSMITTING_WUR")
         this->energy_consumed += 40l + 17; // mW

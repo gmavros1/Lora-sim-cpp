@@ -180,7 +180,7 @@ void Traffic::run_Multihop_extended() {
             node.clock(time);
             string state = node.protocol();
 
-//            if (node.getId() == 4 && time >= 33800 && time <= 34200){
+//            if (node.getId() == 7 || node.getId() == 5 || node.getId() == 34){
 //                cout << "Node " << node.getId() << " " << state << " at " << time << " HAS "
 //                     << node.receiving_buffer.size() << " SEGMENTS" << endl;
 //            }
@@ -633,7 +633,7 @@ void Traffic::metrics() {
         auto it_p = PowerConsumptionType.begin();
         for (int i = 0; i < PowerConsumptionType.size(); i++) {
             std::advance(it_p, i);
-            cout << "Type : " << i << " | Power Consumption : " << it_p->second / numberOfNodesPerType[i] << endl;
+//            cout << "Type : " << i << " | Power Consumption : " << it_p->second / numberOfNodesPerType[i] << endl;
             mean_power_consumption += (it_p->second / numberOfNodesPerType[i]);
         }
         mean_power_consumption /= PowerConsumptionType.size();
