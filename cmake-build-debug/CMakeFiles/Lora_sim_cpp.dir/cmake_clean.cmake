@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Lora_sim_cpp.dir/src/node.cpp.o.d"
   "CMakeFiles/Lora_sim_cpp.dir/src/node_wur.cpp.o"
   "CMakeFiles/Lora_sim_cpp.dir/src/node_wur.cpp.o.d"
+  "CMakeFiles/Lora_sim_cpp.dir/src/node_wur_extended.cpp.o"
+  "CMakeFiles/Lora_sim_cpp.dir/src/node_wur_extended.cpp.o.d"
   "CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o"
   "CMakeFiles/Lora_sim_cpp.dir/src/packet.cpp.o.d"
   "CMakeFiles/Lora_sim_cpp.dir/src/traffic.cpp.o"

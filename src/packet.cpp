@@ -1,7 +1,7 @@
 #include "packet.h"
 
 // Define the constructor for the Packet class
-Packet::Packet(int src, int dst, int timestamp, int payload_bytes, int crc, int header) {
+Packet::Packet(int src, int dst, int timestamp, int src_level,int payload_bytes, int crc, int header) {
     this->src = src;
     this->dst = dst;
     this->timestamp_start = timestamp;
@@ -13,6 +13,7 @@ Packet::Packet(int src, int dst, int timestamp, int payload_bytes, int crc, int 
     this->seq_num_reversed = 0;
     this->number_of_segments = 0;
     this->aggregated_packet = nullptr;
+    this->src_level = src_level;
 }
 
 // Define the member functions for the Packet class
@@ -42,7 +43,7 @@ int Packet::getSeqNum() const {
 
 string Packet::calculateUniqueId() const {
     string result;
-    result = "node" + to_string(this->src) + "to" + to_string(this->dst) + "at" + to_string(this->timestamp_start);
+    result = "node_" + to_string(this->src) + "_to_" + to_string(this->dst) + "_at_" + to_string(this->timestamp_start);
     return result;
 }
 
@@ -69,3 +70,9 @@ int Packet::getSrc() const {
 void Packet::setTimestamp_end(int timestamp) {
     timestamp_end = timestamp;
 }
+
+int Packet::getSrcLevel() {
+    return this->src_level;
+}
+
+

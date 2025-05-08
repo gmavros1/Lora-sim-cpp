@@ -18,7 +18,7 @@ struct rec_powers{
 
 struct packets_receiving{
     string id;
-    Packet packet = *new Packet(-1, -1, -1, -1, -1, -1);
+    Packet packet = *new Packet(-1, -1, -1, -1, -1, -1, -1);
     int sf;
     int channel;
     vector<rec_powers> segments_received;
@@ -31,13 +31,13 @@ struct radio_packet{
         int sf = 0;
         int channel = 0;
         coordinates location;
-        Packet packet = *new Packet(-1, -1, -1, -1, -1, -1);
+        Packet packet = *new Packet(-1, -1, -1, -1, -1, -1, -1);
 };
 
 class Device {
 
 public:
-    Device(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob, int assigned_node, int following, int type);
+    Device(int id, int x, int y, int z, int sf, int channel, int transmission_power, double packet_gen_prob, int assigned_node, int following, int type, int max_type);
 
     void generate_packet();
     Packet* transmit_packet();
@@ -57,10 +57,13 @@ public:
     vector<string> decoded_packets_statistics; // Just metrics
     vector<string> non_decoded_packets_statistics;
     vector<string> out_of_range_to_gw;
+    vector<string> out_of_range_to_nd;
     vector<string> transmissions_to_gw;
     unordered_map<std::string, int> packetDelays;
 
     int calculate_toa();
+
+    double energy_consumed;
 
 protected:
     int id;
@@ -76,10 +79,11 @@ protected:
 
 public:
     int type;
+    int max_type;
     int assigned_node;
     int following;
 
-private:
+public:
     map<string, packets_receiving> receiving_buffer;
 
 };

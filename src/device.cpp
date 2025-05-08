@@ -20,7 +20,7 @@
 
 
 
-Device::Device(int id, int x, int y, int z, int sf, int channel, int transmission_power,double packet_gen_prob, int assigned_node, int following, int type) {
+Device::Device(int id, int x, int y, int z, int sf, int channel, int transmission_power,double packet_gen_prob, int assigned_node, int following, int type, int max_type) {
     this->id = id;
     this->location.x = x;
     this->location.y = y;
@@ -39,13 +39,16 @@ Device::Device(int id, int x, int y, int z, int sf, int channel, int transmissio
     this->assigned_node = assigned_node;
     this->following = following;
     this->type = type;
+    this->max_type = max_type;
 
     this->generated_packets = 0;
     this->received_packets = 0;
+
+    this->energy_consumed = 0;
 }
 
 void Device::generate_packet() {
-    this->buffer = new Packet(this->id, this->assigned_node, this->environment_time);
+    this->buffer = new Packet(this->id, this->assigned_node, this->environment_time, this->type);
     this->generated_packets ++; // Metrics
     //cout << "Node " << this->id << " generated packet" << endl;
     //this->calculate_toa();
@@ -74,9 +77,17 @@ int Device::calculate_toa() {
 // Returns the pointer of a new generated packet or null pointer
 Packet* Device::transmit_packet() {
     if (this->buffer != nullptr) {
-        static Packet transmitted_packet = *new Packet( id, assigned_node, environment_time);
+        static Packet transmitted_packet = *new Packet( id, assigned_node, environment_time, this->buffer->getSrcLevel());
         transmitted_packet = *this->buffer;
         this->buffer = nullptr;
+
+
+//        if (environment_time>= 700) {
+//            cout << "TIME " << this->environment_time << ". NODE " << this->id
+//                 << " |TRANSMITTING| " << " || ASSIGN NODE " << this->assigned_node
+//                 << " || PACKET: " << transmitted_packet.getPacketId() << endl;
+//        }
+
 
         return &transmitted_packet;
     } else{
@@ -125,12 +136,26 @@ void Device::receive(vector<radio_packet> &packets_received) {
         }
     }
 
+
+    // APPLY UNICAST TRANSMISSIONS
+    if (this->getId()>=0) { // UNICAST ONLY TO NODES
+        for (int index = current_packets.size() - 1; index >= 0; index--) {
+            if (current_packets[index].packet.getDst() == this->id) {
+                continue;
+            } else {
+                current_packets.erase(current_packets.begin() + index);
+            }
+        }
+    }
+
     // Abort packet due to range issues
     for (int index = current_packets.size() - 1; index >= 0; index--) {
+
         double receive_power = calculate_received_power(devicesDistance(this->location,
                                                                             current_packets[index].location),
                                                         current_packets[index].transmission_power);
         if (calculate_snr(receive_power, -(130.0+2.5)) >= snr_limit(current_packets[index].sf) + 10 ) { // receive_power >= -130
+
             current_packets[index].receive_power = receive_power;
             // IF GATEWAY, CHECK FOR RECEPTIONS OF IN RANGE SIGNALS
             if (this->id < 0 && current_packets[index].packet.getDst() < 0){
@@ -140,6 +165,12 @@ void Device::receive(vector<radio_packet> &packets_received) {
             // IF GATEWAY, CHECK FOR RECEPTIONS OF OUT OF RANGE SIGNALS
             if (this->id < 0 && current_packets[index].packet.getDst() < 0){
                 this->out_of_range_to_gw.push_back(current_packets[index].packet.getPacketId());
+            } else{ // IF NODE, CHECK FOR RECEPTIONS OF OUT OF RANGE SIGNALS || ASSUMING UNICAST TRANSMISSIONS
+                this->out_of_range_to_nd.push_back(current_packets[index].packet.getPacketId());
+
+//                cout << "TIME " << this->environment_time << ". NODE " << this->id
+//                     << " |OUT OF RANGE| DURING RECEPTION " << " || FOLLOWING NODE " << this->following << endl;
+
             }
             current_packets.erase(current_packets.begin() + index);
 
@@ -205,10 +236,23 @@ void Device::receive(vector<radio_packet> &packets_received) {
                     //cout << "Gateway received packet " << receiving_buffer[packet_id].id <<" at " <<  this->environment_time << endl << endl;
                     //cout << " RECEIVED " << num_of_sccs_decod_packets << endl;
                     //cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
+
+
+//                    if (environment_time>= 700){
+//                        cout << "TIME " << this->environment_time << ". NODE " << this->id
+//                             << " |SUCCESS| DURING RECEPTION " << " || ASSIGN NODE " << this->assigned_node
+//                             << " || PACKET: " << packet_id << endl;
+//                    }
+
                 } else {
                     receiving_buffer[packet_id].decoded_or_not = "Non_decoded";
-                    //cout << " RECEIVED " << num_of_sccs_decod_packets << endl;
-                    //cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
+                    // cout << " RECEIVED " << num_of_sccs_decod_packets << endl;
+                    // cout << " REQUIRED " << num_of_sccs_decod_packets_req << endl;
+
+//                    cout << "TIME " << this->environment_time << ". NODE " << this->id
+//                         << " |COLLISION| DURING RECEPTION " << " || ASSIGN NODE " << this->assigned_node
+//                         << " || PACKET: " << packet_id << endl;
+//                     cout << endl;
                 }
 
             }
@@ -224,9 +268,14 @@ void Device::receive(vector<radio_packet> &packets_received) {
             if (this->sf != -1 && this->channel!=-1){
                 Packet temp_pack = it->second.packet;
                 this->buffer = new Packet(temp_pack.getSrc(), this->assigned_node,
-                                          temp_pack.getTimestamp_start());
+                                          temp_pack.getTimestamp_start(), temp_pack.getSrc());
+            } else{
+                //cout << "DECODED PACKET FROM " <<  it->second.packet.getSrc() << " TO " << it->second.packet.getDst() << endl;
             }
 
+            //cout << endl;
+            //cout << "DECODED PACKET FROM " <<  it->second.packet.getSrc() << " TO " << it->second.packet.getDst() << endl;
+            //cout << endl;
             // THIS IS FOR GATEWAYS
             decoded_packets_statistics.push_back(it->first);
             packetDelays[it->first] = (environment_time - it->second.packet.getTimestamp_start()); // Delay stuff

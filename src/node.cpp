@@ -1,7 +1,7 @@
 #include "node.h"
 
 Node::Node(int id, int x, int y, int z, int sf, int channel, int transmissionPower, double packetGenProb,
-                 int assignedNode, int following, int type) : Device(id, x, y, z, sf, channel, transmissionPower, packetGenProb, assignedNode, following, type) {
+                 int assignedNode, int following, int type, int max_type) : Device(id, x, y, z, sf, channel, transmissionPower, packetGenProb, assignedNode, following, type, max_type) {
     this->id = id;
     this->location.x = x;
     this->location.y = y;
@@ -14,6 +14,7 @@ Node::Node(int id, int x, int y, int z, int sf, int channel, int transmissionPow
     this->assigned_node = assignedNode;
     this->following = following;
     this->type = type;
+    this->max_type = max_type;
 
     this->previous_state = this->states[0];
     this->current_state = this->states[0];
@@ -100,4 +101,19 @@ void Node::identify_incoming_segments(vector<radio_packet> &packets_received) {
     }
 
     this->num_of_ongoing_packets_in_receiver = current_packets.size();
+}
+
+void Node::clock(int time) {
+    Device::clock(time);
+    if (this->current_state=="SLEEP")
+        this->energy_consumed += 4.5l; // mW
+
+    if (this->current_state=="RECEIVE")
+        this->energy_consumed += 40l; // mW
+
+    if (this->current_state=="TRANSMIT")
+        this->energy_consumed += 264l; // mW
+
+    if (this->current_state=="LISTEN")
+        this->energy_consumed += 40l; // mW
 }

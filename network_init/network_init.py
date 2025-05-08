@@ -11,7 +11,7 @@ from join_functions import multihop_join_process_inf, join_process, join_process
 # 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
 class Topology:
 
-    def __init__(self, num_gateways, use_multihop, load, life_time, use_adr_on_join) -> None:
+    def __init__(self, num_gateways, use_multihop, load, life_time, use_adr_on_join, experiment_name) -> None:
 
         self.server = Server()
         self.metrics = Metrics()
@@ -87,7 +87,7 @@ class Topology:
                 "z": int(n.height),
                 "type": n.type,
                 "assigned_node": null_to_minus_1(n.assigned_node),
-                "following": null_to_minus_1(n.node_following)
+                "following": null_to_minus_1(n.node_following) # receives from following node
             }
             nodes.append(dictionary)
 
@@ -107,23 +107,36 @@ class Topology:
         if use_multihop:
             net_case = f"Multihop {num_gateways} gateways"
             protocol_used = "Multihop"
+
+            # NOTE NODE-TYPE
+            # APPLIES TO NEXT LORA SIMS
+            save_node_type_of_previous_topology(self.nodes)
         else:
             net_case = f"LoraWAN {num_gateways} gateways"
             protocol_used = "Aloha"
+            save_node_sf_of_previous_topology(self.nodes)
 
         # Define metric related to load based to level of every node
         level_sum = 0
         sf_sum = 0
+        max_level = 0
         for nd in nodes:
             # nd
             level_sum += int(nd["type"]) + 1
             sf_sum += float(nd["sf"])
+
+            if int(nd["type"]) > max_level:
+                max_level = int(nd["type"])
+
         self.general_level = level_sum / len(nodes)
         mean_sf = sf_sum / len(nodes)
 
+        # print(max_level)
+        # print(self.max_sf)
+
         topologggy = {"nodes": nodes, "gateways": gateways, "load": load, "life_time": int(life_time), "case": net_case,
-                      "level": int(self.general_level), "prt": protocol_used, "mean_sf": float(mean_sf),
-                      "max_sf": int(self.max_sf)}
+                      "level": int(max_level), "prt": protocol_used, "mean_sf": float(mean_sf),
+                      "max_sf": int(self.max_sf), "experiment_name": experiment_name}
 
         json_object = json.dumps(topologggy, indent=4)
         with open("topology/topology.json", "w") as outfile:
@@ -137,11 +150,13 @@ if __name__ == "__main__":
     time = int(sys.argv[2])
     protocol = sys.argv[3]
     num_of_gw = int(sys.argv[4])
+    experiment_name = sys.argv[6]
+
     try:
         use_adr_on_join = sys.argv[5]
     except:
         use_adr_on_join = ""
-    topology = Topology(num_of_gw, protocol == 'Multihop', load / 10, time, use_adr_on_join == 'adr')
+    topology = Topology(num_of_gw, protocol == 'Multihop', load / 10, time, use_adr_on_join == 'adr', experiment_name)
 
     """print("TYPE 0")
     for n in topology.nodes:
@@ -169,4 +184,4 @@ if __name__ == "__main__":
             print(f"NODE {n.id} || Assigned to --> {n.assigned_node}")
 """
 
-    # plot_topology(topology)
+    plot_topology(topology)

@@ -24,10 +24,12 @@ protected:
 
 public:
     Node(int id1, int x1, int y1, int z1, int sf, int channel, int transmissionPower, double packetGenProb,
-            int assignedNode, int following, int type);
+            int assignedNode, int following, int type, int max_type);
 
     std::string LoRaWan();
     void identify_incoming_segments(vector<radio_packet> &packets_received);
+
+    void clock(int time);
 };
 
 #endif //LORA_SIM_CPP_NODE_H

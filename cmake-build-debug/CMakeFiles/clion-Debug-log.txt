@@ -1,19 +1,23 @@
-/snap/clion/284/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -DPython_EXECUTABLE=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/venv/bin/python -DPython3_EXECUTABLE=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/venv/bin/python -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp -B /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
-CMake Deprecation Warning:
-  Support for "Extra Generators" like
-
-    CodeBlocks
-
-  is deprecated and will be removed from a future version of CMake.  IDEs may
-  use the cmake-file-api(7) to view CMake-generated project build trees.
-
-
+/snap/clion/328/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" -DPython_EXECUTABLE=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/.venv/bin/python -DPython3_EXECUTABLE=/home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/.venv/bin/python -S /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp -B /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
 CMake Deprecation Warning at external/tqdm.cpp/CMakeLists.txt:1 (cmake_minimum_required):
-  Compatibility with CMake < 3.5 will be removed from a future version of
+  Compatibility with CMake < 3.10 will be removed from a future version of
   CMake.
 
-  Update the VERSION argument <min> value or use a ...<max> suffix to tell
-  CMake that the project does not need compatibility with older versions.
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
 
 
 CMake Deprecation Warning at external/tqdm.cpp/CMakeLists.txt:11 (cmake_policy):
@@ -26,7 +30,47 @@ CMake Deprecation Warning at external/tqdm.cpp/CMakeLists.txt:11 (cmake_policy):
   behavior and not rely on setting a policy to OLD.
 
 
+CMake Warning (dev) at external/tqdm.cpp/CMakeLists.txt:136 (add_custom_command):
+  Exactly one of PRE_BUILD, PRE_LINK, or POST_BUILD must be given.  Assuming
+  POST_BUILD to preserve backward compatibility.
+
+  Policy CMP0175 is not set: add_custom_command() rejects invalid arguments.
+  Run "cmake --help-policy CMP0175" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  external/tqdm.cpp/CMakeLists.txt:146 (STRIP_FMT)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at external/tqdm.cpp/CMakeLists.txt:136 (add_custom_command):
+  Exactly one of PRE_BUILD, PRE_LINK, or POST_BUILD must be given.  Assuming
+  POST_BUILD to preserve backward compatibility.
+
+  Policy CMP0175 is not set: add_custom_command() rejects invalid arguments.
+  Run "cmake --help-policy CMP0175" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  external/tqdm.cpp/CMakeLists.txt:147 (STRIP_FMT)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at external/tqdm.cpp/CMakeLists.txt:136 (add_custom_command):
+  Exactly one of PRE_BUILD, PRE_LINK, or POST_BUILD must be given.  Assuming
+  POST_BUILD to preserve backward compatibility.
+
+  Policy CMP0175 is not set: add_custom_command() rejects invalid arguments.
+  Run "cmake --help-policy CMP0175" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  external/tqdm.cpp/CMakeLists.txt:148 (STRIP_FMT)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
 -- Using the multi-header code from /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/external/json/include/
--- Configuring done (0.0s)
+-- Configuring done (0.7s)
 -- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    Python3_EXECUTABLE
+    Python_EXECUTABLE
+
+
 -- Build files have been written to: /home/gmavros-yoga-7/CLionProjects/Lora-sim-cpp/cmake-build-debug
